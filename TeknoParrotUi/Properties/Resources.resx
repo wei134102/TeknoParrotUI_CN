@@ -121,37 +121,37 @@
     <value>By TeknoGods</value>
   </data>
   <data name="AddGame" xml:space="preserve">
-    <value>Add Game</value>
+    <value>添加 游戏</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>返回</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="DeleteGame" xml:space="preserve">
-    <value>Delete Game</value>
+    <value>删除 游戏</value>
   </data>
   <data name="DownloaderCancelled" xml:space="preserve">
-    <value>Download Cancelled</value>
+    <value>取消 下载</value>
   </data>
   <data name="DownloaderComplete" xml:space="preserve">
-    <value>Download Complete</value>
+    <value>下载 完成</value>
   </data>
   <data name="DownloaderDownloading" xml:space="preserve">
-    <value>Downloading</value>
+    <value>下载中</value>
   </data>
   <data name="DownloaderError" xml:space="preserve">
-    <value>Error Downloading</value>
+    <value>下载 出错</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>出错</value>
   </data>
   <data name="ErrorAllowedRange" xml:space="preserve">
     <value>Allowed range is 0-8191!</value>
   </data>
   <data name="ErrorAlreadyRunning" xml:space="preserve">
-    <value>TeknoParrotUI seems to already be running, want to close it?</value>
+    <value>检测到TeknoParrotUI已在运行，是否要关闭它？</value>
   </data>
   <data name="ErrorCannotParseGUID" xml:space="preserve">
     <value>Cannot parse GUID: {0}. Please check that data has the GUID value only and nothing else!</value>
@@ -192,44 +192,41 @@
     <value>Seems like this is first time you are running TeknoParrotUi, please set emulation settings.</value>
   </data>
   <data name="GameList" xml:space="preserve">
-    <value>Games:</value>
+    <value>游戏列表:</value>
   </data>
   <data name="GameRunning" xml:space="preserve">
-    <value>Game Running</value>
+    <value>游戏 运行中</value>
   </data>
   <data name="GameRunningCheckTaskMgr" xml:space="preserve">
-    <value>Since you force closed the emulator, you should check Task Manager for any processes still running that are related to the emulator or your game.</value>
+    <value>由于您强制关闭了模拟器，请检查任务管理器中是否仍有与模拟器或游戏相关的进程在运行</value>
   </data>
   <data name="GameRunningForceQuit" xml:space="preserve">
-    <value>Force Quit Game</value>
+    <value>强制 退出游戏</value>
   </data>
   <data name="GameRunningGameStopped" xml:space="preserve">
-    <value>Game Stopped</value>
+    <value>游戏 已停止</value>
   </data>
   <data name="GameSettingsGameExecutable" xml:space="preserve">
-    <value>Game Executable:</value>
+    <value>游戏 可执行文件</value>
   </data>
   <data name="GameSettingsGameExecutableFilter" xml:space="preserve">
-    <value>Game executable</value>
+    <value>游戏 可执行文件</value>
   </data>
   <data name="GameSettingsSelectGameExecutable" xml:space="preserve">
-    <value>Please select game executable</value>
+    <value>请选择游戏目录的可执行文件</value>
   </data>
   <data name="Information" xml:space="preserve">
-    <value>Information</value>
+    <value>信息</value>
   </data>
   <data name="Library64bit" xml:space="preserve">
-    <value>This game is 64-bit and cannot run on a 32-bit OS.</value>
+    <value>此游戏为64位版本，无法在32位操作系统上运行。</value>
   </data>
   <data name="LibraryAnotherEmulator" xml:space="preserve">
-    <value>It seems you have other emulator already in use.
-Please remove the following files from the game directory:
-  </value>
+    <value>检测到您有其他模拟器已在运行，请从游戏目录中删除以下文件：</value>
     <comment>the filenames are appended to the end</comment>
   </data>
   <data name="LibraryBadiDMAC" xml:space="preserve">
-    <value>Please update OpenParrot!
-You seem to be using an unofficial {0} file! The game may crash or be unstable. Continue?</value>
+    <value>请立即更新OpenParrot！检测到您正在使用非官方的{0}文件！游戏可能崩溃或运行不稳定。是否继续？</value>
     <comment>{0} = idmac file</comment>
   </data>
   <data name="LibraryCantFindGame" xml:space="preserve">
@@ -243,16 +240,16 @@ Please re-extract TeknoParrot.</value>
     <comment>{0} = filename</comment>
   </data>
   <data name="LibraryControllerSetup" xml:space="preserve">
-    <value>CONTROLLER SETUP</value>
+    <value>控制器 设置</value>
   </data>
   <data name="LibraryDeleteGame" xml:space="preserve">
-    <value>DELETE GAME</value>
+    <value>删除 选中游戏</value>
   </data>
   <data name="LibraryDownloadAllIcons" xml:space="preserve">
     <value>This will download every missing icon for TeknoParrot. The file is around 50 megabytes. Are you sure you want to continue?</value>
   </data>
   <data name="LibraryDownloadMissingIcons" xml:space="preserve">
-    <value>DOWNLOAD MISSING ICONS</value>
+    <value>下载 缺失的游戏图标</value>
   </data>
   <data name="LibraryEmulator" xml:space="preserve">
     <value>Emulator</value>
@@ -264,7 +261,7 @@ Please re-extract TeknoParrot.</value>
     <value>Game location not set! Please set it in Game Settings.</value>
   </data>
   <data name="LibraryGameSettings" xml:space="preserve">
-    <value>GAME SETTINGS</value>
+    <value>游戏 设置</value>
   </data>
   <data name="LibraryInvalidFiles" xml:space="preserve">
     <value>There are possibly some invalid files in your game directory.
@@ -276,10 +273,10 @@ The following files may need to be removed from the game directory, unless you k
     <value>Click Yes to continue running the game as is.</value>
   </data>
   <data name="LibraryLaunchGame" xml:space="preserve">
-    <value>LAUNCH GAME</value>
+    <value>启动 游戏</value>
   </data>
   <data name="LibraryMoreInfo" xml:space="preserve">
-    <value>OPEN WIKI</value>
+    <value>打开 百科</value>
   </data>
   <data name="LibraryNeedsAdmin" xml:space="preserve">
     <value>Seems like you are not running TeknoParrotUI as Administrator! The game {0} requires the UI to be running as Administrator to function properly. Continue anyway WITHOUT admin rights? This might cause issues or crashes.</value>
@@ -295,49 +292,49 @@ The following files may need to be removed from the game directory, unless you k
     <value>No Game Information Available</value>
   </data>
   <data name="LibraryOnlineProfile" xml:space="preserve">
-    <value>ONLINE PROFILE</value>
+    <value>线上 档案</value>
   </data>
   <data name="LibraryPlayOnline" xml:space="preserve">
-    <value>PLAY ONLINE</value>
+    <value>网络 联线</value>
   </data>
   <data name="LibraryTestMenu" xml:space="preserve">
-    <value>Test Menu</value>
+    <value>机台 测试菜单</value>
   </data>
   <data name="LibraryToggleTestMode" xml:space="preserve">
     <value>Toggle test mode.</value>
   </data>
   <data name="LibraryVerifyGame" xml:space="preserve">
-    <value>VERIFY GAME</value>
+    <value>验证 游戏完整性</value>
   </data>
   <data name="MainAbout" xml:space="preserve">
-    <value>About</value>
+    <value>关于</value>
   </data>
   <data name="MainAreYouSure" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
   <data name="MainCheckUpdates" xml:space="preserve">
-    <value>Check for Updates</value>
+    <value>手动检查更新</value>
   </data>
   <data name="MainDownloadMissingIcons" xml:space="preserve">
-    <value>Download Icons</value>
+    <value>下载 游戏图标</value>
   </data>
   <data name="MainLibrary" xml:space="preserve">
-    <value>Library</value>
+    <value>本地游戏库</value>
   </data>
   <data name="MainQuit" xml:space="preserve">
-    <value>Quit</value>
+    <value>退出程序</value>
   </data>
   <data name="MainRomScanner" xml:space="preserve">
-    <value>Rom Scanner</value>
+    <value>游戏 扫描</value>
   </data>
   <data name="MainSettings" xml:space="preserve">
-    <value>Settings</value>
+    <value>设置</value>
   </data>
   <data name="MainTPOnline" xml:space="preserve">
     <value>TP Online (OLD)</value>
   </data>
   <data name="MainTPOnlineNew" xml:space="preserve">
-    <value>Play Online</value>
+    <value>在线 联机</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
@@ -424,7 +421,7 @@ The following files may need to be removed from the game directory, unless you k
     <value>Reverse Axis Gas</value>
   </data>
   <data name="SettingsSaveSettings" xml:space="preserve">
-    <value>Save settings</value>
+    <value>保存 设置</value>
   </data>
   <data name="SettingsShowGameOnDiscord" xml:space="preserve">
     <value>Show current game playing on Discord</value>
@@ -436,19 +433,19 @@ The following files may need to be removed from the game directory, unless you k
     <value>Sto0z Zone</value>
   </data>
   <data name="SettingsUIColour" xml:space="preserve">
-    <value>Title colour</value>
+    <value>文本 颜色</value>
   </data>
   <data name="SettingsUICustomization" xml:space="preserve">
     <value>UI Customization (Patreon)</value>
   </data>
   <data name="SettingsUIDarkMode" xml:space="preserve">
-    <value>Dark Mode</value>
+    <value>深色 主题</value>
   </data>
   <data name="SettingsUIHolidayThemes" xml:space="preserve">
     <value>Use a different theme on holidays</value>
   </data>
   <data name="SuccessfullySaved" xml:space="preserve">
-    <value>Successfully saved {0}!</value>
+    <value>保存 成功 {0}!</value>
     <comment>{0} = thing</comment>
   </data>
   <data name="TPOCreateLobby" xml:space="preserve">
@@ -458,7 +455,7 @@ The following files may need to be removed from the game directory, unless you k
     <value>Filter by game:</value>
   </data>
   <data name="TPOGame" xml:space="preserve">
-    <value>Game</value>
+    <value>游戏</value>
   </data>
   <data name="TPOJoinLobby" xml:space="preserve">
     <value>Join Lobby and Launch Game</value>
@@ -467,51 +464,47 @@ The following files may need to be removed from the game directory, unless you k
     <value>Lobby Name</value>
   </data>
   <data name="TPOPlayers" xml:space="preserve">
-    <value>Players</value>
+    <value>玩家</value>
   </data>
   <data name="TPORefresh" xml:space="preserve">
     <value>Refresh Lobbies</value>
   </data>
   <data name="UpdaterAvailable" xml:space="preserve">
-    <value>There is a new update available.</value>
+    <value>发现程序有更新</value>
   </data>
   <data name="UpdaterNotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>没有 安装</value>
   </data>
   <data name="UpdaterOpenChangelog" xml:space="preserve">
     <value>Open Changelog</value>
   </data>
   <data name="UpdaterRestart" xml:space="preserve">
-    <value>Would you like TeknoParrotUi to restart to finish the update? Otherwise, TeknoParrotUi will close.</value>
+    <value>是否让TeknoParrotUi重新启动以完成更新？若选择否，程序将直接关闭。</value>
   </data>
   <data name="UpdaterSuccess" xml:space="preserve">
     <value>Sucessfully updated {0} to {1}</value>
     <comment>{0} = component, {1} = new component version</comment>
   </data>
   <data name="UpdaterUpdate" xml:space="preserve">
-    <value>Update</value>
+    <value>更新</value>
   </data>
   <data name="VanguardDetected" xml:space="preserve">
-    <value>TeknoParrot has detected that you have the anti-cheat system for VALORANT currently running, Riot Vanguard. Vanguard interferes with how TeknoParrot loads games and is known to cause issues! 
-
-It is highly recommended that you right click on the Vanguard icon in your system tray (next to the clock), and click "Exit Vanguard". This will mean you cannot play VALORANT until you restart your computer, but TeknoParrot games should now launch properly.
-
-Click "OK" to continue loading TeknoParrot.</value>
+    <value>TeknoParrot检测到您当前正在运行《VALORANT》的反作弊系统Riot Vanguard。Vanguard会干扰TeknoParrot加载游戏，并可能导致运行异常！</value>
   </data>
   <data name="VerifyCancelled" xml:space="preserve">
-    <value>Verification Cancelled.</value>
+    <value>验证 已取消</value>
   </data>
   <data name="VerifyChecking" xml:space="preserve">
-    <value>Verifying Game Integrity...</value>
+    <value>正在验证游戏文件完整性……</value>
   </data>
   <data name="VerifyFilesInvalid" xml:space="preserve">
-    <value>Game files invalid</value>
+    <value>游戏文件校验 失败</value>
   </data>
   <data name="VerifyFilesInvalidExplain" xml:space="preserve">
-    <value>Your game appears to have invalid files. This could be due to a bad download, bad dump, virus infection, or you have modifications installed like resolution and english patches.</value>
+    <value>检测到游戏文件异常，可能原因包括：下载不完整/文件损坏，游戏镜像转储错误，病毒感染导致文件篡改，安装了非官方修改补丁（如分辨率补丁、英文汉化补丁等）。</value>
   </data>
   <data name="VerifyFilesValid" xml:space="preserve">
-    <value>Game files valid</value>
+    <value>游戏文件 校验</value>
   </data>
   <data name="VerifyInvalid" xml:space="preserve">
     <value>Invalid:</value>
@@ -520,7 +513,7 @@ Click "OK" to continue loading TeknoParrot.</value>
     <value>Valid:</value>
   </data>
   <data name="Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>警告</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
