@@ -249,10 +249,10 @@ namespace TeknoParrotUi.Common.InputListening
             mkdxTest = false;
             bg4Key = false;
 
-            KeyboardorButtonAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Use Keyboard/Button For Axis" && x.FieldValue == "1");
+            KeyboardorButtonAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "使用键盘/按钮控制轴" && x.FieldValue == "1");
             ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Y Axis" && x.FieldValue == "1");
             ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Throttle Axis" && x.FieldValue == "1");
-            RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "Use Relative Input" && x.FieldValue == "1");
+            RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "使用相对输入" && x.FieldValue == "1");
             GunGame = gameProfile.GunGame;
 
             switch (_gameProfile.EmulationProfile)

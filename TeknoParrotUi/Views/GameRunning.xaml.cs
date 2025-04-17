@@ -59,7 +59,7 @@ namespace TeknoParrotUi.Views
                 Application.Current.Windows.OfType<MainWindow>().Single().menuButton.IsEnabled = false;
             }
 
-            string inputApiString = gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API")?.FieldValue;
+            string inputApiString = gameProfile.ConfigValues.Find(cv => cv.FieldName == "输入 API")?.FieldValue;
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
@@ -651,7 +651,7 @@ namespace TeknoParrotUi.Views
             }
 
             bool RealGearShiftID = _gameProfile.ConfigValues.Any(x => x.FieldName == "RealGearshift" && x.FieldValue == "1");
-            bool ProMode = _gameProfile.ConfigValues.Any(x => x.FieldName == "Professional Edition Enable" && x.FieldValue == "1");
+            bool ProMode = _gameProfile.ConfigValues.Any(x => x.FieldName == "启用专业版" && x.FieldValue == "1");
 
             switch (InputCode.ButtonMode)
             {

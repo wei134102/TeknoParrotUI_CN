@@ -91,7 +91,7 @@ namespace TeknoParrotUi.Common.InputListening
 
                 ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Y Axis" && x.FieldValue == "1");
                 ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Throttle Axis" && x.FieldValue == "1");
-                RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "Use Relative Input" && x.FieldValue == "1");
+                RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "使用相对输入" && x.FieldValue == "1");
                 GunGame = gameProfile.GunGame;
 
                 //Center values upon startup
