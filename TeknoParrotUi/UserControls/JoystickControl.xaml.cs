@@ -94,7 +94,7 @@ namespace TeknoParrotUi.UserControls
                 _UseDPadForGUN2Stick = true;
             }
 
-            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API")?.FieldValue;
+            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "输入 API")?.FieldValue;
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
