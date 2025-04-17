@@ -92,13 +92,13 @@
                             Click="BtnDebug"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
-                            Content="Mods" />
+                            Content="模组" />
                         <Button
                             Margin="5,0,5,10"
                             Click="BtnPatreon"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
-                            Content="Subscription" />
+                            Content="订阅服务" />
                         <Button
                             Margin="5,0,5,10"
                             Click="BtnDownloadMissingIcons"
