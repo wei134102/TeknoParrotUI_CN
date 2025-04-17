@@ -97,18 +97,18 @@
                 <ComboBoxItem Content="Installed" />
                 <ComboBoxItem Content="Not Installed" />
                 <ComboBoxItem Content="Subscription" />
-                <ComboBoxItem Content="Action" />
-                <ComboBoxItem Content="Card" />
-                <ComboBoxItem Content="Compilation" />
-                <ComboBoxItem Content="Fighting" />
-                <ComboBoxItem Content="Flying" />
-                <ComboBoxItem Content="Platform" />
-                <ComboBoxItem Content="Puzzle" />
-                <ComboBoxItem Content="Racing" />
-                <ComboBoxItem Content="Rhythm" />
-                <ComboBoxItem Content="Shoot 'Em Up" />
+                <ComboBoxItem Content="动作" />
+                <ComboBoxItem Content="卡牌" />
+                <ComboBoxItem Content="复古" />
+                <ComboBoxItem Content="格斗" />
+                <ComboBoxItem Content="飞行" />
+                <ComboBoxItem Content="横版过关" />
+                <ComboBoxItem Content="解谜" />
+                <ComboBoxItem Content="竞速" />
+                <ComboBoxItem Content="节奏音乐" />
+                <ComboBoxItem Content="弹幕射击" />
                 <ComboBoxItem Content="光枪" />
-                <ComboBoxItem Content="Sports" />
+                <ComboBoxItem Content="运动" />
             </ComboBox>
             <Label
                 Grid.Row="2"

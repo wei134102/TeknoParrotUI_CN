@@ -1,0 +1,12 @@
+<ComboBoxItem Content="动作" />         <!-- Action -->
+<ComboBoxItem Content="卡牌" />         <!-- Card -->
+<ComboBoxItem Content="复古" />         <!-- Compilation -->
+<ComboBoxItem Content="格斗" />         <!-- Fighting -->
+<ComboBoxItem Content="飞行" />     <!-- Flying -->
+<ComboBoxItem Content="横版过关" />     <!-- Platform -->
+<ComboBoxItem Content="解谜" />         <!-- Puzzle -->
+<ComboBoxItem Content="竞速" />         <!-- Racing -->
+<ComboBoxItem Content="节奏音乐" />     <!-- Rhythm -->
+<ComboBoxItem Content="弹幕射击" />     <!-- Shoot 'Em Up -->
+<ComboBoxItem Content="光枪" />         <!-- Shooter -->
+<ComboBoxItem Content="运动" />         <!-- Sports -->
