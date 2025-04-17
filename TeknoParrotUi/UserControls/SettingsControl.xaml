@@ -254,7 +254,7 @@
                             MaxWidth="380"
                             Margin="0,0,18,0"
                             Click="BtnVKCPage"
-                            Content="Virtual-Key Codes" />
+                            Content="虚拟 键码" />
                         <Button
                             MinWidth="250"
                             MaxWidth="380"

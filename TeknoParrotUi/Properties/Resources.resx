@@ -361,22 +361,22 @@ The following files may need to be removed from the game directory, unless you k
     <value>Status:</value>
   </data>
   <data name="SettingsCheckForUpdates" xml:space="preserve">
-    <value>Check for updates on launch</value>
+    <value>程序启动时自动检查更新</value>
   </data>
   <data name="SettingsCommon" xml:space="preserve">
-    <value>Common Settings</value>
+    <value>常规设置</value>
   </data>
   <data name="SettingsConfirmExit" xml:space="preserve">
-    <value>Confirmation prompt on exit</value>
+    <value>退出时确认提示</value>
   </data>
   <data name="SettingsDInputWheel" xml:space="preserve">
-    <value>Direct Input Wheel Settings</value>
+    <value>DirectInput 方向盘设置</value>
   </data>
   <data name="SettingsDownloadFFB" xml:space="preserve">
-    <value>Download Force Feedback Plugin</value>
+    <value>‌下载力反馈插件</value>
   </data>
   <data name="SettingsDownloadIcon" xml:space="preserve">
-    <value>Download game icon when selected</value>
+    <value>选中游戏时下载图标</value>
   </data>
   <data name="SettingsElf2LogToFile" xml:space="preserve">
     <value>Log output to file</value>
@@ -388,25 +388,25 @@ The following files may need to be removed from the game directory, unless you k
     <value>Network Adapter</value>
   </data>
   <data name="SettingsFullBrake" xml:space="preserve">
-    <value>Full Axis Brake</value>
+    <value>全行程刹车</value>
   </data>
   <data name="SettingsFullGas" xml:space="preserve">
-    <value>Full Axis Gas</value>
+    <value>全行程油门</value>
   </data>
   <data name="SettingsHardwareAccel" xml:space="preserve">
-    <value>Disable Hardware Acceleration in UI</value>
+    <value>禁用UI硬件加速</value>
   </data>
   <data name="SettingsHideConsoleWindows" xml:space="preserve">
-    <value>Hide console windows</value>
+    <value>自动隐藏控制台窗口</value>
   </data>
   <data name="SettingsHideVanguardWarning" xml:space="preserve">
-    <value>Disable Vanguard Warning</value>
+    <value>关闭Vanguard安全提示</value>
   </data>
   <data name="SettingsJoystickGunSettings" xml:space="preserve">
     <value>Joystick Gun Settings</value>
   </data>
   <data name="SettingsLoadLastPlayed" xml:space="preserve">
-    <value>Load last game played on launch</value>
+    <value>启动时自动加载上次游玩的游戏</value>
   </data>
   <data name="SettingsP1GunJoystickSensitivity" xml:space="preserve">
     <value>Player 1 Gun Joystick Sensitivity</value>
@@ -415,16 +415,16 @@ The following files may need to be removed from the game directory, unless you k
     <value>Player 2 Gun Joystick Sensitivity</value>
   </data>
   <data name="SettingsReverseBrake" xml:space="preserve">
-    <value>Reverse Axis Brake</value>
+    <value>反转刹车轴</value>
   </data>
   <data name="SettingsReverseGas" xml:space="preserve">
-    <value>Reverse Axis Gas</value>
+    <value>反转油门轴</value>
   </data>
   <data name="SettingsSaveSettings" xml:space="preserve">
     <value>保存 设置</value>
   </data>
   <data name="SettingsShowGameOnDiscord" xml:space="preserve">
-    <value>Show current game playing on Discord</value>
+    <value>在 Discord 中显示当前游戏状态</value>
   </data>
   <data name="SettingsSto0zZone" xml:space="preserve">
     <value>Enable sTo0z Zone</value>
@@ -442,7 +442,7 @@ The following files may need to be removed from the game directory, unless you k
     <value>深色 主题</value>
   </data>
   <data name="SettingsUIHolidayThemes" xml:space="preserve">
-    <value>Use a different theme on holidays</value>
+    <value>节假日使用特殊主题</value>
   </data>
   <data name="SuccessfullySaved" xml:space="preserve">
     <value>保存 成功 {0}!</value>
