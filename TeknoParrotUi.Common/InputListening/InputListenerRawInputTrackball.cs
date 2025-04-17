@@ -77,11 +77,11 @@ namespace TeknoParrotUi.Common.InputListening
             _joystickButtons = joystickButtons.Where(x => x?.RawInputButton != null).ToList(); // Only configured buttons
             _gameProfile = gameProfile;
 
-            var sensitivityConfigX = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "轨迹球X轴灵敏度");
+            var sensitivityConfigX = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Trackball X Sensitivity");
             int sliderValueX = sensitivityConfigX != null ? Convert.ToInt32(sensitivityConfigX.FieldValue) : 10;
             _sensitivityX = sliderValueX * 0.1f;
 
-            var sensitivityConfigY = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "轨迹球Y轴灵敏度");
+            var sensitivityConfigY = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Trackball Y Sensitivity");
             int sliderValueY = sensitivityConfigY != null ? Convert.ToInt32(sensitivityConfigY.FieldValue) : 10;
             _sensitivityY = sliderValueY * 0.1f;
 

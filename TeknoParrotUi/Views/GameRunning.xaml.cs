@@ -59,7 +59,7 @@ namespace TeknoParrotUi.Views
                 Application.Current.Windows.OfType<MainWindow>().Single().menuButton.IsEnabled = false;
             }
 
-            string inputApiString = gameProfile.ConfigValues.Find(cv => cv.FieldName == "输入 API")?.FieldValue;
+            string inputApiString = gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API")?.FieldValue;
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
@@ -454,7 +454,7 @@ namespace TeknoParrotUi.Views
             lameFile += "ExitKey=" + Lazydata.ParrotData.ExitGameKey + "\n";
             lameFile += "PauseKey=" + Lazydata.ParrotData.PauseGameKey + "\n";
 
-            bool ScoreEnabled = _gameProfile.ConfigValues.Any(x => x.FieldName == "启用成绩提交" && x.FieldValue == "1");
+            bool ScoreEnabled = _gameProfile.ConfigValues.Any(x => x.FieldName == "Enable Submission" && x.FieldValue == "1");
             if (ScoreEnabled)
             {
                 lameFile += "[GlobalScore]\n";
@@ -528,7 +528,7 @@ namespace TeknoParrotUi.Views
                 }
                 if (_gameProfile.EmulationProfile == EmulationProfile.ALLSSCHRONO)
                 {
-                    var userOnlineId = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "在线ID");
+                    var userOnlineId = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "OnlineID");
                     if (userOnlineId.FieldValue == "" || userOnlineId.FieldValue.Length != 17)
                     {
                         MessageBoxHelper.ErrorOK(TeknoParrotUi.Properties.Resources.ErrorNoOnlineId);
@@ -629,7 +629,7 @@ namespace TeknoParrotUi.Views
 
             _pipe?.Start(_runEmuOnly);
 
-            var invertButtons = _gameProfile.ConfigValues.Any(x => x.FieldName == "反转按钮功能" && x.FieldValue == "1");
+            var invertButtons = _gameProfile.ConfigValues.Any(x => x.FieldName == "Invert Buttons" && x.FieldValue == "1");
             if (invertButtons)
             {
                 JvsPackageEmulator.InvertMaiMaiButtons = true;
@@ -650,8 +650,8 @@ namespace TeknoParrotUi.Views
                 }
             }
 
-            bool RealGearShiftID = _gameProfile.ConfigValues.Any(x => x.FieldName == "真实换挡模式" && x.FieldValue == "1");
-            bool ProMode = _gameProfile.ConfigValues.Any(x => x.FieldName == "启用专业版" && x.FieldValue == "1");
+            bool RealGearShiftID = _gameProfile.ConfigValues.Any(x => x.FieldName == "RealGearshift" && x.FieldValue == "1");
+            bool ProMode = _gameProfile.ConfigValues.Any(x => x.FieldName == "Professional Edition Enable" && x.FieldValue == "1");
 
             switch (InputCode.ButtonMode)
             {
@@ -1084,11 +1084,11 @@ namespace TeknoParrotUi.Views
             }
             var gameThread = new Thread(() =>
             {
-                var windowed = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "1") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Windowed");
-                var fullscreen = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "0") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Fullscreen");
-                var width = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "分辨率宽度");
-                var height = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "渲染分辨率高度");
-                var region = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "区域设置");
+                var windowed = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "1") || _gameProfile.ConfigValues.Any(x => x.FieldName == "DisplayMode" && x.FieldValue == "Windowed");
+                var fullscreen = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "0") || _gameProfile.ConfigValues.Any(x => x.FieldName == "DisplayMode" && x.FieldValue == "Fullscreen");
+                var width = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "ResolutionWidth");
+                var height = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RenderResolutionHeight");
+                var region = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Region");
 
                 var custom = string.Empty;
                 if (!string.IsNullOrEmpty(_gameProfile.CustomArguments))
@@ -1124,7 +1124,7 @@ namespace TeknoParrotUi.Views
                         }
                         break;
                     case EmulationProfile.GuiltyGearRE2:
-                        var englishHack = (_gameProfile.ConfigValues.Any(x => x.FieldName == "英文界面破解" && x.FieldValue == "1"));
+                        var englishHack = (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnglishHack" && x.FieldValue == "1"));
                         extra = $"\"-SEEKFREELOADINGPCCONSOLE -LANGUAGE={(englishHack ? "ENG" : "JPN")} -NOHOMEDIR -NOSPLASH -NOWRITE -VSYNC -APM -PCTOC -AUTH\"";
                         if (width != null && short.TryParse(width.FieldValue, out var _widthGG) &&
                             height != null && short.TryParse(height.FieldValue, out var _heightGG))
@@ -1133,7 +1133,7 @@ namespace TeknoParrotUi.Views
                         }
                         break;
                     case EmulationProfile.GuiltyGearAPM3:
-                        var englishHackAPM3 = (_gameProfile.ConfigValues.Any(x => x.FieldName == "英文界面破解" && x.FieldValue == "1"));
+                        var englishHackAPM3 = (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnglishHack" && x.FieldValue == "1"));
                         extra = $"\"-SEEKFREELOADINGPCCONSOLE -LANGUAGE={(englishHackAPM3 ? "ENG" : "JPN")} -NOHOMEDIR -NOSPLASH -NOWRITE -VSYNC -APM3 -PCTOC -AUTH -TMSDir=.\"";
                         if (width != null && short.TryParse(width.FieldValue, out var _widthGGAPM3) &&
                             height != null && short.TryParse(height.FieldValue, out var _heightGGAPM3))
@@ -1187,7 +1187,7 @@ namespace TeknoParrotUi.Views
                             if (_gameProfile.EmulationProfile == EmulationProfile.Vf5Lindbergh
                                 || _gameProfile.EmulationProfile == EmulationProfile.Vf5cLindbergh)
                             {
-                                if (_gameProfile.ConfigValues.Any(x => x.FieldName == "VGA模式" && x.FieldValue == "1"))
+                                if (_gameProfile.ConfigValues.Any(x => x.FieldName == "VgaMode" && x.FieldValue == "1"))
                                     extra += $"-vga {(fullscreen ? "-fs" : string.Empty)}";
                                 else
                                     extra += $"-wxga {(fullscreen ? "-fs" : string.Empty)}";
@@ -1334,7 +1334,7 @@ namespace TeknoParrotUi.Views
                             Directory.GetParent(Path.GetDirectoryName(_gameLocation)) + "\\");
                     }
 
-                    if (_gameProfile.ConfigValues.Any(x => x.FieldName == "启用AMD显卡修复" && x.FieldValue == "1"))
+                    if (_gameProfile.ConfigValues.Any(x => x.FieldName == "EnableAmdFix" && x.FieldValue == "1"))
                     {
                         info.EnvironmentVariables.Add("tp_AMDCGGL", "1");
 
@@ -1571,7 +1571,7 @@ namespace TeknoParrotUi.Views
                     FieldInformation tk7lang = new FieldInformation();
                     foreach (var t in _gameProfile.ConfigValues)
                     {
-                        if (t.FieldName == "语言")
+                        if (t.FieldName == "Language")
                         {
                             tk7lang = t;
                         }
@@ -1619,7 +1619,7 @@ namespace TeknoParrotUi.Views
 
                 if (InputCode.ButtonMode == EmulationProfile.SegaInitialD)
                 {
-                    var newCard = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "启用新卡片代码");
+                    var newCard = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "EnableNewCardCode");
                     if (newCard == null || newCard.FieldValue == "0")
                     {
                         RunAndWait(loaderExe,
@@ -1630,8 +1630,8 @@ namespace TeknoParrotUi.Views
                 if (InputCode.ButtonMode == EmulationProfile.ALLSSWDC)
                 {
                     // boot tdrserver.exe if its the main cab
-                    var isSwdcMainCab = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "主机台");
-                    var isOfflineMode = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "离线模式");
+                    var isSwdcMainCab = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Main Cabinet");
+                    var isOfflineMode = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Offline Mode");
 
                     if (isOfflineMode != null && isOfflineMode.FieldValue != "0")
                     {

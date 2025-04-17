@@ -119,7 +119,7 @@ namespace TeknoParrotUi.UserControls
 
         private void BtnSaveSettings(object sender, RoutedEventArgs e)
         {
-            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "输入 API")?.FieldValue;
+            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API")?.FieldValue;
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);

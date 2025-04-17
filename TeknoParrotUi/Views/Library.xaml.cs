@@ -489,7 +489,7 @@ namespace TeknoParrotUi.Views
             }
 
             // Check raw input profile
-            if (gameProfile.ConfigValues.Any(x => x.FieldName == "输入 API" && x.FieldValue == "RawInput"))
+            if (gameProfile.ConfigValues.Any(x => x.FieldName == "Input API" && x.FieldValue == "RawInput"))
             {
                 bool fixedSomething = false;
                 var _joystickControlRawInput = new JoystickControlRawInput();

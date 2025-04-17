@@ -63,9 +63,9 @@ namespace TeknoParrotUi.UserControls
         {
             _gameProfile = gameProfile;
             _comboItem = comboItem;
-            _isKeyboardorButtonAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "使用键盘/按钮控制轴" && x.FieldValue == "1");
-            _RelativeAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "使用相对输入" && x.FieldValue == "1");
-            _BG4ProMode = gameProfile.ConfigValues.Any(x => x.FieldName == "启用专业版" && x.FieldValue == "1");
+            _isKeyboardorButtonAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Use Keyboard/Button For Axis" && x.FieldValue == "1");
+            _RelativeAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Use Relative Input" && x.FieldValue == "1");
+            _BG4ProMode = gameProfile.ConfigValues.Any(x => x.FieldName == "Professional Edition Enable" && x.FieldValue == "1");
 
             string UseDPadForGUN1Stick_String = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "GUN1StickAxisInputStyle")?.FieldValue;
             if (UseDPadForGUN1Stick_String == "UseDPadForGUN1Stick")
@@ -84,17 +84,17 @@ namespace TeknoParrotUi.UserControls
                 _UseAnalogAxisToAimGUN2 = true;
             else _UseAnalogAxisToAimGUN2 = false;
 
-            if(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "左摇杆按钮模式")?.FieldValue == "1")
+            if(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "Left Stick Button Mode")?.FieldValue == "1")
             {
                 _UseDPadForGUN1Stick = true;
             }
 
-            if(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "右摇杆按钮模式")?.FieldValue == "1")
+            if(_gameProfile.ConfigValues.Find(cv => cv.FieldName == "Right Stick Button Mode")?.FieldValue == "1")
             {
                 _UseDPadForGUN2Stick = true;
             }
 
-            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "输入 API")?.FieldValue;
+            string inputApiString = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API")?.FieldValue;
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
