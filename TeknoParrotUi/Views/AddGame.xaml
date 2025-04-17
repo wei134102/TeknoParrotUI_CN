@@ -70,7 +70,7 @@
                 Margin="10,1,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Filters:"
+                Content="游戏筛选:"
                 FontSize="18"
                 FontWeight="Bold" />
             <Label
@@ -81,7 +81,7 @@
                 Margin="10,5,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Genre:"
+                Content="游戏类型:"
                 FontSize="16" />
             <ComboBox
                 x:Name="GenreBox"
@@ -118,7 +118,7 @@
                 Margin="10,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Search"
+                Content="搜索"
                 FontSize="16"
                 RenderTransformOrigin="0.704,1.118" />
             <TextBox
