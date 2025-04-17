@@ -1084,8 +1084,8 @@ namespace TeknoParrotUi.Views
             }
             var gameThread = new Thread(() =>
             {
-                var windowed = _gameProfile.ConfigValues.Any(x => x.FieldName == "窗口模式" && x.FieldValue == "1") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Windowed");
-                var fullscreen = _gameProfile.ConfigValues.Any(x => x.FieldName == "窗口模式" && x.FieldValue == "0") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Fullscreen");
+                var windowed = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "1") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Windowed");
+                var fullscreen = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "0") || _gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Fullscreen");
                 var width = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "分辨率宽度");
                 var height = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "渲染分辨率高度");
                 var region = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "区域设置");
