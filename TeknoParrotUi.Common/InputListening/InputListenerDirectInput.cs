@@ -250,8 +250,8 @@ namespace TeknoParrotUi.Common.InputListening
             bg4Key = false;
 
             KeyboardorButtonAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "使用键盘/按钮控制轴" && x.FieldValue == "1");
-            ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Y Axis" && x.FieldValue == "1");
-            ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Throttle Axis" && x.FieldValue == "1");
+            ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "反转Y轴" && x.FieldValue == "1");
+            ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "反转油门轴" && x.FieldValue == "1");
             RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "使用相对输入" && x.FieldValue == "1");
             GunGame = gameProfile.GunGame;
 
@@ -569,19 +569,19 @@ namespace TeknoParrotUi.Common.InputListening
                     RelativeAnalogYValue4p = (byte)((_maxY + _minY) / 2.0);
 
 
-                    var P1SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 1 Relative Sensitivity");
+                    var P1SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家1相对灵敏度");
                     if (P1SensitivityA != null)
                         RelativeP1Sensitivity = System.Convert.ToInt32(P1SensitivityA.FieldValue);
 
-                    var P2SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 2 Relative Sensitivity");
+                    var P2SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家2相对灵敏度");
                     if (P2SensitivityA != null)
                         RelativeP2Sensitivity = System.Convert.ToInt32(P2SensitivityA.FieldValue);
 
-                    var P3SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 3 Relative Sensitivity");
+                    var P3SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家3相对灵敏度");
                     if (P3SensitivityA != null)
                         RelativeP3Sensitivity = System.Convert.ToInt32(P3SensitivityA.FieldValue);
 
-                    var P4SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 4 Relative Sensitivity");
+                    var P4SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家4相对灵敏度");
                     if (P4SensitivityA != null)
                         RelativeP4Sensitivity = System.Convert.ToInt32(P4SensitivityA.FieldValue);
 
@@ -599,11 +599,11 @@ namespace TeknoParrotUi.Common.InputListening
             {
                 if (_gameProfile.EmulationProfile == EmulationProfile.AfterBurnerClimax || _gameProfile.EmulationProfile == EmulationProfile.NamcoMachStorm || _gameProfile.EmulationProfile == EmulationProfile.BlazingAngels || _gameProfile.EmulationProfile == EmulationProfile.WonderlandWars || _gameProfile.EmulationProfile == EmulationProfile.ALLSFGO || _gameProfile.EmulationProfile == EmulationProfile.BorderBreak || _gameProfile.EmulationProfile == EmulationProfile.SavageQuest || _gameProfile.EmulationProfile == EmulationProfile.SAO || _gameProfile.EmulationProfile == EmulationProfile.TMNT)
                 {
-                    var KeyboardAnalogAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis X/Y Sensitivity");
+                    var KeyboardAnalogAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "键盘/按钮轴X/Y灵敏度");
                     if (KeyboardAnalogAxisSensitivityA != null)
                         KeyboardAnalogAxisSensitivity = System.Convert.ToInt32(KeyboardAnalogAxisSensitivityA.FieldValue);
 
-                    var KeyboardAcclBrakeAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis Throttle Sensitivity");
+                    var KeyboardAcclBrakeAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "键盘/按钮轴油门灵敏度");
                     if (KeyboardAcclBrakeAxisSensitivityA != null)
                         KeyboardAcclBrakeAxisSensitivity = System.Convert.ToInt32(KeyboardAcclBrakeAxisSensitivityA.FieldValue);
                 }
@@ -613,17 +613,17 @@ namespace TeknoParrotUi.Common.InputListening
                 _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ || _gameProfile.EmulationProfile == EmulationProfile.ChaseHq2 || _gameProfile.EmulationProfile == EmulationProfile.WackyRaces || _gameProfile.EmulationProfile == EmulationProfile.VirtuaRLimit || _gameProfile.EmulationProfile == EmulationProfile.TaitoTypeXBattleGear || _gameProfile.EmulationProfile == EmulationProfile.TokyoCop || _gameProfile.EmulationProfile == EmulationProfile.RingRiders || _gameProfile.EmulationProfile == EmulationProfile.RadikalBikers ||
                 _gameProfile.EmulationProfile == EmulationProfile.FrenzyExpress || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.HummerExtreme || _gameProfile.EmulationProfile == EmulationProfile.Harley || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.HotWheels || _gameProfile.EmulationProfile == EmulationProfile.ALLSIDTA || _gameProfile.EmulationProfile == EmulationProfile.LGS || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR)
                      {
-                    var KeyboardAnalogAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis Wheel Sensitivity");
+                    var KeyboardAnalogAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "键盘/按钮轴方向盘灵敏度");
                     if (KeyboardAnalogAxisSensitivityA != null)
                         KeyboardAnalogAxisSensitivity = System.Convert.ToInt32(KeyboardAnalogAxisSensitivityA.FieldValue);
 
-                    var KeyboardAcclBrakeAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis Pedal Sensitivity");
+                    var KeyboardAcclBrakeAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "键盘/按钮轴踏板灵敏度");
                     if (KeyboardAcclBrakeAxisSensitivityA != null)
                         KeyboardAcclBrakeAxisSensitivity = System.Convert.ToInt32(KeyboardAcclBrakeAxisSensitivityA.FieldValue);
 
                     if (_gameProfile.EmulationProfile == EmulationProfile.RingRiders || _gameProfile.EmulationProfile == EmulationProfile.RadikalBikers)
                     {
-                        var KeyboardHandleBarAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis Handlebar Sensitivity");
+                        var KeyboardHandleBarAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "键盘/按钮轴车把灵敏度");
                         if (KeyboardHandleBarAxisSensitivityA != null)
                             KeyboardHandlebarAxisSensitivity = System.Convert.ToInt32(KeyboardHandleBarAxisSensitivityA.FieldValue);
                     }

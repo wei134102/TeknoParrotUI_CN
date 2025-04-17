@@ -130,11 +130,11 @@ namespace TeknoParrotUi.Common.InputListening
 
             if (_isPrimevalHunt)
             {
-                _onedisplay = gameProfile.ConfigValues.Any(x => x.FieldName == "OneDisplay" && x.FieldValue == "1");
-                _swapdisplay = gameProfile.ConfigValues.Any(x => x.FieldName == "SwapDisplay" && x.FieldValue == "1");
+                _onedisplay = gameProfile.ConfigValues.Any(x => x.FieldName == "单显示器模式" && x.FieldValue == "1");
+                _swapdisplay = gameProfile.ConfigValues.Any(x => x.FieldName == "交换显示器" && x.FieldValue == "1");
             }
 
-            _windowed = gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "1") || gameProfile.ConfigValues.Any(x => x.FieldName == "DisplayMode" && x.FieldValue == "Windowed");
+            _windowed = gameProfile.ConfigValues.Any(x => x.FieldName == "窗口模式" && x.FieldValue == "1") || gameProfile.ConfigValues.Any(x => x.FieldName == "显示模式" && x.FieldValue == "Windowed");
             _windowFound = false;
             _windowFocus = false;
             _windowHandle = IntPtr.Zero;

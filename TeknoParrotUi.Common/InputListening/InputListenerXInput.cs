@@ -89,8 +89,8 @@ namespace TeknoParrotUi.Common.InputListening
                 mkdxTest = false;
                 bg4Key = false;
 
-                ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Y Axis" && x.FieldValue == "1");
-                ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "Reverse Throttle Axis" && x.FieldValue == "1");
+                ReverseYAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "反转Y轴" && x.FieldValue == "1");
+                ReverseSWThrottleAxis = gameProfile.ConfigValues.Any(x => x.FieldName == "反转油门轴" && x.FieldValue == "1");
                 RelativeInput = gameProfile.ConfigValues.Any(x => x.FieldName == "使用相对输入" && x.FieldValue == "1");
                 GunGame = gameProfile.GunGame;
 
@@ -274,25 +274,25 @@ namespace TeknoParrotUi.Common.InputListening
                         RelativeAnalogYValue4p = (byte)((_maxY + _minY) / 2.0);
 
 
-                        var P1SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 1 Relative Sensitivity");
+                        var P1SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家1相对灵敏度");
                         if (P1SensitivityA != null)
                         {
                             RelativeP1Sensitivity = System.Convert.ToInt32(P1SensitivityA.FieldValue);
                         }
 
-                        var P2SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 2 Relative Sensitivity");
+                        var P2SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家2相对灵敏度");
                         if (P2SensitivityA != null)
                         {
                             RelativeP2Sensitivity = System.Convert.ToInt32(P2SensitivityA.FieldValue);
                         }
 
-                        var P3SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 3 Relative Sensitivity");
+                        var P3SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家3相对灵敏度");
                         if (P3SensitivityA != null)
                         {
                             RelativeP3Sensitivity = System.Convert.ToInt32(P3SensitivityA.FieldValue);
                         }
 
-                        var P4SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Player 4 Relative Sensitivity");
+                        var P4SensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "玩家4相对灵敏度");
                         if (P4SensitivityA != null)
                         {
                             RelativeP4Sensitivity = System.Convert.ToInt32(P4SensitivityA.FieldValue);
