@@ -10,3 +10,5 @@
 <ComboBoxItem Content="弹幕射击" />     <!-- Shoot 'Em Up -->
 <ComboBoxItem Content="光枪" />         <!-- Shooter -->
 <ComboBoxItem Content="运动" />         <!-- Sports -->
+=======================
+"Windowed":"窗口模式"

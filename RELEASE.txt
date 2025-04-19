@@ -1,0 +1,206 @@
+1. 输出路径
+默认输出路径：
+
+在 <PropertyGroup> 中定义了不同配置下的输出路径。
+示例：
+xml
+<OutputPath>..\bin\x86\Debug\</OutputPath>
+Debug 配置：../bin/x86/Debug/
+Release 配置：../bin/x86/Release/
+发布路径：
+
+<PublishUrl> 标签指定了发布路径为 publish\。
+xml
+<PublishUrl>publish\</PublishUrl>
+2. 打包后的文件结构
+(1) 主程序文件
+主程序文件（.exe）会生成在指定的输出路径中。
+文件名由 <AssemblyName> 定义：
+xml
+<AssemblyName>TeknoParrotUi</AssemblyName>
+因此，主程序文件名为 TeknoParrotUi.exe。
+(2) CefSharp 相关文件
+在 AfterBuild 靶标中，CefSharp 的相关文件会被移动到 libs\CefSharp 文件夹中。
+xml
+<Move SourceFiles="@(MoveToCefSharpFolder)" DestinationFolder="$(OutputPath)libs\CefSharp" OverwriteReadOnlyFiles="true" />
+包括以下文件：
+CefSharp*.dll
+CefSharp*.pdb
+CefSharp*.exe
+CefSharp*.xml
+icudtl.dat
+LICENSE.txt
+README.txt
+vk_swiftshader_icd.json
+snapshot_blob.bin
+v8_context_snapshot.bin
+chrome_100_percent.pak
+chrome_200_percent.pak
+chrome_elf.dll
+d3dcompiler_47.dll
+libcef.dll
+libEGL.dll
+libGLESv2.dll
+resources.pak
+vk_swiftshader.dll
+vulkan-1.dll
+(3) 其他依赖库
+其他依赖库会被移动到 libs 文件夹中。
+xml
+<Move SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)libs" OverwriteReadOnlyFiles="true" />
+包括以下文件：
+System*.dll
+Microsoft*.dll
+netstandard.dll
+Newtonsoft.Json.dll
+RawInput.Sharp.dll
+SharpDX*.dll
+TeknoParrotUi.Common*
+TeknoParrotUi.UnitTests*
+xunit*.dll
+(4) 资源文件
+资源文件会被复制到输出目录或特定子目录中。
+示例：
+xml
+<Resource Include="Resources\Inter-Regular.otf" />
+<Resource Include="Resources\teknoparrot_by_pooterman-db9erxd.png" />
+<Resource Include="Resources\minimize.png" />
+<Resource Include="Resources\exit.png" />
+<Resource Include="Resources\blank_24bit.png" />
+这些资源文件通常会直接复制到输出目录或嵌入到程序中。
+(5) MD5 文件
+MD5 文件会被复制到输出目录：
+xml
+<None Include="MD5\*.md5">
+  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+</None>
+(6) 配置文件
+App.config 文件会被包含在输出目录中：
+xml
+<None Include="App.config">
+  <SubType>Designer</SubType>
+</None>
+3. 特殊处理
+(1) Costura.Fody 插件
+使用了 Costura.Fody 插件，该插件会将部分依赖项嵌入到主程序中，减少外部依赖文件的数量。
+示例：
+xml
+<Import Project="..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" />
+(2) Bootstrapper 包
+定义了 .NET Framework 4.5.2 和 .NET Framework 3.5 SP1 的引导包。
+xml
+<BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+  <Visible>False</Visible>
+  <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+  <Install>true</Install>
+</BootstrapperPackage>
+(3) 删除无用文件
+构建完成后，会删除 locales 文件夹：
+xml
+<RemoveDir Directories="$(OutputPath)\locales\" />
+4. 总结
+最终文件结构（以 Release 配置为例）
+../bin/x86/Release/
+├── TeknoParrotUi.exe          # 主程序文件
+├── app.manifest              # 应用程序清单
+├── App.config                # 配置文件
+├── Resources/                # 资源文件夹
+│   ├── Inter-Regular.otf
+│   ├── teknoparrot_by_pooterman-db9erxd.png
+│   ├── minimize.png
+│   ├── exit.png
+│   └── blank_24bit.png
+├── libs/                     # 第三方依赖库文件夹
+│   ├── System*.dll
+│   ├── Microsoft*.dll
+│   ├── netstandard.dll
+│   ├── Newtonsoft.Json.dll
+│   ├── RawInput.Sharp.dll
+│   ├── SharpDX*.dll
+│   └── TeknoParrotUi.Common*
+├── libs/CefSharp/           # CefSharp 相关文件夹
+│   ├── CefSharp*.dll
+│   ├── icudtl.dat
+│   ├── LICENSE.txt
+│   ├── README.txt
+│   ├── vk_swiftshader_icd.json
+│   ├── snapshot_blob.bin
+│   ├── v8_context_snapshot.bin
+│   ├── chrome_100_percent.pak
+│   ├── chrome_20
+
+================================================================================================
+以下是对 GameRunning.xaml.cs 和 InputListenerRawInput.cs 两个文件的作用分析：
+
+1. GameRunning.xaml.cs
+文件路径: e:\wii\code\TeknoParrotUI_CN\TeknoParrotUi.Views\GameRunning.xaml.cs
+
+作用:
+
+游戏运行管理器: 这个文件是 GameRunning 窗口的代码后台，负责管理游戏的启动、运行和退出过程。
+核心功能:
+初始化游戏配置: 根据游戏配置文件 (GameProfile) 初始化游戏参数（如分辨率、按键映射、网络适配器等）。
+处理输入模式: 根据不同的输入 API（如 DirectInput、XInput、RawInput）设置对应的输入监听器。
+启动游戏进程: 创建并启动游戏进程，同时设置环境变量、注册表项等以确保游戏兼容性。
+实时监控: 在游戏运行期间，监控游戏状态（如是否需要强制退出、是否需要更新 Discord RPC 状态等）。
+终止线程: 游戏结束后，清理所有相关的线程和资源。
+关键逻辑:
+
+游戏启动前检查:
+检查必要的配置值（如 APM3 ID 或 Online ID 是否正确）。
+如果配置不正确，弹出错误提示框并停止游戏启动。
+输入监听器初始化:
+根据游戏配置选择合适的输入监听器（如 InputListenerRawInput、InputListenerDirectInput 等）。
+启动输入监听线程以捕获玩家输入。
+游戏进程管理:
+使用 ProcessStartInfo 启动游戏进程，并根据游戏类型设置不同的启动参数。
+监控游戏进程的状态，确保其正常运行。
+特殊游戏逻辑:
+针对特定游戏（如 Rambo、GSEVO、Olympic 2016/2020）提供专门的控制逻辑。
+处理多执行文件的游戏（如需要先启动服务器再启动客户端）。
+依赖关系:
+
+外部依赖: 使用了多个外部库（如 MahApps.Metro、Linearstar.Windows.RawInput、System.Management 等）来实现窗口样式、输入捕获和硬件信息获取等功能。
+内部依赖: 调用了 TeknoParrotUi.Common 中的多个类（如 JvsPackageEmulator、ControlSender、SerialPortHandler 等）来处理 JVS 输入仿真、控制器通信和串口监听。
+2. InputListenerRawInput.cs
+文件路径: e:\wii\code\TeknoParrotUI_CN\TeknoParrotUi.Common\InputListening\InputListenerRawInput.cs
+
+作用:
+
+RawInput 输入监听器: 该文件实现了基于 Windows RawInput 的输入监听器，用于捕获鼠标、键盘和其他输入设备的事件。
+核心功能:
+捕获输入事件: 监听鼠标移动、按键按下/释放等事件，并将其转换为游戏所需的输入信号。
+光枪定位: 根据鼠标位置计算光枪在游戏窗口中的坐标，并将其转换为模拟的 JVS 光枪输入。
+按键映射: 将物理按键（如鼠标按钮、键盘按键）映射到虚拟的 JVS 按键（如 Test、Service、Coin 等）。
+窗口聚焦检测: 检测游戏窗口是否处于前台，避免在切换到其他窗口时误触。
+关键逻辑:
+
+RawInput 数据解析:
+使用 RawInputData 解析来自鼠标和键盘的原始输入数据。
+根据设备路径 (DevicePath) 区分不同输入设备。
+光枪位置计算:
+根据鼠标位置和游戏窗口大小计算光枪的 X/Y 坐标。
+支持窗口模式和全屏模式下的光枪定位。
+按键处理:
+将鼠标按键和键盘按键映射到 JVS 输入信号（如 Test、Service、Coin 等）。
+提供对扩展按键的支持（如 ExtensionButton1_7、ExtensionButton1_8 等）。
+窗口聚焦与鼠标限制:
+检测游戏窗口是否处于前台，避免在非聚焦状态下处理输入。
+使用 ClipCursor 限制鼠标在游戏窗口内移动，以模拟光枪的固定范围。
+依赖关系:
+
+外部依赖: 使用了 Linearstar.Windows.RawInput 库来捕获和解析 RawInput 数据。
+内部依赖: 调用了 TeknoParrotUi.Common 中的多个类（如 InputCode、JvsPackageEmulator）来更新输入状态和模拟 JVS 输入。
+总结
+GameRunning.xaml.cs:
+
+主要负责游戏的启动、运行和退出管理。
+是一个高层次的管理器，协调多个子模块（如输入监听器、控制器通信、串口监听等）的工作。
+InputListenerRawInput.cs:
+
+专注于捕获和处理 RawInput 数据。
+是一个低层次的输入监听器，直接与硬件交互并将输入信号转换为游戏所需的格式。
+两者的关系:
+
+GameRunning.xaml.cs 调用 InputListenerRawInput 来初始化和管理输入监听线程。
+InputListenerRawInput 提供了具体的输入捕获和处理逻辑，而 GameRunning.xaml.cs 则负责将这些输入信号应用到游戏中。
