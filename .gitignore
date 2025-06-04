@@ -319,3 +319,7 @@ ASALocalRun/
 
 TeknoParrotUi/CurrentCommit.txt
 TeknoParrotUi/Helpers/Secrets.cs
+
+#languages
+TeknoParrotUi/Helpers/LanguageHelper.cs
+TeknoParrotUi/Properties/resources-zh-CN.resx
