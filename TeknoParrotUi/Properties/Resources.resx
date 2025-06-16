@@ -379,7 +379,7 @@
     <value>Search</value>
   </data>
   <data name="AddGameShootEmUp" xml:space="preserve">
-    <value>Shoot Em Up</value>
+    <value>Shoot 'Em Up</value>
   </data>
   <data name="AddGameShooter" xml:space="preserve">
     <value>Shooter</value>
@@ -1304,7 +1304,7 @@ Please re-extract TeknoParrot.</value>
     <value>Rhythm</value>
   </data>
   <data name="LibraryGenreShootEmUp" xml:space="preserve">
-    <value>Shoot Em Up</value>
+    <value>Shoot 'Em Up</value>
   </data>
   <data name="LibraryGenreShooter" xml:space="preserve">
     <value>Shooter</value>
@@ -2583,7 +2583,10 @@ Please install!</value>
     <value>РусE�E�ий (Russian)</value>
   </data>
   <data name="SettingsLanguageChinese" xml:space="preserve">
-    <value>中斁E��简体！EChinese Simplified)</value>
+    <value>中文简体！(Chinese Simplified)</value>
+  </data>
+    <data name="SettingsLanguageChineseTraditional" xml:space="preserve">
+    <value>中文繁体！(Chinese Traditional)</value>
   </data>
   <data name="SettingsLanguageRestartRequired" xml:space="preserve">
     <value>Language change will take effect after restarting the application.</value>

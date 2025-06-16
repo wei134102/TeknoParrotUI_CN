@@ -331,6 +331,7 @@
                             <ComboBoxItem Content="{x:Static p:Resources.SettingsLanguagePortuguese}" Tag="pt-PT" />
                             <ComboBoxItem Content="{x:Static p:Resources.SettingsLanguageRussian}" Tag="ru-RU" />
                             <ComboBoxItem Content="{x:Static p:Resources.SettingsLanguageChinese}" Tag="zh-CN" />
+                            <ComboBoxItem Content="{x:Static p:Resources.SettingsLanguageChineseTraditional}" Tag="zh-TW" />
                         </ComboBox>
                     </Grid>
                     <StackPanel Name="Elfldr2Settings">

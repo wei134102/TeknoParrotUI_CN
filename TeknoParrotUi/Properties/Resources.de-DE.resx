@@ -378,7 +378,7 @@
     <value>Suchen</value>
   </data>
   <data name="AddGameShootEmUp" xml:space="preserve">
-    <value>Shoot Em Up</value>
+    <value>Shoot 'Em Up</value>
   </data>
   <data name="AddGameShooter" xml:space="preserve">
     <value>Shooter</value>
@@ -1303,7 +1303,7 @@ Bitte extrahiere TeknoParrot erneut.</value>
     <value>Rhythmus</value>
   </data>
   <data name="LibraryGenreShootEmUp" xml:space="preserve">
-    <value>Shoot Em Up</value>
+    <value>Shoot 'Em Up</value>
   </data>
   <data name="LibraryGenreShooter" xml:space="preserve">
     <value>Shooter</value>

@@ -5288,7 +5288,11 @@ namespace TeknoParrotUi.Properties {
                 return ResourceManager.GetString("SettingsLanguageChinese", resourceCulture);
             }
         }
-        
+        public static string SettingsLanguageChineseTraditional {
+            get {
+                return ResourceManager.GetString("SettingsLanguageChineseTraditional", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Nederlands (Dutch).
         /// </summary>
