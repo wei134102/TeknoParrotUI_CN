@@ -1703,6 +1703,12 @@ Stack-Trace: {1}</value>
   <data name="SettingsElfldr2NetworkAdapter" xml:space="preserve">
     <value>Netzwerkadapter</value>
   </data>
+  <data name="SettingsDolphin" xml:space="preserve">
+    <value>Dolphin-Einstellungen</value>
+  </data>
+  <data name="SettingsHideDolphinGUI" xml:space="preserve">
+    <value>Dolphin-Benutzeroberfläche ausblenden</value>
+  </data>
   <data name="SettingsFullBrake" xml:space="preserve">
     <value>Vollachsen-Bremse</value>
   </data>
@@ -2060,7 +2066,7 @@ Bitte installieren!</value>
     <value>ParrotData.xml</value>
   </data>
   <data name="SettingsDATXMLFilter" xml:space="preserve">
-    <value>DAT/XML-Dateien</value>
+    <value>DAT/XML-Dateien (*.dat;*.xml)|*.dat;*.xml</value>
   </data>
   <data name="SettingsSelectDATXMLFile" xml:space="preserve">
     <value>DAT/XML-Datei auswählen</value>
