@@ -381,7 +381,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-CN.resx</DependentUpon>
     </Compile>
-        <Compile Include="Properties\Resources.zh-TW.Designer.cs">
+    <Compile Include="Properties\Resources.zh-TW.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.zh-TW.resx</DependentUpon>
@@ -677,7 +677,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.zh-CN.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-        <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.zh-TW.Designer.cs</LastGenOutput>
     </EmbeddedResource>
