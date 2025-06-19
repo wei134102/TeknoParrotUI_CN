@@ -6,10 +6,10 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>PlayInput</EmulationProfile>
-	<GameProfileRevision>12</GameProfileRevision>
+	<GameProfileRevision>2</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>Play</EmulatorType>
-	<ExecutableName>wanganmd.zip</ExecutableName>
+	<ExecutableName>wanganmr.zip</ExecutableName>
 	<Patreon>false</Patreon>
 	<GasAxisMin>0</GasAxisMin>
 	<GasAxisMax>180</GasAxisMax>
@@ -29,16 +29,6 @@
 			<FieldName>Windowed</FieldName>
 			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
-			<FieldName>Graphics Backend</FieldName>
-			<FieldValue>OpenGL</FieldValue>
-			<FieldType>Dropdown</FieldType>
-			<FieldOptions>
-				<string>OpenGL</string>
-				<string>Vulkan</string>
-			</FieldOptions>
 		</FieldInformation>
 		<FieldInformation>
 		  <CategoryName>General</CategoryName>
