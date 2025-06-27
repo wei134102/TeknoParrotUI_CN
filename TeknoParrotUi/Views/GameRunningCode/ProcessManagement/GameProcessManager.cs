@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -303,7 +304,7 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     else
                     {
                         ConfigureDolphinIni(false);
-                        
+
                         if (Lazydata.ParrotData.HideDolphinGUI)
                         {
                             // -b (batch) to hide ui, which in turn requires -e to specify the game
@@ -334,117 +335,36 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
 
                     // Path to the Play config file
                     string configPath = Path.Combine(".", "Play", "TeknoParrot", "Documents", "Play Data Files", "config.xml");
+                    var configDirectory = Path.GetDirectoryName(configPath);
+                    if (!Directory.Exists(configDirectory))
+                    {
+                        Directory.CreateDirectory(configDirectory);
+                    }
+
+
+                    string sys256CabId = "1";
+                    if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Cabinet Id" && x.FieldValue == "2"))
+                    {
+                        sys256CabId = "2";
+                    }
 
                     try
                     {
-                        if (File.Exists(configPath))
+                        var configValues = new Dictionary<string, (string type, string value)>
                         {
-                            // Load the XML document
-                            var xmlDoc = new System.Xml.XmlDocument();
-                            xmlDoc.Load(configPath);
+                            ["ps2.arcaderoms.directory"] = ("path", gamePath),
+                            ["video.gshandler"] = ("integer", GetGraphicsBackendValue()),
+                            ["renderer.opengl.resfactor"] = ("integer", GetResolutionFactorValue()),
+                            ["sys256.cabinet.linkid"] = ("integer", sys256CabId)
+                        };
 
-                            // Find the ps2.arcaderoms.directory preference node
-                            var arcadeRomsNode = xmlDoc.SelectSingleNode("//Preference[@Name='ps2.arcaderoms.directory']");
-
-                            if (arcadeRomsNode != null)
-                            {
-                                // Update the Value attribute with the game path
-                                arcadeRomsNode.Attributes["Value"].Value = gamePath;
-                            }
-                            else
-                            {
-                                // If the node doesn't exist, create it
-                                var rootNode = xmlDoc.DocumentElement;
-                                var newNode = xmlDoc.CreateElement("Preference");
-                                newNode.SetAttribute("Name", "ps2.arcaderoms.directory");
-                                newNode.SetAttribute("Type", "path");
-                                newNode.SetAttribute("Value", gamePath);
-                                rootNode.AppendChild(newNode);
-                            }
-
-                            // Update video.gshandler based on profile name
-                            var gsHandlerNode = xmlDoc.SelectSingleNode("//Preference[@Name='video.gshandler']");
-
-                            // Determine the value based on profile name (you'll need to adjust these conditions)
-                            string gsHandlerValue = "0"; // Default value
-
-                            if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Graphics Backend" && x.FieldValue == "OpenGL"))
-                            {
-                                gsHandlerValue = "0";
-                            }
-                            else if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Graphics Backend" && x.FieldValue == "Vulkan"))
-                            {
-                                gsHandlerValue = "1";
-                            }
-
-                            if (gsHandlerNode != null)
-                            {
-                                gsHandlerNode.Attributes["Value"].Value = gsHandlerValue;
-                            }
-                            else
-                            {
-                                // If the node doesn't exist, create it
-                                var rootNode = xmlDoc.DocumentElement;
-                                var newNode = xmlDoc.CreateElement("Preference");
-                                newNode.SetAttribute("Name", "video.gshandler");
-                                newNode.SetAttribute("Type", "integer");
-                                newNode.SetAttribute("Value", gsHandlerValue);
-                                rootNode.AppendChild(newNode);
-                            }
-
-                            // Update renderer.opengl.resfactor based on Resolution config value
-                            var resFactorNode = xmlDoc.SelectSingleNode("//Preference[@Name='renderer.opengl.resfactor']");
-
-                            // Determine resolution factor based on config value
-                            string resFactorValue = "1"; // Default to 480p
-
-                            if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Resolution" && x.FieldValue == "480p"))
-                            {
-                                resFactorValue = "1";
-                            }
-                            else if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Resolution" && x.FieldValue == "960p"))
-                            {
-                                resFactorValue = "2";
-                            }
-                            else if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Resolution" && x.FieldValue == "1920p"))
-                            {
-                                resFactorValue = "4";
-                            }
-                            else if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Resolution" && x.FieldValue == "4320p"))
-                            {
-                                resFactorValue = "8";
-                            }
-                            else if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Resolution" && x.FieldValue == "7680p"))
-                            {
-                                resFactorValue = "16";
-                            }
-
-                            if (resFactorNode != null)
-                            {
-                                resFactorNode.Attributes["Value"].Value = resFactorValue;
-                            }
-                            else
-                            {
-                                // If the node doesn't exist, create it
-                                var rootNode = xmlDoc.DocumentElement;
-                                var newNode = xmlDoc.CreateElement("Preference");
-                                newNode.SetAttribute("Name", "renderer.opengl.resfactor");
-                                newNode.SetAttribute("Type", "integer");
-                                newNode.SetAttribute("Value", resFactorValue);
-                                rootNode.AppendChild(newNode);
-                            }
-
-                            // Save the updated XML
-                            xmlDoc.Save(configPath);
-                        }
-                        else
-                        {
-                            textBoxConsole?.AppendText($"Play config file not found at: {configPath}\n");
-                        }
+                        CreateOrUpdatePlayConfig(configPath, configValues);
                     }
                     catch (Exception ex)
                     {
-                        textBoxConsole?.AppendText($"Error updating Play config: {ex.Message}\n");
+                        Trace.WriteLine($"Error updating Play config: {ex.Message}\n");
+                        textBoxConsole.Dispatcher.Invoke(() => textBoxConsole.AppendText($"Error updating Play config: {ex.Message}\n"),
+                            DispatcherPriority.Background);
                     }
                     var parameters = new List<string>();
 
@@ -900,7 +820,7 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     if (string.IsNullOrEmpty(e.Data)) return;
                     try
                     {
-                        textBoxConsole.Dispatcher.Invoke(() => textBoxConsole.Text += "\n" + e.Data,
+                        textBoxConsole.Dispatcher.Invoke(() => textBoxConsole.AppendText("\n" + e.Data),
                         DispatcherPriority.Background);
                     }
                     catch
@@ -1005,12 +925,12 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
 
             try
             {
-                // Ensure directory exists
                 Directory.CreateDirectory(Path.GetDirectoryName(configPath));
 
                 var lines = new List<string>();
                 bool coreSection = false;
                 bool foundCore = false;
+
                 var coreSettings = new Dictionary<string, string>
         {
             {"SIDevice0", "11"},
@@ -1019,17 +939,25 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
             {"SIDevice3", "0"},
             {"SerialPort1", isTatsuvscap ? "255" : "6"},
             {"SlotA", "14"},
-            {"SlotB", "14"}
+            {"SlotB", "14"},
+            {"MEM1Size", "0x04000000"},
+            {"MEM2Size", "0x08000000"},
+            {"RAMOverrideEnable", isTatsuvscap ? "True" : "False"}
         };
-                var processedSettings = new HashSet<string>();
 
-                // Read existing file if it exists
+                var processedSettings = new HashSet<string>();
+                bool foundAnalytics = false;
+                bool inAnalyticsSection = false;
+                bool analyticsEnabledSet = false;
+                bool permissionAskedSet = false;
+
                 if (File.Exists(configPath))
                 {
                     var existingLines = File.ReadAllLines(configPath);
 
-                    foreach (string line in existingLines)
+                    for (int i = 0; i < existingLines.Length; i++)
                     {
+                        string line = existingLines[i];
                         string trimmedLine = line.Trim();
 
                         if (trimmedLine == "[Core]")
@@ -1040,20 +968,25 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                             continue;
                         }
 
-                        if (trimmedLine.StartsWith("[") && trimmedLine.EndsWith("]") && trimmedLine != "[Core]")
+                        if (trimmedLine.StartsWith("[") && trimmedLine.EndsWith("]"))
                         {
-                            // Add any remaining core settings before moving to next section
                             if (coreSection)
                             {
                                 foreach (var setting in coreSettings)
                                 {
                                     if (!processedSettings.Contains(setting.Key))
-                                    {
                                         lines.Add($"{setting.Key} = {setting.Value}");
-                                    }
                                 }
                             }
+
                             coreSection = false;
+
+                            inAnalyticsSection = trimmedLine == "[Analytics]";
+                            if (inAnalyticsSection)
+                                foundAnalytics = true;
+
+                            lines.Add(line);
+                            continue;
                         }
 
                         if (coreSection && trimmedLine.Contains("="))
@@ -1067,40 +1000,129 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                             }
                         }
 
+                        if (inAnalyticsSection)
+                        {
+                            if (trimmedLine.StartsWith("ID"))
+                                continue; // Skip the ID line
+
+                            if (trimmedLine.StartsWith("Enabled"))
+                            {
+                                lines.Add("Enabled = False");
+                                analyticsEnabledSet = true;
+                                continue;
+                            }
+
+                            if (trimmedLine.StartsWith("PermissionAsked"))
+                            {
+                                lines.Add("PermissionAsked = True");
+                                permissionAskedSet = true;
+                                continue;
+                            }
+                        }
+
                         lines.Add(line);
                     }
 
-                    // Add any remaining core settings at the end if we're still in core section
                     if (coreSection)
                     {
                         foreach (var setting in coreSettings)
                         {
                             if (!processedSettings.Contains(setting.Key))
-                            {
                                 lines.Add($"{setting.Key} = {setting.Value}");
-                            }
                         }
                     }
                 }
 
-                // If [Core] section doesn't exist, add it
                 if (!foundCore)
                 {
                     lines.Add("[Core]");
                     foreach (var setting in coreSettings)
-                    {
                         lines.Add($"{setting.Key} = {setting.Value}");
-                    }
                 }
 
-                // Write the updated configuration
+                if (!foundAnalytics)
+                {
+                    lines.Add("");
+                    lines.Add("[Analytics]");
+                    lines.Add("Enabled = False");
+                    lines.Add("PermissionAsked = True");
+                }
+                else
+                {
+                    // Add missing keys to existing [Analytics] section
+                    int insertIndex = lines.FindIndex(l => l.Trim() == "[Analytics]") + 1;
+
+                    if (!analyticsEnabledSet)
+                        lines.Insert(insertIndex++, "Enabled = False");
+
+                    if (!permissionAskedSet)
+                        lines.Insert(insertIndex, "PermissionAsked = True");
+                }
+
                 File.WriteAllLines(configPath, lines);
             }
             catch (Exception ex)
             {
-                // Log error but don't stop execution
                 Debug.WriteLine($"Error updating Dolphin config: {ex.Message}");
             }
+        }
+
+        private void CreateOrUpdatePlayConfig(string configPath, Dictionary<string, (string type, string value)> configValues)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(configPath));
+
+            var xmlDoc = new System.Xml.XmlDocument();
+
+            if (File.Exists(configPath))
+            {
+                xmlDoc.Load(configPath);
+            }
+            else
+            {
+                xmlDoc.LoadXml("<Config></Config>");
+            }
+
+            var rootNode = xmlDoc.DocumentElement;
+
+            foreach (var config in configValues)
+            {
+                var existingNode = xmlDoc.SelectSingleNode($"//Preference[@Name='{config.Key}']");
+
+                if (existingNode != null)
+                {
+                    existingNode.Attributes["Value"].Value = config.Value.value;
+                }
+                else
+                {
+                    var newNode = xmlDoc.CreateElement("Preference");
+                    newNode.SetAttribute("Name", config.Key);
+                    newNode.SetAttribute("Type", config.Value.type);
+                    newNode.SetAttribute("Value", config.Value.value);
+                    rootNode.AppendChild(newNode);
+                }
+            }
+
+            xmlDoc.Save(configPath);
+        }
+
+        private string GetGraphicsBackendValue()
+        {
+            if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Graphics Backend" && x.FieldValue == "Vulkan"))
+                return "1";
+
+            return "0";
+        }
+
+        private string GetResolutionFactorValue()
+        {
+            var resolutionConfig = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Resolution");
+
+            if (resolutionConfig?.FieldValue == "960p") return "2";
+            if (resolutionConfig?.FieldValue == "1920p") return "4";
+            if (resolutionConfig?.FieldValue == "4320p") return "8";
+            if (resolutionConfig?.FieldValue == "7680p") return "16";
+
+            return "1";
         }
     }
 }
