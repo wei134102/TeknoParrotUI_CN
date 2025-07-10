@@ -484,7 +484,32 @@ namespace TeknoParrotUi
 
         public OAuthHelper OAuthHelper { get; private set; }
 
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            // Load ParrotData and apply language BEFORE base.OnStartup
+            try
+            {
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+                JoystickHelper.DeSerialize();
+                ApplyLanguageSetting();
+            }
+            catch
+            {
+                // If loading fails, continue with default language
+            }
+            base.OnStartup(e);
 
+            OAuthHelper = new OAuthHelper();
+
+            if (await OAuthHelper.EnsureAuthenticatedAsync(false))
+            {
+                Trace.WriteLine("User is logged in");
+            }
+            else
+            {
+                Trace.WriteLine("User is not logged in or has no internet connection");
+            }
+        }
 
         private void StartApp()
         {
