@@ -109,6 +109,7 @@
                  Grid.RowSpan="10"
                  Margin="4"
                  BorderThickness="1"
+                 SelectionMode="Extended"
                  SelectionChanged="ListBox_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource MaterialDesignListBoxItem}"
@@ -214,12 +215,35 @@
                            Text="{x:Static p:Resources.LibraryPlay}" />
             </StackPanel>
         </Button>
-        <Button x:Name="testMenuButton"
+        <Button x:Name="openGameLocationButton"
                 Grid.Row="6"
                 Grid.Column="2"
                 Width="Auto"
                 Height="Auto"
                 Margin="0,4,10,2"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Click="BtnOpenGameLocation">
+            <StackPanel Width="Auto"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                <materialDesign:PackIcon Margin="0,0,8,0"
+                                         VerticalAlignment="Center"
+                                         Kind="FolderOpen"
+                                         Height="24"
+                                         Width="24" />
+                <TextBlock FontSize="14"
+                           VerticalAlignment="Center"
+                           Text="打开游戏位置" />
+            </StackPanel>
+        </Button>
+        <Button x:Name="testMenuButton"
+                Grid.Row="7"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Width="Auto"
+                Height="Auto"
+                Margin="10,4,10,2"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Left"
                 Click="BtnLaunchTestMenu"
@@ -237,7 +261,7 @@
                            Text="{x:Static p:Resources.LibraryTestMode}" />
             </StackPanel>
         </Button>
-        <Button Grid.Row="7"
+        <Button Grid.Row="8"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Height="Auto"
@@ -258,7 +282,7 @@
                            Text="{x:Static p:Resources.LibraryGameSettings}" />
             </StackPanel>
         </Button>
-        <Button Grid.Row="8"
+        <Button Grid.Row="9"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
 
@@ -281,7 +305,7 @@
             </StackPanel>
         </Button>
         <Button x:Name="wikiButton"
-           Grid.Row="9"
+           Grid.Row="10"
            Grid.Column="1"
            Grid.ColumnSpan="2"
            Height="Auto"
@@ -302,7 +326,7 @@
                       Text="{x:Static p:Resources.LibraryMoreInfo}" />
             </StackPanel>
         </Button>
-        <Button Grid.Row="10"
+        <Button Grid.Row="11"
                 Grid.RowSpan="1"
                 Grid.Column="1"
                 Width="Auto"
@@ -325,7 +349,7 @@
             </StackPanel>
         </Button>
         <Button x:Name="delGame"
-                Grid.Row="10"
+                Grid.Row="11"
                 Grid.RowSpan="1"
                 Grid.Column="2"
                 Width="Auto"

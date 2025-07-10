@@ -36,6 +36,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="4"
+            SelectionMode="Extended"
             SelectionChanged="StockGameList_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="ListBoxItem">
@@ -157,6 +158,34 @@
                 BorderBrush="#B00020"
                 Click="DeleteGameButton"
                 Content="{x:Static p:Resources.DeleteGame}"
+                Foreground="White"
+                IsEnabled="False" />
+            <Button
+                x:Name="BatchAddButton"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="246"
+                Margin="13,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="#4CAF50"
+                BorderBrush="#4CAF50"
+                Click="BatchAddGameButton"
+                Content="批量添加游戏"
+                Foreground="White"
+                IsEnabled="False" />
+            <Button
+                x:Name="BatchDeleteButton"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="246"
+                Margin="13,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="#FF5722"
+                BorderBrush="#FF5722"
+                Click="BatchDeleteGameButton"
+                Content="批量删除游戏"
                 Foreground="White"
                 IsEnabled="False" />
             <Label

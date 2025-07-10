@@ -135,6 +135,39 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
+            // 检查是否是多选模式
+            if (gameList.SelectedItems.Count > 1)
+            {
+                // 多选模式 - 显示选中的游戏数量
+                gameInfoText.Text = $"已选择 {gameList.SelectedItems.Count} 个游戏";
+                gameIcon.Source = defaultIcon;
+                
+                // 启用批量操作按钮
+                delGame.IsEnabled = true;
+                delGame.Content = $"删除选中的 {gameList.SelectedItems.Count} 个游戏";
+                
+                // 禁用单个游戏操作按钮
+                gameLaunchButton.IsEnabled = false;
+                testMenuButton.IsEnabled = false;
+                openGameLocationButton.IsEnabled = false;
+                gameOnlineProfileButton.Visibility = Visibility.Hidden;
+                playOnlineButton.Visibility = Visibility.Hidden;
+                
+                return;
+            }
+            else if (gameList.SelectedItems.Count == 0)
+            {
+                // 没有选中任何游戏
+                gameInfoText.Text = Properties.Resources.LibraryNoInfo;
+                gameIcon.Source = defaultIcon;
+                delGame.IsEnabled = false;
+                gameLaunchButton.IsEnabled = false;
+                testMenuButton.IsEnabled = false;
+                openGameLocationButton.IsEnabled = false;
+                return;
+            }
+
+            // 单选模式 - 原有的逻辑
             var modifyItem = (ListBoxItem)((ListBox)sender).SelectedItem;
             var profile = _gameNames[gameList.SelectedIndex];
             UpdateIcon(profile.IconName.Split('/')[1], ref gameIcon);
@@ -188,6 +221,33 @@ namespace TeknoParrotUi.Views
             {
                 gameLaunchButton.IsEnabled = true;
             }
+
+            // 检查<GamePath>是否有效，决定是否启用“打开游戏位置”按钮
+            bool canOpen = false;
+            try
+            {
+                var xmlPath = selectedGame.FileName;
+                if (File.Exists(xmlPath))
+                {
+                    var doc = new System.Xml.XmlDocument();
+                    doc.Load(xmlPath);
+                    var node = doc.SelectSingleNode("//GamePath");
+                    if (node != null && !string.IsNullOrWhiteSpace(node.InnerText))
+                    {
+                        string gamePath = node.InnerText.Trim();
+                        string fullPath = gamePath;
+                        if (!Path.IsPathRooted(gamePath))
+                        {
+                            string exeDir = AppDomain.CurrentDomain.BaseDirectory;
+                            fullPath = Path.GetFullPath(Path.Combine(exeDir, gamePath));
+                        }
+                        if (Directory.Exists(fullPath) || File.Exists(fullPath))
+                            canOpen = true;
+                    }
+                }
+            }
+            catch { canOpen = false; }
+            openGameLocationButton.IsEnabled = canOpen;
 
             var basicInfo = $"{Properties.Resources.LibraryEmulator}: {selectedGame.EmulatorType} ({(selectedGame.Is64Bit ? "x64" : "x86")})\n";
 
@@ -1144,25 +1204,74 @@ namespace TeknoParrotUi.Views
 
         private void BtnDeleteGame(object sender, RoutedEventArgs e)
         {
-            var selectedItem = ((ListBoxItem)gameList.SelectedItem);
-            if (selectedItem == null)
+            // 检查是否是多选模式
+            if (gameList.SelectedItems.Count > 1)
+            {
+                // 批量删除
+                var result = MessageBox.Show($"确定要删除选中的 {gameList.SelectedItems.Count} 个游戏吗？", "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                    return;
+
+                var deletedCount = 0;
+                var failedGames = new List<string>();
+
+                foreach (ListBoxItem selectedItem in gameList.SelectedItems)
+                {
+                    var selected = (GameProfile)selectedItem.Tag;
+                    if (selected == null || selected.FileName == null) continue;
+                    
+                    var splitString = selected.FileName.Split('\\');
+                    try
+                    {
+                        Debug.WriteLine($@"Removing {selected.GameNameInternal} from TP...");
+                        File.Delete(Path.Combine("UserProfiles", splitString[1]));
+                        deletedCount++;
+                    }
+                    catch (Exception ex)
+                    {
+                        failedGames.Add(selected.GameNameInternal);
+                        Debug.WriteLine($"Failed to delete {selected.GameNameInternal}: {ex.Message}");
+                    }
+                }
+
+                // 显示删除结果
+                if (failedGames.Count > 0)
+                {
+                    MessageBox.Show($"成功删除 {deletedCount} 个游戏，删除失败 {failedGames.Count} 个游戏：\n{string.Join("\n", failedGames)}", "删除结果", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"成功删除 {deletedCount} 个游戏！", "删除完成", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                ListUpdate();
+                return;
+            }
+
+            // 单选删除 - 原有逻辑
+            var singleSelectedItem = ((ListBoxItem)gameList.SelectedItem);
+            if (singleSelectedItem == null)
             {
                 return;
             }
-            var selected = (GameProfile)selectedItem.Tag;
-            if (selected == null || selected.FileName == null) return;
-            var splitString = selected.FileName.Split('\\');
+            var singleSelected = (GameProfile)singleSelectedItem.Tag;
+            if (singleSelected == null || singleSelected.FileName == null) return;
+            
+            var resultSingle = MessageBox.Show($"确定要删除游戏 '{singleSelected.GameNameInternal}' 吗？", "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (resultSingle != MessageBoxResult.Yes)
+                return;
+
+            var splitStringSingle = singleSelected.FileName.Split('\\');
             try
             {
-                Debug.WriteLine($@"Removing {selected.GameNameInternal} from TP...");
-                File.Delete(Path.Combine("UserProfiles", splitString[1]));
+                Debug.WriteLine($@"Removing {singleSelected.GameNameInternal} from TP...");
+                File.Delete(Path.Combine("UserProfiles", splitStringSingle[1]));
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                MessageBox.Show($"删除游戏时发生错误：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            //_library.ListUpdate();
             ListUpdate();
         }
 
@@ -1177,5 +1286,98 @@ namespace TeknoParrotUi.Views
             ListUpdate();
         }
 
+        /// <summary>
+        /// 检查并启用打开游戏位置按钮
+        /// </summary>
+        /// <param name="selectedGame">选中的游戏</param>
+        private void CheckAndEnableOpenGameLocationButton(GameProfile selectedGame)
+        {
+            try
+            {
+                // 检查游戏设置中是否有有效的游戏可执行文件路径
+                var gameSetup = JoystickHelper.DeSerializeGameSetup(selectedGame.FileName);
+                if (gameSetup != null && !string.IsNullOrWhiteSpace(gameSetup.GameExecutableLocation))
+                {
+                    // 检查文件是否存在
+                    if (File.Exists(gameSetup.GameExecutableLocation))
+                    {
+                        openGameLocationButton.IsEnabled = true;
+                        openGameLocationButton.ToolTip = $"打开游戏文件夹: {Path.GetDirectoryName(gameSetup.GameExecutableLocation)}";
+                        return;
+                    }
+                }
+                
+                // 如果没有找到有效的路径，禁用按钮
+                openGameLocationButton.IsEnabled = false;
+                openGameLocationButton.ToolTip = "游戏可执行文件路径未设置或无效";
+            }
+            catch (Exception ex)
+            {
+                openGameLocationButton.IsEnabled = false;
+                openGameLocationButton.ToolTip = "无法检查游戏路径";
+            }
+        }
+
+        /// <summary>
+        /// 打开游戏位置按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnOpenGameLocation(object sender, RoutedEventArgs e)
+        {
+            if (gameList.SelectedIndex < 0 || gameList.SelectedIndex >= _gameNames.Count)
+                return;
+
+            var selectedGame = _gameNames[gameList.SelectedIndex];
+            try
+            {
+                // 1. 获取UserProfiles下的XML路径
+                var xmlPath = selectedGame.FileName;
+                if (!File.Exists(xmlPath))
+                {
+                    MessageBox.Show("找不到游戏配置文件！", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // 2. 读取<GamePath>节点
+                var doc = new System.Xml.XmlDocument();
+                doc.Load(xmlPath);
+                var node = doc.SelectSingleNode("//GamePath");
+                if (node == null || string.IsNullOrWhiteSpace(node.InnerText))
+                {
+                    MessageBox.Show("未设置游戏路径！", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                string gamePath = node.InnerText.Trim();
+
+                // 3. 判断绝对/相对路径
+                string fullPath = gamePath;
+                if (!Path.IsPathRooted(gamePath))
+                {
+                    // 相对路径，基于exe目录
+                    string exeDir = AppDomain.CurrentDomain.BaseDirectory;
+                    fullPath = Path.GetFullPath(Path.Combine(exeDir, gamePath));
+                }
+
+                // 4. 打开目录
+                if (Directory.Exists(fullPath))
+                {
+                    Process.Start("explorer.exe", fullPath);
+                }
+                else if (File.Exists(fullPath))
+                {
+                    // 如果是文件，打开其所在目录
+                    Process.Start("explorer.exe", Path.GetDirectoryName(fullPath));
+                }
+                else
+                {
+                    MessageBox.Show("游戏路径不存在！", "错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"打开游戏位置时发生错误：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

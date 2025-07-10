@@ -216,6 +216,17 @@ namespace TeknoParrotUi
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            // 防止Lazydata.ParrotData为null导致启动崩溃
+            try
+            {
+                if (Lazydata.ParrotData == null)
+                    JoystickHelper.DeSerialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("配置初始化失败：" + ex.Message);
+                Environment.Exit(1);
+            }
             bool createdNew;
             _mutex = new Mutex(true, MutexName, out createdNew);
 
@@ -473,32 +484,7 @@ namespace TeknoParrotUi
 
         public OAuthHelper OAuthHelper { get; private set; }
 
-        protected override async void OnStartup(StartupEventArgs e)
-        {
-            // Load ParrotData and apply language BEFORE base.OnStartup
-            try
-            {
-                Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
-                JoystickHelper.DeSerialize();
-                ApplyLanguageSetting();
-            }
-            catch
-            {
-                // If loading fails, continue with default language
-            }
-            base.OnStartup(e);
 
-            OAuthHelper = new OAuthHelper();
-
-            if (await OAuthHelper.EnsureAuthenticatedAsync(false))
-            {
-                Trace.WriteLine("User is logged in");
-            }
-            else
-            {
-                Trace.WriteLine("User is not logged in or has no internet connection");
-            }
-        }
 
         private void StartApp()
         {
