@@ -50,6 +50,8 @@
             <RowDefinition Height="55*" />
             <RowDefinition Height="55*" />
             <RowDefinition Height="55*" />
+            <RowDefinition Height="55*" />
+            <RowDefinition Height="55*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="519*" />
