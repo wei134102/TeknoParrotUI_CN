@@ -34,8 +34,9 @@ namespace TeknoParrotUi.Views
         readonly GameSettingsControl _gameSettings = new GameSettingsControl();
         private ContentControl _contentControl;
         public bool listRefreshNeeded = false;
-        public static bool firstBoot = true;
 
+        public static bool LastGameAutoLaunch = false;//wei134102
+        public static bool firstBoot = true;
         public static BitmapImage defaultIcon = new BitmapImage(new Uri("../Resources/teknoparrot_by_pooterman-db9erxd.png", UriKind.Relative));
 
         public Library(ContentControl contentControl)
@@ -334,10 +335,17 @@ namespace TeknoParrotUi.Views
                 }
                 else if (Lazydata.ParrotData.SaveLastPlayed)
                 {
+                    // MessageBox.Show($"[调试] 正在读取上次游玩的游戏: '{Lazydata.ParrotData.LastPlayed}'");//wei134102 调试
                     for (int i = 0; i < gameList.Items.Count; i++)
                     {
+                        // MessageBox.Show($"[调试] 正在比较: '{_gameNames[i].GameNameInternal}' 和 '{Lazydata.ParrotData.LastPlayed}'");//wei134102 调试
                         if (_gameNames[i].GameNameInternal == Lazydata.ParrotData.LastPlayed)
+                        {
                             gameList.SelectedIndex = i;
+                            LastGameAutoLaunch = true;//wei134102 调试
+
+                        }
+
                     }
                 }
                 else
@@ -373,6 +381,20 @@ namespace TeknoParrotUi.Views
             }
 
             listRefreshNeeded = false;
+            //wei134102
+            if (gameList.SelectedItem != null || LastGameAutoLaunch)
+            {
+                // 将 AutoLaunch 重置为 false，防止无限循环
+                LastGameAutoLaunch = false;
+                // 使用 Dispatcher 在 UI 空闲时启动游戏，确保 UI 已完全加载
+                Dispatcher.InvokeAsync(() => 
+                {
+                    BtnLaunchGame(null, null);
+                }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+
+            }
+            //wei134102
+               
         }
 
         /// <summary>
@@ -1072,15 +1094,26 @@ namespace TeknoParrotUi.Views
                 return;
 
             var gameProfile = (GameProfile)((ListBoxItem)gameList.SelectedItem).Tag;
+            // //wei134102 add
+            //  string profileDetails = $"[调试] 游戏配置详情:\n" +
+            //                         $"ProfileName: {gameProfile.ProfileName}\n" +
+            //                         $"GameNameInternal: {gameProfile.GameNameInternal}\n" +
+            //                         $"GamePath: {gameProfile.GamePath}\n" +
+            //                         $"EmulatorType: {gameProfile.EmulatorType}\n" +
+            //                         $"Is64Bit: {gameProfile.Is64Bit}";
+            // MessageBox.Show(profileDetails);           
+            // //wei134102 add
 
             if (Lazydata.ParrotData.SaveLastPlayed)
             {
+                // MessageBox.Show($"[调试] 正在保存当前游戏: '{gameProfile.GameNameInternal}'");//wei134102 调试
                 Lazydata.ParrotData.LastPlayed = gameProfile.GameNameInternal;
                 JoystickHelper.Serialize();
             }
 
             if (ValidateAndRun(gameProfile, out var loader, out var dll, false, this, false))
             {
+                // MessageBox.Show($"[调试] ValidateAndRun 成功返回。即将启动游戏: '{gameProfile.GameNameInternal}'"); //wei134102 调试
                 var gameRunning = new GameRunning(gameProfile, loader, dll, false, false, false, this);
                 Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = gameRunning;
             }
