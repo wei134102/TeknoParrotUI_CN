@@ -382,7 +382,7 @@ namespace TeknoParrotUi.Views
 
             listRefreshNeeded = false;
             //wei134102
-            if (gameList.SelectedItem != null || LastGameAutoLaunch)
+            if (gameList.SelectedItem != null && LastGameAutoLaunch && Lazydata.ParrotData.SaveLastPlayed)
             {
                 // 将 AutoLaunch 重置为 false，防止无限循环
                 LastGameAutoLaunch = false;
