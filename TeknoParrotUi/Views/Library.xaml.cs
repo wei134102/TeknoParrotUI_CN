@@ -338,13 +338,24 @@ namespace TeknoParrotUi.Views
                     // MessageBox.Show($"[调试] 正在读取上次游玩的游戏: '{Lazydata.ParrotData.LastPlayed}'");//wei134102 调试
                     for (int i = 0; i < gameList.Items.Count; i++)
                     {
-                        // MessageBox.Show($"[调试] 正在比较: '{_gameNames[i].GameNameInternal}' 和 '{Lazydata.ParrotData.LastPlayed}'");//wei134102 调试
-                        if (_gameNames[i].GameNameInternal == Lazydata.ParrotData.LastPlayed)
+                        // 更彻底地清理字符串以进行比较：
+                        // 1. 处理 null 值
+                        var gameNameInList = _gameNames[i].GameNameInternal ?? string.Empty;
+                        var lastPlayedGame = Lazydata.ParrotData.LastPlayed ?? string.Empty;
+
+                        // 2. 替换换行符为空格，然后用正则表达式将多个连续空格/空白符替换为单个空格，最后移除首尾空格
+                        var cleanedGameName = System.Text.RegularExpressions.Regex.Replace(gameNameInList.Replace("\r", " ").Replace("\n", " "), @"\s+", " ").Trim();
+                        var cleanedLastPlayed = System.Text.RegularExpressions.Regex.Replace(lastPlayedGame.Replace("\r", " ").Replace("\n", " "), @"\s+", " ").Trim();
+
+                        // MessageBox.Show($"[调试] 正在比较: '{cleanedGameName}' 和 '{cleanedLastPlayed}'");//wei134102 调试
+                        if (cleanedGameName == cleanedLastPlayed)
                         {
                             gameList.SelectedIndex = i;
                             LastGameAutoLaunch = true;//wei134102 调试
-
+                            // MessageBox.Show($"[调试] 找到匹配项，设置 SelectedIndex = {i} 并准备自动启动。");//wei134102 调试
+                            break; // 找到匹配后立即退出循环
                         }
+                        // MessageBox.Show($"[调试] 比较结果: '{(cleanedGameName == cleanedLastPlayed)}'");//wei134102 调试
 
                     }
                 }
