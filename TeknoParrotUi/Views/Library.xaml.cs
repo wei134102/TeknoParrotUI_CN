@@ -723,6 +723,169 @@ namespace TeknoParrotUi.Views
                 }
                 File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
             }
+            else if (profileName == "DSPS")
+            {
+                var configVer = Path.Combine(currentDir, "config", "dsps_vfs.yml");
+                if (!File.Exists(configVer))
+                {
+                    MessageBoxHelper.ErrorOK("Cannot find Deadstorm Pirates Special Config, reinstall RPCS3 FORK!");
+                    return false;
+                }
+                File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
+            }
+            else if (profileName == "dbzenkai")
+            {
+                var configVer = Path.Combine(currentDir, "config", "dbzenkai_vfs.yml");
+                if (!File.Exists(configVer))
+                {
+                    MessageBoxHelper.ErrorOK("Cannot find Dragon Ball Zenkai Battle Royale Config, reinstall RPCS3 FORK!");
+                    return false;
+                }
+                File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
+            }
+            else if (profileName == "AKB48")
+            {
+                var configVer = Path.Combine(currentDir, "config", "akb48_vfs.yml");
+                if (!File.Exists(configVer))
+                {
+                    MessageBoxHelper.ErrorOK("Cannot find Sailor Zombie AKB48 Config, reinstall RPCS3 FORK!");
+                    return false;
+                }
+                File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
+
+                // Create board storage cache file for AKB48 system state
+                var boardStoragePath = Path.Combine(currentDir, "AKB48", "dev_hdd1", "caches", "board_storage.bin");
+                var boardStorageData = new List<byte>();
+                
+                // Board state identifier and checksum
+                boardStorageData.Add(0x01);  // Board status flag (active)
+                boardStorageData.Add(0xFC);  // Format identifier
+                
+                // Hardware identifier sequence for AKB48
+                boardStorageData.AddRange(new byte[] { 0x43, 0x50 }); // Component identifier "CP"
+                boardStorageData.Add(0x54);  // Hardware revision
+                boardStorageData.Add(0x4E);  // Configuration checksum
+                
+                // Reserved/padding bytes for cache alignment (10 bytes)
+                for (int i = 0; i < 10; i++)
+                {
+                    boardStorageData.Add(0xFF);  // Unused cache space
+                }
+                
+                byte[] boardStorageBytes = boardStorageData.ToArray();
+                
+                // Create cache directory and write board storage file
+                Directory.CreateDirectory(Path.GetDirectoryName(boardStoragePath));
+                File.WriteAllBytes(boardStoragePath, boardStorageBytes);
+            }
+            else if (profileName == "DarkEscape4D")
+            {
+                var configVer = Path.Combine(currentDir, "config", "darkescape4d_vfs.yml");
+                if (!File.Exists(configVer))
+                {
+                    MessageBoxHelper.ErrorOK("Cannot find Dark Escape 4D Config, reinstall RPCS3 FORK!");
+                    return false;
+                }
+                File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
+
+                // Create board storage cache file for Dark Escape 4D system state
+                var boardStoragePath = Path.Combine(currentDir, "DarkEscape4D", "dev_hdd1", "caches", "board_storage.bin");
+                var boardStorageData = new List<byte>();
+                
+                // Board state identifier and checksum
+                boardStorageData.Add(0x01);  // Board status flag (active)
+                boardStorageData.Add(0xFC);  // Format identifier
+                
+                // Hardware identifier sequence for Dark Escape 4D
+                boardStorageData.AddRange(new byte[] { 0x31, 0x4C }); // Component identifier "1L"
+                boardStorageData.Add(0xB0);  // Hardware revision
+                boardStorageData.Add(0xE9);  // Configuration checksum
+                
+                // Reserved/padding bytes for cache alignment (10 bytes)
+                for (int i = 0; i < 10; i++)
+                {
+                    boardStorageData.Add(0xFF);  // Unused cache space
+                }
+                
+                byte[] boardStorageBytes = boardStorageData.ToArray();
+                
+                // Create cache directory and write board storage file
+                Directory.CreateDirectory(Path.GetDirectoryName(boardStoragePath));
+                File.WriteAllBytes(boardStoragePath, boardStorageBytes);
+            }
+            else if (profileName == "taikogreen")
+            {
+                var configVer = Path.Combine(currentDir, "config", "taikogreen_vfs.yml");
+                if (!File.Exists(configVer))
+                {
+                    MessageBoxHelper.ErrorOK("Cannot find Taiko No Tatsujin Green Config, reinstall RPCS3 FORK!");
+                    return false;
+                }
+                File.Copy(configVer, Path.Combine(currentDir, "config", "vfs.yml"), true);
+
+                // Dummy dongle files
+                var dongleFile1 = Path.Combine(currentDir, "taikogreen", "dev_usb000", "VERSIONUP", "DATA00000.BIN");
+                var dongleFile2 = Path.Combine(currentDir, "taikogreen", "dev_usb000", "VERSIONUP", "DATA00000.BIN1");
+                var dongleFile3 = Path.Combine(currentDir, "taikogreen", "dev_usb001", "VERSIONUP", "DATA00000.BIN");
+
+                // Create dongle simulation data for Taiko no Tatsujin
+                // This data represents a minimal archive structure required for dongle emulation
+                var dongleData = new List<byte>();
+                
+                // Archive header (22 bytes total length indicator)
+                dongleData.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x16 });
+                
+                // Archive identifier string: "serialization::archive"
+                dongleData.AddRange(System.Text.Encoding.ASCII.GetBytes("serialization::archive"));
+                
+                // Archive format markers and version info
+                dongleData.Add(0x00);  // String terminator
+                dongleData.AddRange(new byte[] { 0x0A, 0x04, 0x04, 0x04, 0x08 }); // Format markers
+                
+                // Version and data structure indicators
+                dongleData.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x01 }); // Version 1
+                dongleData.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 }); // Reserved
+                dongleData.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 }); // Reserved
+                
+                // Final signature bytes
+                dongleData.AddRange(new byte[] { 0x0B, 0x00, 0x20, 0x19, 0x03 });
+                
+                byte[] dongleBytes = dongleData.ToArray();
+
+                // Ensure dongle file directories exist and create the simulation files
+                string[] dongleFiles = { dongleFile1, dongleFile2, dongleFile3 };
+                
+                foreach (string dongleFile in dongleFiles)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(dongleFile));
+                    File.WriteAllBytes(dongleFile, dongleBytes);
+                }
+
+                // Create board storage cache file for system state persistence
+                var boardStoragePath = Path.Combine(currentDir, "taikogreen", "dev_hdd1", "caches", "board_storage.bin");
+                var boardStorageData = new List<byte>();
+                
+                // Board state identifier and checksum
+                boardStorageData.Add(0x01);  // Board status flag (active)
+                boardStorageData.Add(0xFC);  // Format identifier
+                
+                // Hardware identifier sequence
+                boardStorageData.AddRange(new byte[] { 0x43, 0x50 }); // Component identifier "CP"
+                boardStorageData.Add(0xA7);  // Hardware revision
+                boardStorageData.Add(0x9B);  // Configuration checksum
+                
+                // Reserved/padding bytes for cache alignment (10 bytes)
+                for (int i = 0; i < 10; i++)
+                {
+                    boardStorageData.Add(0xFF);  // Unused cache space
+                }
+                
+                byte[] boardStorageBytes = boardStorageData.ToArray();
+                
+                // Create cache directory and write board storage file
+                Directory.CreateDirectory(Path.GetDirectoryName(boardStoragePath));
+                File.WriteAllBytes(boardStoragePath, boardStorageBytes);
+            }
             return true;
         }
 

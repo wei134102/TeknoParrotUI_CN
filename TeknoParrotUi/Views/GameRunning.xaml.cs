@@ -616,7 +616,7 @@ namespace TeknoParrotUi.Views
                     if (_controlSender == null)
                         _controlSender = new PlayPipe();
                     break;
-                case EmulationProfile.TTT2U:
+                case EmulationProfile.RPCS3:
                     if (_controlSender == null)
                         _controlSender = new RPCS3Pipe();
                     break;
