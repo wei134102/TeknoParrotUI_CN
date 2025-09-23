@@ -92,7 +92,7 @@ namespace TeknoParrotUi.Views
                 }
                 // ignore
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignore
             }
@@ -376,7 +376,6 @@ namespace TeknoParrotUi.Views
                     {
                         // do nothing
                     }
-                    ;
                 }
 
                 if (gameList.Items.Count == 0 && GameProfileLoader.UserProfiles.Count == 0)
