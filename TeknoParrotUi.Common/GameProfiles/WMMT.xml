@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <GamePath ></GamePath >
+    <TestMenuParameter ></TestMenuParameter >
+    <TestMenuIsExecutable>false</TestMenuIsExecutable>
+    <ExtraParameters ></ExtraParameters >
+    <TestMenuExtraParameters ></TestMenuExtraParameters >
+    <EmulationProfile>PlayInput</EmulationProfile>
+    <GameProfileRevision>3</GameProfileRevision>
+    <HasSeparateTestMode>false</HasSeparateTestMode>
+    <EmulatorType>Play</EmulatorType>
+    <ExecutableName>wanganmd</ExecutableName>
+    <Patreon>false</Patreon>
+    <GasAxisMin>0</GasAxisMin>
+    <GasAxisMax>80</GasAxisMax>
+    <DevOnly>true</DevOnly>
+    <ConfigValues>
+        <FieldInformation>
+            <CategoryName>General</CategoryName>
+            <FieldName>Input API</FieldName>
+            <FieldValue>DirectInput</FieldValue>
+            <FieldType>Dropdown</FieldType>
+            <FieldOptions>
+                <string>DirectInput</string>
+                <string>XInput</string>
+                </FieldOptions>
+            <Hint>[新增] 输入 API</Hint>
+            </FieldInformation>
+        <FieldInformation>
+            <CategoryName>General</CategoryName>
+            <FieldName>Windowed</FieldName>
+            <FieldValue>1</FieldValue>
+            <FieldType>Bool</FieldType>
+            <Hint>[新增] 窗口模式</Hint>
+            </FieldInformation>
+        <FieldInformation>
+            <CategoryName>General</CategoryName>
+            <FieldName>Use Keyboard/Button For Axis</FieldName>
+            <FieldValue>0</FieldValue>
+            <FieldType>Bool</FieldType>
+            <Hint>[新增] 使用键盘/按钮模拟控制轴</Hint>
+            </FieldInformation>
+        <FieldInformation>
+            <CategoryName>General</CategoryName>
+            <FieldName>Keyboard/Button Axis Wheel Sensitivity</FieldName>
+            <FieldValue>10</FieldValue>
+            <FieldType>Slider</FieldType>
+            <FieldMin>1</FieldMin>
+            <FieldMax>127</FieldMax>
+            <FieldOptions ></FieldOptions >
+            <Hint>[新增] 键盘/按钮轴方向盘灵敏度</Hint>
+            </FieldInformation>
+        <FieldInformation>
+            <CategoryName>General</CategoryName>
+            <FieldName>Keyboard/Button Axis Pedal Sensitivity</FieldName>
+            <FieldValue>10</FieldValue>
+            <FieldType>Slider</FieldType>
+            <FieldMin>1</FieldMin>
+            <FieldMax>255</FieldMax>
+            <FieldOptions ></FieldOptions >
+            <Hint>[新增] 键盘/按钮轴踏板灵敏度</Hint>
+            </FieldInformation>
+        </ConfigValues>
+    <JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>测试</ButtonName>
+            <InputMapping>Test</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>服务</ButtonName>
+            <InputMapping>Service1</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>投币</ButtonName>
+            <InputMapping>Coin1</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>Wheel Axis</ButtonName>
+            <InputMapping>Analog0</InputMapping>
+            <HideWithKeyboardForAxis>true</HideWithKeyboardForAxis>
+            <AnalogType>Wheel</AnalogType>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>Wheel Axis Left</ButtonName>
+            <InputMapping>Analog0</InputMapping>
+            <HideWithXInput>true</HideWithXInput>
+            <HideWithoutKeyboardForAxis>true</HideWithoutKeyboardForAxis>
+            <AnalogType>Wheel</AnalogType>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>Wheel Axis Right</ButtonName>
+            <InputMapping>Analog0</InputMapping>
+            <HideWithXInput>true</HideWithXInput>
+            <HideWithoutKeyboardForAxis>true</HideWithoutKeyboardForAxis>
+            <AnalogType>Wheel</AnalogType>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>油门</ButtonName>
+            <InputMapping>Analog2</InputMapping>
+            <AnalogType>Gas</AnalogType>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>刹车</ButtonName>
+            <InputMapping>Analog4</InputMapping>
+            <AnalogType>Brake</AnalogType>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>换挡升档</ButtonName>
+            <InputMapping>P1Button3</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>换挡降档</ButtonName>
+            <InputMapping>P1Button4</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>Enter</ButtonName>
+            <InputMapping>P1Button1</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>切换视角</ButtonName>
+            <InputMapping>P1Button2</InputMapping>
+            </JoystickButtons>
+        <JoystickButtons>
+            <ButtonName>选择</ButtonName>
+            <InputMapping>P1ButtonUp</InputMapping>
+            </JoystickButtons>
+        </JoystickButtons>
+    </GameProfile>
