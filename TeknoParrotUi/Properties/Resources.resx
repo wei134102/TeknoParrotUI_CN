@@ -2598,7 +2598,7 @@ Please install!</value>
     <value>The specified password (or account name) for the postgres database is wrong. Please double check and try again.</value>
   </data>
   <data name="GameError870032" xml:space="preserve">
-    <value>The specified Postgres database could not be found. Please double check the database name. </value>
+    <value>The specified Postgres database could not be found. Please double check the database name.</value>
   </data>
   <data name="GameError870034" xml:space="preserve">
     <value>There was an issue connecting to the postgres database. Please check postgres_error.txt in the game folder for more details.</value>
@@ -2619,5 +2619,14 @@ You also need to remove any other conflicting plugin dll file from this "\BepInE
 Please visit TeknoParrot Discord #fixes channel to get TP plugin...
 
 Now closing...</value>
+  </data>
+  <data name="LibraryGenreSystem246" xml:space="preserve">
+    <value>System 246/256</value>
+  </data>
+  <data name="LibraryGenreSystem357" xml:space="preserve">
+    <value>System 357/359/369</value>
+  </data>
+  <data name="LibraryGenreTriforce" xml:space="preserve">
+    <value>Triforce</value>
   </data>
 </root>
