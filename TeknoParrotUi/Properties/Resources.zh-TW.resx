@@ -2590,4 +2590,42 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
   <data name="SettingsLanguageRestartRequired" xml:space="preserve">
     <value>語言更改將在重啓應用程序後生效。</value>
   </data>
+  <data name="GameError870030" xml:space="preserve">
+    <value>無法找到指定的Postgres服務器。請確保在啓動遊戲之前，Postgres服務/服務器正在運行。</value>
+  </data>
+  <data name="GameError870031" xml:space="preserve">
+    <value>指定的postgres數據庫密碼（或賬戶名）錯誤。請仔細檢查并重試。</value>
+  </data>
+  <data name="GameError870032" xml:space="preserve">
+    <value>指定的 Postgres 數據庫未找到。請仔細檢查數據庫名稱。</value>
+  </data>
+  <data name="GameError870034" xml:space="preserve">
+    <value>連接到postgres數據庫時出現問題。請檢查遊戲文件夾中的postgres_error.txt以獲取更多詳細信息。</value>
+  </data>
+  <data name="GameError870033" xml:space="preserve">
+    <value>無法連接到Postgres服務器。請確保服務器正在運行。</value>
+  </data>
+  <data name="LibraryGenreSystem246" xml:space="preserve">
+    <value>System 246/256</value>
+  </data>
+  <data name="LibraryGenreSystem357" xml:space="preserve">
+    <value>System 357/359/369</value>
+  </data>
+  <data name="LibraryGenreTriforce" xml:space="preserve">
+    <value>Triforce</value>
+  </data>
+  <data name="GameErrorB0B0045" xml:space="preserve">
+    <value>此遊戲需要在 "\fnfmega_Data\Plugins\x86_64\" 中的這些文件以啓用聲音：
+-"fmod64.dll" (FMOD v1.10.10 x64)
+-"fmodstudio64.dll" (FMODSTUDIO v1.10.10 x64)
+
+現在關閉...</value>
+  </data>
+  <data name="GameErrorB0B0046" xml:space="preserve">
+    <value>這個遊戲需要在 "\\BepInEx\\plugins\" 文件夾中放置 "SB3TPPlugin.dll" TP 插件 dll 文件。
+您還需要從這個 "\\BepInEx\\plugins\" 文件夾中移除任何其他衝突的插件 dll 文件。
+請訪問 TeknoParrot Discord 的 #fixes 頻道以獲取 TP 插件...
+
+現在關閉...</value>
+  </data>
 </root>
