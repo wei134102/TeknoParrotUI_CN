@@ -1,0 +1,3374 @@
+
+░▀▀█▀▀░▒█▀▀▀░▒█░▄▀░▒█▄░▒█░▒█▀▀▀█░▒█▀▀█░█▀▀▄░▒█▀▀▄░▒█▀▀▄░▒█▀▀▀█░▀▀█▀▀
+░░▒█░░░▒█▀▀▀░▒█▀▄░░▒█▒█▒█░▒█░░▒█░▒█▄▄█▒█▄▄█░▒█▄▄▀░▒█▄▄▀░▒█░░▒█░░▒█░░
+░░▒█░░░▒█▄▄▄░▒█░▒█░▒█░░▀█░▒█▄▄▄█░▒█░░░▒█░▒█░▒█░▒█░▒█░▒█░▒█▄▄▄█░░▒█░░
+
+   ░▒█▀▀▄░▒█▀▀▀█░▒█░░░░▒█░░░░▒█▀▀▀░▒█▀▀▄░▀▀█▀▀░▀█▀░▒█▀▀▀█░▒█▄░▒█
+   ░▒█░░░░▒█░░▒█░▒█░░░░▒█░░░░▒█▀▀▀░▒█░░░░░▒█░░░▒█░░▒█░░▒█░▒█▒█▒█
+   ░▒█▄▄▀░▒█▄▄▄█░▒█▄▄█░▒█▄▄█░▒█▄▄▄░▒█▄▄▀░░▒█░░░▄█▄░▒█▄▄▄█░▒█░░▀█
+
+Below is a list of general TP notes and individual game notes written down during testing.  Use your text editor's search/find function to locate a game by its name, as the game entries in this document are out of order.
+
+============================================
+░▒█▀▀█░▒█▀▀▀░▒█▄░▒█░▒█▀▀▀░▒█▀▀▄░█▀▀▄░▒█░░░░░░▒█▄░▒█░▒█▀▀▀█░▀▀█▀▀░▒█▀▀▀░▒█▀▀▀█
+░▒█░▄▄░▒█▀▀▀░▒█▒█▒█░▒█▀▀▀░▒█▄▄▀▒█▄▄█░▒█░░░░░░▒█▒█▒█░▒█░░▒█░░▒█░░░▒█▀▀▀░░▀▀▀▄▄
+░▒█▄▄▀░▒█▄▄▄░▒█░░▀█░▒█▄▄▄░▒█░▒█▒█░▒█░▒█▄▄█░░░▒█░░▀█░▒█▄▄▄█░░▒█░░░▒█▄▄▄░▒█▄▄▄█
+============================================
+
+iDmacDrv32.dll
+
+Some games will have older versions of iDmacDrv32.dll in their archive, which may be older than the current one that TPUI recommends using.
+
+If you are experiencing any issues with a game that has iDmacDrv32.dll in the root folder, rename that dll file and start the game.  TPUI will automatically copy the current iDmacDrv32.dll from its repository into the game folder and use it.  If that fixes your issue, then continue to use the new iDmacDrv32.dll
+
+============================================
+How to run a game directly without using TPUI
+
+D:\TeknoParrot\TeknoParrotUi.exe --profile=GoldenTeeLive2012.xml
+
+You'll need to make sure you have all the game's settings pre-setup, including the path to the game executable.
+
+you can get the profile names from the TeknoParrot\GameProfiles folder, or from searching for the game in this document and the profile name will be in brackets next to the game title.
+============================================
+SEGA LINDBERGH, SEGA ALLS SRAM and EEPROM SAVE LOCATION:
+
+All Sega games will have their service mode settings saved here, titled by their 4-character Game ID:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+
+Each game will have these files in the following format:
+XXXX_sram.bin
+XXXX_e2prom.bin
+
+============================================
+NESiCAxLive game files
+
+If you look in the root of a NESiCA game folder and see the following .dds files, leave them alone.
+NxLCountDownRenderer_HD.dds		(2048x512)
+NxLCountDownRenderer_HD_V.dds	(512x1024)
+NxLCountDownRenderer_SD.dds		(1024x256)
+NxLCountDownRenderer_SD_V.dds	(256x512)
+
+They belong to the game and are not added on by 3rd party tools, like some users would have you believe. They are graphics tiles created for and used by the game loader to do a countdown while the game is booting. Unfortunately, that process is snubbed out by TPUI so you never actually see them.  They are in SD and HD resolutions for both portrait and landscape monitor orientation.
+
+If these .dds files are deleted it is not the end of the world, however, if these files are missing the game will no longer load in-game bezels, if available.
+
+============================================
+Namco System 357 Games
+
+First boot will take 2-4 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+
+============================================
+Windows Scaling
+Set your Windows Scaling to 100%, otherwise your aim will be off in crosshair games.
+
+============================================
+Fullscreen Resolutions
+A few games can be affected by monitor frequencies set higher than 60Hz when trying to run them in fullscreen mode. Drop the frequency to 60Hz to fix the problem. (Star Trek, HOTD4, Golden Gun, Transformers)
+
+============================================
+BepInEx Unity games
+When starting a Unity game that contains a BepInEx folder FOR THE FIRST TIME, allow the game to start, then exit and restart the game.  This will allow BepInEx to save and update its plugin configurations.  After that, the plugin will be fully configured.
+
+============================================
+Perfect Happ Trackball setup for Golden Tee games
+
+For the "perfect" Happ trackball setup that matches the original arcade machines (thanks to Rawd for all their hard work figuring it out):
+- HAPP trackball with red boards (2),
+- Optiwiz interface,
+- windows mouse speed set to 4 and precision control unchecked,
+- TPUI on DirectInput set to 10 on each axis,
+- Run RawAccelOfficial program and set to 0.72 (https://github.com/RawAccelOfficial/rawaccel/releases),
+- game run at 1080p,
+- set in-game difficulty in the Service Menu to "5".
+
+============================================
+Golden Tee "Score Submission" setup 
+
+Enabling this will allow you to submit your game scores to the website leaderboard.  It also creates a video recording of your round and saves it in a folder.  It will record up to 10 videos, deleting the oldest video first to make room for new ones.
+
+- Log into TeknoParrot.com
+- Click on Online Profiles
+- Click on High Scores
+- Your Submission ID Serial will be displayed
+- Load up TeknoParrotUI and update if necessary
+- Go to Settings (NOT game settings)
+- Copy Submission ID Serial from TeknoParrot.com to Score Submission ID (This is unique to each individual user, keep private!)
+- Under Game Settings, Enable Score Submission and optionally you can Enable GUI now for GUI to be rendered onscreen with game info etc
+
+====================================================================
+░▒█▀▀█░█▀▀▄░▒█▀▄▀█░▒█▀▀▀░░░▒█▄░▒█░▒█▀▀▀█░▀▀█▀▀░▒█▀▀▀░▒█▀▀▀█
+░▒█░▄▄▒█▄▄█░▒█▒█▒█░▒█▀▀▀░░░▒█▒█▒█░▒█░░▒█░░▒█░░░▒█▀▀▀░░▀▀▀▄▄
+░▒█▄▄▀▒█░▒█░▒█░░▒█░▒█▄▄▄░░░▒█░░▀█░▒█▄▄▄█░░▒█░░░▒█▄▄▄░▒█▄▄▄█
+====================================================================
+Too Spicy (2Spicy)
+
+exe:  \elf\apacheM.elf
+- fullscreen:			1280x768 display resolution
+- windowed:				1280x768 window resolution
+- fullscreen windowed:	1280x768 display resolution
+**This is the game's native resolution**
+
+If you're using an AMD GPU, enable the AMD fix in the game's TPUI settings, and get the fix from the TP Discord (#fixes channel)
+
+other elf's:
+apacheM_HD.elf
+-  same CRC as apacheM.elf, so its useless since it'll do the same thing as apacheM.elf
+
+apacheM_VGA.elf  -  only one byte in this elf is different from apacheM.elf
+- fullscreen:			1280x768 display resolution. It's not VGA.
+- windowed:				1280x768 window resolution. Still not VGA.
+- fullscreen windowed:	1280x768 display resolution. Not VGA at all.
+
+apachetestM.elf
+- this is the only test mode elf that works, and the game must be set to EXPORT region.
+- any changes made in the service menu are NOT SAVED, so it's useless for now. It appears TP Devs have not yet implemented service menu changes.  Kinda sucks since there are difficulty and story changes that can be made.
+
+apachetestM_HD.elf
+- identical to apachetestM.elf
+
+apachetestM_VGA.elf
+- does not work in any region setting
+
+====================================================================
+3D Cosplay Mahjong (3DCosplayMahjong)
+
+- game only natively works in windowed mode
+- if you try to run it in fullscreen, you'll be met with the following errors:
+Error!! : Create3DDevice
+fGf%.!! : Game
+
+The only workaround I've come across to force the game to work in fullscreen mode is to use "Borderless Gaming" (BG) from github (https://github.com/Codeusa/Borderless-Gaming/releases).  It's a safe app that you can apply to running applications that will take their window and expand it to fullscreen, in the resolution you have your monitor set to.  
+
+I've tested BG with this game and it works great.  Download that latest non-steam version, install and run the BG app. Run TeknoParrot normally, select 3D Cosplay game, and ensure it is set to "windowed" mode.  Run the game.  When the game starts, look at the Applications list in the BG window for an application called "3DCustomMahjong [Title]".  Highlight it and click on the right arrow to move it to the Favorites (automatic) list. Now anytime you run BG and then run 3D Cosplay, BG will automatically switch the game into fullscreen.
+
+Maybe the TP devs can fix this, but probably not since they don't give a damn about mahjong games, even with provocative ladies flirting with their goodies.
+
+Oddly, the game seems to have two video modes, horizontal and vertical (based on the movie_h.wmv and movie_v.wmv game files).  However, checking the service menu, there is no way to make any changes to the orientation of the screen.
+
+====================================================================
+America's Army Arcade ()
+
+run game once, which creates user files in the following game folder locations:
+System\uw.ini
+System\TeknoParrot\ArmyOps.ini
+System\TeknoParrot\User.ini
+
+each need to be edited for controls and game configurations.  There is NO service menu.
+
+ArmyOps.ini:
+
+WindowedViewportX=640
+WindowedViewportY=480
+FullscreenViewportX=640
+FullscreenViewportY=480
+MenuViewportX=640
+MenuViewportY=480
+GoreLevel=1
+
+User.ini:
+Name=Recruit (this can be changed to whatever you want)
+HUDCrosshair=1
+bForceCrosshairUpdate=true
+
+You'll have to figure out how to bind your keyboard keys.
+
+====================================================================
+After Burner Climax (abc)
+
+- doesn't work on Intel
+
+exe: abc
+exe: abc 1080p
+exe: abc_org
+
+====================================================================
+After Burner Climax (Elfloader2) (abcELF2)
+
+====================================================================
+Action Deka (ActionDeka)
+
+- doesn't work on Intel GPU
+- this is another game that makes the player use the PLAYER 2 side if you want to play the game solo.  Setup your controls in TPUI for PLAYER 2 inputs if you are going to play a solo game.
+
+The game can be a bit tempermental starting up, especially after modifying the game controls.  If the game exits a short time after starting it (within 10 seconds), simply restart the game and it should work.
+
+Make sure you have your "Change Control Mode" button configured (i like setting it to the space bar, easy enough to hit). Otherwise, you won't be able to change between modes (shooting, fighting, driving etc).  The game starts with no control mode selected, so be sure to select a mode when a level begins or otherwise your buttons probably won't do anything.
+
+====================================================================
+Akai Katana Shin (AkaiKatanaShinNesica)
+
+====================================================================
+Akuma Mortis Immortal (Akuma)
+
+THIS GAME DOES NOT WORK WITH 12th-14th GEN INTEL CPU'S (not GPU.. I'm talking about the CPU).  You can set everything up perfectly, but the TRIGGERS will not work. Does not matter if you try mapping them to a controller or keyboard either.. the triggers simply will not work.  I can only personally confirm that a 13th gen Core i7 will not work, the other reports come from other users.
+
+I have playtested with TPUI and I can conform that the game is fully working on an 11th Gen Intel CPU.  Game should work with the older gen CPU's too.
+
+Game setup:
+- on Game.exe, set compatability mode to Windows XP SP3
+- run TPUI as administrator for this game (for compatability mode to work)
+- setup game using RawInput, HideCursor, FpsLimitEnable (60), Crosshair Enable, Bezel Enable.
+- map light gun to mouse.  
+- play game.
+
+The "expdat" and "extdat" files are the patched versions of the NVRAM which has Free Play enabled (this is how you know you're using the patches files). Trying to use the "original" versions of these two files will result in no inputs working at all, and the game will no longer be in Free Play mode.  These two files do eventually get modified when any input configurations are changed in TPUI, hence why the "original" and "patched" folders are included.
+
+If you have your own crosshairs, scale them down to about 64x64 pixels so they're not super large on the screen.  The game window runs at your native desktop resolution, but the game runs at a resolution way lower (looks like 640x480).
+
+This game sucks anyway.
+
+Run patched standalone:
+- from the "patched" folder, copy all the files into the root of the "data" folder, overwriting existing files.
+- on Game.exe, set compatability mode to Windows XP SP3
+- run "Game.exe" and use the following keys for inputs:
+
+Keys:
+S - Service
+T - Test mode
+Q - P1 Start
+E - P2 Start
+C - Coin
+Mouse button 1 - Trigger P1
+Mouse button 2 - Trigger P2
+Mouse move - Gun X/Y
+
+Patched and I/O board emulated by Andy Geezer
+
+====================================================================
+Senxin Aleste (Aleste)
+
+- minor graphical variances and changes between versions
+- APM3 ID not needed to play game
+- when presented to use Aime, press the middle blue button, then press the left blue button
+- SAVES APM3ID plaintext in teknoparrot.ini
+  <FieldName>APM3ID</FieldName>
+      <FieldValue>xxxxxxxxxxxxxxxxxxx</FieldValue>
+
+====================================================================
+Aliens Armageddon (AliensArmageddon)
+
+- everything is shadowed and dark
+	- INTEL GPU has this problem, can't be fixed.
+	- if you're using an integrated NVIDIA GPU (such as on a laptop):
+		- open the NVIDIA control panel
+		- select Manage 3D settings
+		- In the Global Settings tab, under "Preferred graphics processor", use the pulldown menu and select the NVIDIA processor (sometimes it will default to the integrated graphics option)
+- \g6\aa\pmuser\gamelog.txt has a wealth of troubleshooting
+- lots of user-specific files are updated in various folders here:  \g6\aa\pmuser\
+- if your attract sequence crashes:  reset high scores in the service menu
+
+to program the menu, map both p1 and p2 to the same mouse. mouse navigation with trigger will then work for the menu.
+
+Raw Thrills "game" executable note: You can play these linux "game" executables from any system path without issue. Path depth doesn't appear to be an issue either, Just don't make the total path too long.. keep it reasonable.
+
+====================================================================
+Aliens Extermination (AliensExtermination)
+
+- Must limit FPS to 60 (use RivaTuner or equivalent)
+- use RAWINPUT for mouse
+- install Divx 6.0 for video codecs
+
+====================================================================
+Super Alpine Racer (AlpineRacer)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+
+====================================================================
+Aquapazza Aquaplus Dream Match (AquapazzaAquaplusDreamMatch)
+
+====================================================================
+Ge-Sen Love Plus Pengo! (ArcadeLove)
+
+- the game is touchscreen, so use your mouse for any buttons on-screen
+- press the left mousebutton after game boots up to "START".
+- press left box to use your APMID, right box to not use it
+- press the assigned "Start" button on your keyboard/gamepad once on the gameplay screen.
+- the two buttons on the bottom right of the gameplay screen are "Nationals" and "in-store tournament".  neither do anything if pressed.
+
+====================================================================
+Arcana Heart 2 (ArcanaHeart2Nesica)
+
+- internet copies of this did not include the proper DirectX dll's and thus the attract video would be screwed up.  this has been fixed.
+
+====================================================================
+Arcana Heart 3 (ArcanaHeart3Exboard)
+
+====================================================================
+Arcana Heart 3 Love Max Six Stars!!!!!! (ArcanaHeart3Nesica)
+
+====================================================================
+Arctic Thunder (ArcticThunder)
+
+====================================================================
+Ballistics (Ballistics)
+
+====================================================================
+Baseball Heroes (BaseballHeroes)
+
+====================================================================
+Batman (Batman)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+Battle Climax (BattleClimax)
+
+====================================================================
+Battle Fantasia (BattleFantasia)
+
+====================================================================
+Battle Fantasia Network Edition (BattleFantasiaNesica)
+
+====================================================================
+Battle Gear 4 (BattleGear4)
+
+====================================================================
+Battle Gear 4 Tuned (BattleGear4Tuned)
+
+====================================================================
+Big Buck Hunter Pro Home (BBHHome)
+
+Game takes a long time to load.
+
+Raw Thrills "game" executable note: You can play these linux "game" executables from any system path without issue. Path depth doesn't appear to be an issue either, Just don't make the total path too long.. keep it reasonable.
+
+====================================================================
+Big Buck Hunter Pro (BBHPro)
+
+Game takes a long time to load.
+
+Raw Thrills "game" executable note: You can play these linux "game" executables from any system path without issue. Path depth doesn't appear to be an issue either, Just don't make the total path too long.. keep it reasonable.
+
+====================================================================
+Big Buck World (BBHWorld)
+
+====================================================================
+Blade Arcus from Shining (BladeArcus)
+
+====================================================================
+Blade Strangers (BladeStrangers)
+
+====================================================================
+Blade Strangers (APM3) (BladeStrangersAPM3)
+
+====================================================================
+BlazBlue Calamity Trigger (BlazBlueCalaminityTrigger)
+
+====================================================================
+BlazBlue Central Fiction (BBCF)
+
+- at title screen, PRESS button assigned to "insert card (P1)", then press button for "Player 1 Start".  On character selection screen, press "insert card" button again to insert card for saving progress.
+- iDmacDrv32.dll CRC is F1FF8CC9
+
+====================================================================
+BlazBlue Chronophantasma (BBCP)
+
+- iDmacDrv32.dll CRC is F1FF8CC9
+
+====================================================================
+BlazBlue Continuum Shift (BlazBlueContinuumShift)
+
+- iDmacDrv32.dll must be CRC BCB0E7FE (2011-01-12).  Using a newer version of this driver will result in a coin error.
+
+====================================================================
+BlazBlue Continuum Shift II (BlazBlueContinuumShift2)
+
+- iDmacDrv32.dll must be CRC BCB0E7FE (2011-01-12).  Using a newer version of this driver will result in a coin error.
+
+====================================================================
+Blazblue Cross Tag Battle (BlazBlueCrossTagBattle)
+
+- iDmacDrv32.dll must be CRC BCB0E7FE (2011-01-12).  Using a newer version of this driver will result in a coin error.
+
+====================================================================
+Blazing Angels Squadrons of WWII (BlazingAngels)
+
+- name length of game folder matters. if game does not start, shorten the game folder name
+- set Throttle to an analog input and not a simple button (such as a pressure-sensitive trigger button)
+
+====================================================================
+Block King Ball Shooter (BlockKing)
+
+- Some users say in order for keyboard/mouse inputs to work, you need to set compatability mode on game.exe for Windows 7 mode.
+- While that may be true, I cannot get the game controls to work on an Intel 13th gen CPU.  Game boots up just fine otherwise.
+- TP Devs don't seem interested in fixing this.
+
+optional:
+- i can use the preconfigured JConfig and setup the controls in it and play it in windowed mode (without crosshairs), but that's about all.
+- using JConfig and running the game will create a "d45002588a1d0daf807b37ba131cbf1f_000" folder in the root of your D: drive.  Using TPUI will create this folder inside the game folder. This is safe to delete afterwards.
+
+====================================================================
+Border Break Scramble (BorderBreakScramble)
+
+NVIDIA ONLY, no AMD OR INTEL
+F3 locks mouse to screen
+F4 inserts CARD
+
+Game is WINDOWED only.  Maximizing the window will cause the crosshair to be misaligned on screen.
+There is a github report about the game not going fullscreen in October 2024 and it has not been actioned by the devs yet.
+
+
+
+====================================================================
+Bug Busters (BugBusters)
+
+====================================================================
+Nobiteke! Byon Byon Daisakusen (ByonByon)
+
+- setup game to use RawInput so you can use your mouse to move in-game
+- if you have multiple displays (such as a 2nd monitor or marquee screen), the game chooses to run on your secondary monitor. I have no idea idea why it does this, and it happens on other user's PC's as well.  The workaround is to turn off your additional monitors and only run one screen to play the game on your main monitor.  This is another thing the TP devs need to fix.
+
+====================================================================
+Caladrius AC (CaladriusAC)
+
+====================================================================
+Disney PIXAR Cars (Cars)
+
+- INTEL GPU - green screen on bootup, attract videos do not play. press GAS/START button to start game and it works fine after that.  Free play is easier to deal with.
+- best to go FULLSCREEN or match desktop resolution.  Sometimes when messing around with lower resolutions, game will go into 4:3 mode.
+- deleting the "ArcadeFiles" folder will cause the game to go into its Service menu on next boot.  Make changes, calibrate, then exit the game when it says "Rebooting".  Settings will be saved in the ArcadeFiles folder.
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+
+====================================================================
+Castlevania - The Arcade (Castlevania)
+
+====================================================================
+Chaos Code (CC)
+
+- Windows OS will always lock the game's font file to a Windows system process, and reqires a restart of your computer in order to release the file lock.  (\data\AC\KozMinStd-Regular-Sub.otf)
+
+====================================================================
+Chaos Breaker (ChaosBreaker)
+
+- currently requires Riva Tuner running and set to 60FPS, otherwise game runs way too fast
+
+====================================================================
+Chaos Code - New Sign of Catastrophe (1.03.00) (ChaosCodeNSOC103)
+
+====================================================================
+Chaos Code - New Sign of Catastrophe (2.11.00) (2016-07-21) (ChaosCodeNSOC211)
+
+====================================================================
+Chase H.Q. 2 (ChaseHQ2)
+
+The default region in "chq2.ini" is UK, as it is the highest version available.
+
+inside the ini file, change the DEST_COUNTRY to the region of choice (0, 2 or 3)
+
+# 0=EU(UK) 2=JP 3=US
+DEST_COUNTRY	0
+
+Or for the completely useless users who don't know how to edit a text file, 
+1. 
+delete, or rename "chq2.ini" to something else (eg. "chq2.ini.original")
+
+2. 
+for v2.05 USA, rename "chq2_2.05_USA.ini" to "chq2.ini"
+for v2.06 Japan, rename "chq2_2.06_JAPAN.ini" to "chq2.ini"
+for v2.08 UK, rename "chq2_2.08_UK.ini" to "chq2.ini"
+
+3.
+Start game.
+
+Install WMV9 by installing "wmv9VCMsetup.exe".  If you don't, you won't see Nancy or any other video clips in the game.  It won't break anything if you don't, but it will lessen the gameplay experience.
+
+You can safely delete these files if you want to remove any saved rankings or reset the Service settings.  They are included to avoid having to perform calibrations and for Free Play.  
+
+OpenParrot\
+ranking0.bin
+ranking1.bin
+rtb.dat
+rtc.dat
+
+** deleting rtb.dat and rtc.dat will require you to recalibrate the steering wheel and pedals, which is a slow process.  think twice before doing this. **
+
+====================================================================
+Chrono Regalia (ChronoRegalia)
+
+====================================================================
+Come On Baby! 2 Winter Championship (ComeOnBaby2)
+
+Service Menu is in KOREAN:
+
+I/O Test
+Screen Test
+Game Adjustment
+Coin Adjustment
+Sound Test
+
+Save and Exit
+Quit
+
+====================================================================
+Contra - Evolution (Contra)
+
+====================================================================
+Cotton Rock 'n' Roll  (CottonRnR)
+
+- you must generate or use an existing APM3 ID in your TeknoParrot.com user account
+- enter the APM3 ID string into the TP Game Settings
+- start game
+- press START button
+- Select the RED button on the screen
+- next screen, you should now see your APM3 ID nickname (your "username" in your TP account)
+- select the RED button again, to confirm your "purchase"
+- select your character and carry on playing game
+
+====================================================================
+Crazy Ride (CrazyRide)
+
+====================================================================
+Crimzon Clover (CrimzonClover)
+
+- Run TPUI as Administrator, then start game.  otherwise, no inputs will work.
+
+====================================================================
+Cruis'n Blast (CruisnBlast)
+
+====================================================================
+CounterStrike Neo (CSNEO)
+
+- NVIDIA and AMD (with patch) ONLY - NO INTEL!
+- Game is slow to load
+
+\csneo2\linux\CSNeo_ResPatcher.exe  <--this is a RESOLUTION patcher to set the game to a different resolution
+\csneo2\linux\TeknoParrot\setting.ini  (set FreePlay here)
+\csneo2\linux\czero\maps  <--maps are here
+\csneo2\linux\TeknoParrot\usercfg.ini  <--more options
+
+Press "Esc" during game and use function keys to access in-game stuff
+I have no idea what key exits the game.
+
+Multiplayer game:
+
+At the card screen, using your keyboard press Alt+F7 to open the console
+At the console type: login 12
+Close the console by pressing Alt+F7 on your keyboard
+Click OK, then enter your name at the prompt and click button.
+Game will say something, click the left option. Will take some time to load after click, don't press anything.
+There's a menu here, but open your console again with Alt+F7.
+To load a map, type (for example): map neo_06collision
+Map is now loading and game is starting, ready for others to connect
+Second player join
+
+Follow same game launching steps to get to main menu
+In console (Alt+F7) type: connect + "ip address of running game"
+
+====================================================================
+D1GP Arcade (D1GP)
+
+- config00.bin.xxxxxxxx is the Service menu savefile
+- savedata.tekno is the player's card
+
+- requires "UseD3DWrapper" to be set, otherwise can crash in non-windowed mode
+
+====================================================================
+Daemon Bride - Additional Gain (DaemonBrideAG)
+
+====================================================================
+Daemon Bride (DaemonBrideExboard)
+
+- On Intel GPU, after the game boots, do not let the game go past the EXAMU logo before pressing START or else the game will crash
+
+====================================================================
+Dariusburst - Another Chronicle (DariusBurst)
+
+- init.ini (change game settings)
+
+.hxf are picture files (these are compressed .tga with dzip "version 73".. the version does not exist so I have no idea what program actually created it)
+
+In order for the EX version to be a bit more "English", some hxf files were brought over from the earlier game version and replaced the Japanese-only ones.  It helps a bit.  The original files are tagged as such if you want to remove them.
+
+\hud\
+hud_infobord.hxf
+hud_message_0.hxf
+hud_missionpnl.hxf
+hud_nameentry_1.hxf
+hud_nextzone.hxf
+hud_playerselect_00.hxf
+hud_ticket_nomal.hxf
+hud_title.hxf
+hud_zankizone.hxf
+
+====================================================================
+Daytona Championship USA (Daytona3)
+
+\Daytona\config.ini  (IP must be 192.168.1.x, 192.168.0.x will not work)
+
+\Daytona\Install.ini
+
+\shell\Game.ini  (contains a lot of settings)
+\ShellData\ShellData.ini (sets Free Game and number of cabinets)
+
+\Daytona\rom\sound\adx\*.adx   (files in here are music and sounds for game, and they're VERY LOUD)
+d1a_bgm46_new_beg.adx is the first beginner track song
+
+====================================================================
+Daytona Championship USA New Season Edition (Daytona3NSE)
+
+====================================================================
+Dead Heat (DeadHeat)
+
+- native resolution is 1360x768
+
+- as of TPUI 1.0.0.1561 (Mar 08 2025), make 100% sure you correctly select a valid network interface in your main TPUI SETTINGS (NOT GAME SETTINGS). If your main IP address doesn't work, look for one that is similar, choose that and try again. As long as you're connected to a valid network, one of the interfaces will work.
+
+- if you've set the correct network interface in your TPUI settings, the game will detect the network interface almost immediately when starting the game (no 60 second countdown timer).  If you get the countdown timer ticking down, it likely means the network interface on the machine it is checking is wrong.  Go fix it.
+
+- if you want to create a webcam picture, create a webcam.png file in the root of the game folder.
+
+- Network values are also stored in save0 and save1 folders:
+\save0\ifconfig.txt
+\save0\ping-targets.txt
+\save0\tmp\arp_ip.txt
+ 
+- Check out data/csv/config.csv for extra options, although you should know what you're doing before you start fucking around with these
+
+NETWORK PLAY ONLY:
+- each machine must have a unique ID.  Set the ID in each of your machines in the Service Menu on each setup (1,2,3, or 4).
+
+====================================================================
+Dead Heat Riders (DeadHeatRiders)
+
+====================================================================
+Deal or No Deal Deluxe (DealOrNoDeal)
+
+====================================================================
+Dengeki Bunko - Fighting Climax (FightingClimax)
+
+====================================================================
+Dengeki Bunko - Fighting Climax (APM3) (DengekiBunkoFightingClimax)
+
+====================================================================
+Densha de Go!! (DenshaDeGo)
+
+====================================================================
+Densha de Go!! (DDG1 & DDG2 Retro) (DenshaDeGoRetro)
+
+====================================================================
+Dirty Drivin' (DirtyDrivin)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+Dead or Alive 5 Ultimate Arcade (DOA5)
+
+====================================================================
+Dead or Alive 6 (DOA6)
+
+====================================================================
+Do Not Fall - Run for Your Drink (DoNotFallRunforYourDrink)
+
+====================================================================
+Dragon Dance (DragonDanceNesica)
+
+This game is now using ddrawcompat as a fix.  The game will start with TPUI, but will get stuck on the NOTICE screen.
+
+Once you are on the NOTICE screen, wait 10-15 seconds and you will hear a Windows exclamation sound.  Press the ENTER key on the keyboard and the game will start.  The game throws an "failed to initialize audio mixer" error in the background, and since the error window becomes the active window (but is covered up by the NOTICE screen), pressing the ENTER key selects the window's "Close" button. This allows the game to finish booting.  
+
+I've added a text message on the NOTICE screen to press the ENTER key.  It's about the only non-disruptive way I could come up with to handle this problem without the user having to do extra things.
+
+older notes:
+There is a workaround to force the game to start with TPUI by using the DDrawCompat dll.
+- download ddraw.dll from https://github.com/narzoul/DDrawCompat/releases
+- place the ddraw.dll in the root of the game folder, where "game_liong.exe" is
+- if they exist, rename, move or delete any other dll's in the main game folder.  iDmacDrv32.dll and ddraw.dll should be the only dll's in the game folder.
+- in TPUI, start the game.
+- the game will get stuck on the "Notice" screen
+- about 10-15 seconds after starting the game, you'll hear a windows exclamation sound in the background. This is the audio mixer failing to initialize.
+- Press the enter key, game will start
+
+Alternatively, 
+- Press and HOLD down the ALT key, then press the TAB key
+- Still holding down the ALT key, use your mouse to hover over and close the window named "ERROR"
+- Still holding down the ALT key, click on the game window
+- release the ALT key
+- play the game.
+
+Another annoying thing about this game is that it uses 2 Japanese fonts from the game's font folder. When you quit the game, the Windows OS does not release its hold on those 2 font files, which will not allow you to move or delete the font files or the font folder.  You'll have to reboot your PC in order to do so.
+
+====================================================================
+Elevator Action for NESiCAxLive (ElevatorAction)
+
+====================================================================
+Elevator Action Death Parade (EADP)
+
+- this is another game that if you want to play solo, you have to setup and play the game as PLAYER 2.
+
+- Attraction doors work fine, pick one from the "Attraction Doors Pack" folder. Door resolution doesn't matter, game will adjust the pics, just pick one that you like.
+- use the 1920x1080 Landscape pics if you want a good default door pack.  
+- ensure you check the following boxes in setup:
+"Bezel - Enable" (requires Bezel.png) and 
+Attraction Doors - Enable" (requires DoorLeft.png, DoorRight.png, DoorsBezel.png)
+- Copy the 4 png's into the root of the game folder where the Game.exe is located
+
+I was unable to get the controls to work with the Bezel active. Disabling it and only using the Attraction doors worked fine.
+If you're running into the same issue, only run these boxes checked:
+Crosshairs - Enable
+Attraction Doors - Enable
+General - Scale Test Menu
+
+Leave everything else blank or unchecked.
+
+====================================================================
+Elevator Action Invasion (ElevatorActionInvasion)
+
+- you may have to press Start + gun trigger to start the game, but after that you only need to press the start button to "skip" stuff
+- this is another game that if you want to play solo, you have to setup and play the game as PLAYER 2.
+
+- Attraction doors work fine, pick one from the "Attraction Doors Pack" folder. Door resolution doesn't matter, game will adjust the pics, just pick one that you like.
+- use the 1920x1080 Landscape pics if you want a good default door pack.  
+- best experience, check the following boxes:
+
+General - HideCursor
+General - ForceVSync
+General - DisableHardcodedControls
+Attraction Doors - Enable" (requires DoorLeft.png, DoorRight.png, DoorsBezel.png)
+Bezel - Enable (requires Bezel.png)
+
+Copy the 4 png's into the root of the game folder where ESGame.exe is located
+
+====================================================================
+EN-Eins Perfektewelt (EnEinsPerfektewelt)
+
+====================================================================
+Exception (ExceptionNesica)
+
+====================================================================
+Mobile Suit Gundam Extreme VS. 2 (EXVS2)
+
+if you move the Game files to another location, you will be required to re-run "run.bat" file again at the new location to register the dll at the new location.
+
+this requires 2 local PC's in order to get the game to run.  Read the included documents in order to figure out how to set them up.  It's complicated.  You can also use Radmin.  
+
+====================================================================
+Mobile Suit Gundam Extreme VS. 2 XBoost (EXVS2XB)
+
+if you move the Game files to another location, you will be required to re-run "run.bat" file again at the new location to register the dll at the new location.
+
+this requires 2 local PC's in order to get the game to run.  Read the included documents in order to figure out how to set them up.  It's complicated.  You can also use Radmin. 
+
+====================================================================
+Far Cry Paradise Lost (FarCryParadiseLost)
+
+- native resolution 800x600
+- game works fine in 1920x1080
+- some users report if they "pull trigger to continue" before game finishes loading, it crashes.  The fix to this is to not pull the trigger. duh.
+- SOLO PLAY: if the game controls won't work for you when you set it up for Player 1, then remove the controls for P1 and set your controls up for Player 2.  I had to do this and it worked fine for me.
+
+====================================================================
+Fate Grand Order Arcade (FGO)
+
+====================================================================
+Dengeki Bunko - Fighting Climax Ignition (FightingClimaxIgnition)
+
+====================================================================
+Fighting Ex Layer (FightingExLayer)
+
+- both 1.1.1 and 1.3.1 versions supported
+
+====================================================================
+Figureheads A (FigureHeads)
+
+====================================================================
+The Fast and the Furious (FNF)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+The Fast and the Furious - Drift (FNFDrift)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+The Fast and the Furious - Super Bikes (FNFSB)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+Super Bikes 2 (FNFSB2)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+The Fast and the Furious - SuperCars (FNFSC)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+Ford Racing - Full Blown (FR)
+
+LAN Networking (2-? Players)
+
+Setting up for LAN does not affect the ability to run this game in standalone mode.
+
+Setup
+
+Open the file "data\GameSettings.ini" for editing.
+Find the field "CabinetPosition=" and set a unique number (e.g: 1, 2...) then save.
+Always allow Window Firewall to pass through communication of this game. This should auto pop-up upon first execution (Alt+Tab to view or exit game).
+
+Known Working IP/Subnets
+
+192.168.0.x/255.255.255.0
+
+====================================================================
+Frenzy Express (FrenzyExpress)
+
+====================================================================
+Friction (Friction)
+
+====================================================================
+Frogger (Frogger)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+====================================================================
+Gaelco Championship Tuning Race (GaelcoChampionshipTuningRace)
+
+- exe is "car" in \home\joc2001\joc2004\salidas\
+- save files are in \home\saveX
+- NEEDS nvidia or AMD GPU
+- Intel GPU:
+ - "AMDCrashFix will fix the black screen issue, but cars will not have textures
+ - default resolution in TP is 640 x 480, original game resolution is 720x540
+ 
+====================================================================
+Gaia Attack 4 (GaiaAttack4)
+
+Gaia Attack 4
+- Set 'game.exe' to Windows XP SP2 compatibility
+- run TP in admin mode
+- custom crosshairs, 110x110 PNG format, check \alt_crosshairs\ for other variants or bring your own
+- Render hook=Present
+- use the SERVICE menu to calibrate your crosshair - do not forget to save your settings before exiting the calibration screen!
+- General region:  A C E I are valid options
+
+Movie Read error
+----------------
+* Install wmv9VCMsetup.exe
+
+====================================================================
+Galaga Assault (GalagaAssault)
+
+This game is 100% designed for a monitor oriented in Portrait mode (Vertical)
+
+Use the included bezel to run you game in landscape mode, if you choose.
+
+====================================================================
+Gashaaaan (Gashaaaan)
+
+====================================================================
+Gashaaaan 2 (Gashaaaan2)
+
+====================================================================
+SEGA Golden Gun (GG)
+
+Native resolution is 1360x720
+
+
+====================================================================
+Guilty Gear Strive (GGS)
+
+====================================================================
+Guilty Gear Xrd Rev2 (GGXrd)
+
+====================================================================
+Guilty Gear Xrd Rev2 (APM3) (GGXrdAPM3)
+
+====================================================================
+Guilty Gear Xrd SIGN (GGXrdSIGN)
+
+====================================================================
+Guilty Gear XX Accent Core Plus R (GGXX)
+
+====================================================================
+Guitar Hero Arcade Edition (GHA)
+
+- requires TPUI to be run as Admin
+- game won't work in fullscreen, game's window goes off into the netherland
+- run game in windowed mode, then use Borderless Gaming to force it into fullscreen
+
+order of guitar buttons are:
+GREEN  RED  YELLOW  BLUE  ORANGE
+
+  A     S      D      F      G
+
+if playing with a keyboard, assign keyboard keys in the order they are written, such as A, S, D, F, G keys.
+
+If you're having any sort of issue with game resolutions, the game writes some configurations to the following location:
+%USERPROFILE%\AppData\Local\Aspyr\Guitar Hero III\AspyrConfig.xml
+if moving the game to another machine, you might want to remember to copy this file over too as it may contain save data.
+
+====================================================================
+Ghostbusters (GhostBusters)
+
+====================================================================
+GigaWing Generations (GigaWingGenerations)
+
+**The unaltered version of GigaWing is for PORTAIT MODE monitors only.**
+
+If you want to play the game on a landscape monitor, use the (Rotated, Bezel) version of the game, already pre-patched with Reshade and a nice  bezel.
+patch used: GigaWing Generations dgVoodooCpl Reshade FHD.zip
+
+Reshade is fine if it's out of date, I will not be actively monitoring when it needs to be updated.  If it bothers you, update Reshade yourself (www.reshade.me)
+
+====================================================================
+Go Go Strike (GoGoStrike)
+
+====================================================================
+Gouketsuji Ichizoku - Matsuri Senzo Kuyou (Goketsuji)
+
+Controls work fine.  If any issue, run TPUI as admin, run game, exit, then start TPUI normally and run game.
+
+
+Hardcoded controls:
+F1 - Player 1 start
+F2 - Player 2 start
+F3 - Coin 1
+F4 - Coin 2
+F11 - Service menu
+
+Service/Test Mode (F11):
+E = down
+D = up
+X = select
+
+1 *Monitor Test
+2 *Input Test
+3 *System Settings
+    *Game Mode = Normal mode / event mode
+    *Number of Coins = NESiCAxLive standard settings / 1 thru 9 coins / Free Play
+    *Coin Shoot Settings = Individual
+    *Continue = Yes
+    *Demo Sound = Yes
+
+4 *Game Settings
+    *Difficulty level = 4
+    *Number of rounds of CPU battle = 3
+    *Number of PvP rounds = 3
+    *round time = 60
+    *Consecutive win limit = none
+    *Flash Production = yes
+    *Stress gauge = 0
+ 
+    *Restore Default settings
+    *Return
+ 
+5 *Sound Settings
+6 *Button Settings
+7 *Record Settings
+8 *Bookkeeping
+9 *Error Log
+0 *Data Test
+
+- *Perform Initialization
+    *Do you want to initialize everything?
+    
+	*Do Intialize
+    *Exit Initialize
+
+- Exit Test Mode
+
+Player 1:
+Up = up arrow
+Down = down arrow
+Left = left arrow
+Right = right arrow
+Button 1 = Z - weak punch
+Button 2 = X - weak kick
+Button 3 = C - strong punch
+Button 4 = V - strong kick
+Button 5 = B
+Button 6 = N
+
+Player 2:
+Up = E
+Down = S
+Left = D
+Right = F
+Button 1 = J
+Button 2 = K
+Button 3 = L
+Button 4 = ?
+Button 5 = :
+Button 6 = ?
+
+====================================================================
+Golden Tee Live 2006 (GoldenTeeLive2006)
+
+====================================================================
+Goonya Fighter (GoonyaFighter)
+
+====================================================================
+GRID (GRID)
+
+How to change the game's resolution:
+edit:
+Sega\Grid\hardwaresetting\hardware_settings_config.xml
+
+original 720p resolution:
+	
+	<graphics_card>
+		<resolution width="1280" height="720" aspect="16:9" fullscreen="true" vsync="1" oldWidth="1280" oldHeight="720">
+			<refreshRate rate="60" />
+		</resolution>
+
+for 1080p, change the following values in the hardware_settings_config.xml file:
+
+	<graphics_card>
+		<resolution width="1920" height="1080" aspect="16:9" fullscreen="true" vsync="1" oldWidth="1920" oldHeight="1080">
+			<refreshRate rate="60" />
+		</resolution>
+
+	You will also need to edit the maxWidth value, so scroll down to the end of the xml file:
+
+	<data>
+		<res mem="270" maxWidth="1920" />
+    </data>
+	
+you may also need to add the new resolution in this xml file (unconfirmed, may work without this change):
+Sega\Grid\hardwaresetting\hardware_settings_info.xml
+
+	add these lines after the last resolution entry:
+
+		<resolution width="1920" height="1080" aspect="normal">
+			<refreshRate rate="60" />
+			<refreshRate rate="59" />
+		</resolution>
+
+- LAN Networking (2-6 Players): Setting up for LAN does not affect the ability to run this game in standalone mode.
+
+Setup
+
+Open the file "GRID\ShellData\ShellData.ini" for editing.
+Find the field "CabinetID=" and set a unique number (e.g: 1, 2...) then save.
+Always allow Window Firewall to pass through communication of this game. This should auto pop-up upon first execution (Alt+Tab to view or exit game).
+
+Known Working IP/Subnets
+
+192.168.0.x/255.255.255.0
+
+====================================================================
+Groove Coaster 2 - Heavenly Festival (GrooveCoaster2)
+
+- Game only works in windowed mode.  Trying to run it in fullscreen will result in an assertion error, which has never been fixed by the TP devs.
+- You may have to hide your windows taskbar in order to see the bottom edge of the window.
+
+This game is also known as "Rhythmvaders 2" in areas outside of Japan and is displayed as such in-game.
+
+\data\system.cfg has various system settings.
+
+====================================================================
+Ghost Squad Evolution (GSEVO)
+
+This old version is deprecated and should not be used.  Sound doesn't work, and game loves to crash.  Use Elfloader2 version instead.
+
+====================================================================
+Ghost Squad Evolution (Elfloader2) (GSEVOELF2)
+
+Patches folder:
+
+- When first setting up game, you need to apply either AMD or NVIDIA shader fix, depending on your GPU.  
+	- Extract the corresponding zip and copy the "shaders" folder inside
+	- inside the game folder, inside the \vsg_l\ folder, paste the shaders folder over top of the existing shaders folder.
+	- Overwrite all files.
+- When first setting up game, if you get no sound, install OpenAL v1.1
+
+Another game where if you're playing solo, set yourself up as PLAYER 2 on the controller.
+
+Setup custom crosshairs.
+
+====================================================================
+GTI Club - Supermini Festa! (GtiClub3)
+
+Game must be set to FREEPLAY as the coin button does not work. Enter the service menu and set the game to freeplay.
+
+Saved stuff in:
+\CONF\NVRAM
+\CONF\RAW
+
+Setting up for LAN does not affect the ability to run this game in standalone mode.
+
+Setup
+
+Run Game and enter the Test Menu.
+Enter Network Options.
+Set a unique Cabinet ID and save.
+Always allow Window Firewall to pass through communication of this game. This should auto pop-up upon first execution (Alt+Tab to view or exit game).
+
+Known Working IP/Subnets
+
+192.168.0.x/255.255.255.0
+
+====================================================================
+Mobile Suit Gundam Bonds of the Battlefield II (GundamKizuna2)
+
+====================================================================
+Mobile Suit Gundam Bonds of the Battlefield (GundamPod)
+
+====================================================================
+Mobile Suit Gundam Spirits of Zeon - Memory of Soldiers (GundamSpiritsOfZeon)
+
+This game works, but the inputs are either super laggy or they're non-responsive.  to insert coins you have to mash the coin button dozens of times to get anything to register.  Some movements in game seem to work, the tutorial is semi-playable, but when you acutally start the game and try to play, you can't use the fire button.  It's like the mappings are being ignored or dropped at some points of the game.
+
+====================================================================
+Gunslinger Stratos (Gunslinger)
+
+====================================================================
+H2Overdrive (H2Overdrive)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+Harikiri (Harikiri)
+
+====================================================================
+Harley Davidson King of the Road (Harley)
+
+====================================================================
+Haunted Museum (HauntedMuseum)
+
+====================================================================
+Haunted Museum II (HauntedMuseumII)
+
+Movie Read error
+----------------
+* Install wmv9VCMsetup.exe
+
+====================================================================
+Homura (Homura)
+
+====================================================================
+Horse Riders (HorseRiders)
+
+====================================================================
+The House of the Dead 4 (HOTD4)
+
+hod4Mn_HD = Full HD 1080p
+hod4Ms_HD = Full HD 720p
+
+hod4Mn_VGA = VGA 1280 x 720
+hod4Ms_VGA = VGA 640 x 480
+
+hod4M = original file 640 x 480
+
+hod4M_offscreen = Screen detection deaactived
+
+hod4testM = Test Mode 640 x 480
+hod4testM_VGA = Test Mode VGA 1280 x 720
+hod4testM_HD = Test Mode 1920 x 1080
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBLC_sram.bin
+SBLC_e2prom.bin
+
+====================================================================
+The House of the Dead 4 (Elfloader2) (HOTD4ELF2)
+
+native resolution is 1280x768
+ 
+====================================================================
+The House of the Dead 4 Special (HOTD4SP)
+
+This game has some graphical glitches.  Better to use the elfldr2 loader.  Only kept this version as TP is still supporting it.
+
+test mode requires 1280x480 res support, use Windowed mode to make settings and save, then switch back to fullscreen mode 
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBLS_sram.bin
+SBLS_e2prom.bin
+
+====================================================================
+The House of the Dead 4 Special (Elfloader2) (HOTD4SPELF2)
+
+====================================================================
+The House of the Dead EX (Loving Deads) (HOTDEX)
+
+exe:
+hodexRI.elf			USE THIS ONE
+hodextestR.elf		used for test mode
+hodexRI_vga.elf		
+hodextestR_vga.elf	
+
+MUST COPY:
+libcri_soundoutput_lindbergh_jr.so
+librnalindbergh_jr.so
+from game folder to your TPUI's \elfldr2\libs folder
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBRC_sram.bin
+SBRC_e2prom.bin
+
+====================================================================
+House of the Dead - Scarlet Dawn (HOTDSD)
+
+Do NOT assign any game keys to your keyboard's number keys (1 thru 0).. they will NOT work in the game.  Instead, setup those keys to the Function keys on your keyboard.
+
+====================================================================
+Hot Wheels King of the Road (HotWheels)
+
+set yourself up as Player 3 in order to be able to change the Service menu settings
+
+====================================================================
+Hummer Extreme Edition (hummerextreme)
+
+- has the flicker and shader fix (by Nezarn) applied
+- language options in the service menu are English and Chinese
+- native resolution 1280x768
+
+I have changed the FRAME_COUNT to 30 as this is required for the game to play properly.  If the opponents are super-fast and lapping you, read below.
+
+Why are the opponents way faster than me? 
+- you edited the \data-hummer\config\kernel.nut file and set the FRAME_COUNT higher than 30. 
+- change the FRAME_COUNT to 30. if it is set higher, the AI will not behave properly.
+
+Why does this game contain 124,817 files in 16,259 folders?
+
+Symbolic links (symlinks) in Linux are special types of files that point to another file or directory, functioning like a shortcut. They allow you to reference a file's path without duplicating its contents. 
+
+In the game's original Linux-based OS, the following two folder locations listed below contain many subfolders with identical contents in each of them.  Linux uses symlinks to create copies of these files and point to an original file location, thus saving space.
+
+However, symlinks cannot exist on Windows NTFS drives (at least not linux's ext-based flavor of symlinks). In order for all these symlinked files to exist on a Windows platform, any symbolic links had to be replaced with the real files. This is why the game is about 150MB larger than the original Linux version.
+
+\drv\nvidia\180.29\lib\X11\xserver\
+\drv\nvidia\base\lib\X11\xserver\
+
+====================================================================
+HyperSports 2011 Remake (HyperSportsChina)
+
+====================================================================
+Hyper Street Fighter II - The Anniversary Edition (HyperStreetFighterII)
+
+- make sure TP is not running in Administrator mode if inputs not working
+
+====================================================================
+Initial D Arcade Stage 4 (Export) (ID4Exp)
+
+====================================================================
+Initial D Arcade Stage 4 (Japan) (ID4Jap)
+
+====================================================================
+Initial D Arcade Stage 5 (Export) (ID5)
+
+====================================================================
+Initial D Arcade Stage 6 Double Ace (ID6)
+
+====================================================================
+Initial D Arcade Stage 7 Double Ace Cross (ID7)
+
+====================================================================
+Initial D Arcade Stage 8 Infinity (ID8)
+
+initialD.ini <-- edit settings in here
+
+====================================================================
+Initial D The Arcade Season 3 (IDTA)
+
+====================================================================
+Initial D Arcade Stage Zero (IDZTP)
+
+EXPORT and JAPAN: 1.31.00 EXP Rev.7
+
+- MUST USE your unique TP Online ID (your "APM3/IDZ/SWDC Card" from the TP website)
+- if you don't use your TP OnlineID, it will get stuck on "Aime CHECKING" on the initializing screen
+- Network adapter id: 192.168.1.1
+- Upon launching game, you'll see a black screen for 30-40 seconds while it loads to the initializing screen
+- setting high resolutions using Intel GPU will result in the car appearing to go way slower than it should be relative to its in-game speed
+- set the same resolutions in "Graphics - Screen" and "Graphics - Render" areas
+- use a pure 16:9 resolution ("divisible by 8") such as:
+
+3840 x 2160 (4K UHD)
+3712 x 2088
+3584 x 2016
+3328 x 1872
+3200 x 1800
+3072 x 1728
+2944 x 1656
+2816 x 1584
+2688 x 1512
+2560 x 1440 (WQHD)
+2432 x 1368
+2304 x 1296
+2176 x 1224
+2048 x 1152
+1920 x 1080 (Full HD)
+1792 x 1008
+1664 x 936
+1536 x 864
+1408 x 792
+1280 x 720 (HD) (lowest usable resolution without screen stretching, this res works well with an Intel 630 GPU)
+
+source: https://pacoup.com/2011/06/12/list-of-true-169-resolutions/
+
+resolution changes in TP are updated in the following ini file: 
+renderer.ini
+
+====================================================================
+Initial D Arcade Stage Zero Ver.2 (IDZv2TP)
+
+EXPORT and JAPAN: 2.30.00 Rev.6 +B
+
+- same settings as Initial D Arcade Stage Zero above
+- do not need to use an OnlineID, unless you need to
+
+====================================================================
+Ikaruga (Ikaruga)
+
+Game requires a "sys.save.1" and "sys.save.yyyymmddhhmmss" file to pre-exist, otherwise the game will throw an error during startup and recreate the files, then start the game.
+
+====================================================================
+Infinity Blade FX (InfinityBladeFX)
+
+====================================================================
+Injustice Arcade (Injustice)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+JoJo's Bizarre Adventure - Last Survivor (JojoLastSurvivor)
+
+- it takes about 2 minutes to boot the game up - wait on the white screen with the "0 PP" in the top right corner and eventually the game will start.
+- THIS GAME HAS TOUCH SCREEN INPUT - Use your mouse pointer to make menu selections
+- Use XInput and setup a controller - don't bother trying to play the game with a keyboard
+- high resolutions on INTEL GPU will cause render lagging, so avoid setting 1080p (see Initial D Zero setup for pure 16:9 resolution settings)
+- in-game, INTEL GPU works mediocre on 1280 x 720, not really an experience you want to play for very long with
+
+====================================================================
+Jurassic Park (JurassicPark)
+
+Raw Thrills "game" executable note: You can play these linux "game" executables from any system path without issue. Path depth doesn't appear to be an issue either, Just don't make the total path too long.. keep it reasonable.
+
+====================================================================
+Justice League - Heroes United (JusticeLeague)
+
+- TP will only run the game windowed, this is TP's fault and not the game.  Can't edit the ini to force it either, it won't work.  I didn't try the Borderless Gaming app yet.
+- do not delete JLH_default_settings.ini
+- you can safely delete EECrash.dmp, Heroes.log
+
+- read the READ-ME!!!.txt left by the crack author for additional game notes regarding required codecs and such.
+
+*** You don't need TP to run this game, just run JLA.exe  ***
+
+- edit the JLH.ini file to run the game in fullscreen and a different resolution:
+
+Fullscreen=true
+ScreenResolutionX=1920
+ScreenResolutionY=1080
+DisplayWidth=1920
+DisplayHeight=1080
+
+there are also some built-in cheats:
+
+Left Shoulder button = complete level immediately
+Right Shoulder button = defeat all enemies currently on screen
+
+Keyboard Left Arrow key = Service menu
+ - use the up and down arrow keys to move in the menu, then use the left and right arrow keys to move in and out of the sub-menu(s)
+ - when on an option you want to modify, press the right arrow to make the box turn RED, which means you can now make changes
+ - use the right arrow key on the "PLAY GAME" button to exit
+
+Keyboard Right Arrow key = listen to your heroes say "FOR JUSTICE!".  This is probably the best thing about this game.. this game sucks ass otherwise.
+
+====================================================================
+Kasiori (Kasiori)
+
+- requires APM3ID
+- on start screen, left-most button option is for Aime, select it first to load your card
+- after loading card, middle option is to start game
+
+====================================================================
+The King of Fighters '98 - Ultimate Match Final Edition (KingofFighters98UltimateMatchFinalEditionNesica)
+
+- test mode doesn't work.
+
+====================================================================
+The King of Fighters '98 - Ultimate Match (KingofFighters98UnlimitedMatch)
+
+====================================================================
+King of Fighters Maximum Impact Regulation A (KingofFightersMaximumImpactRegulationA)
+
+====================================================================
+KOF Sky Stage (KingofFightersSkyStage)
+
+====================================================================
+The King of Fighters XII (KingofFightersXII)
+
+====================================================================
+The King of Fighters XIII (KingofFightersXIII)
+
+- the game will not start (sits at a black screen) if you have the game folder located on a D: drive.
+- move the folder to somewhere else (C: or E: for example), then setup and play
+- use fullscreen, windowed mode only runs from the corner of the screen
+
+- DO NOT START TEKNOPARROT EXE IN ADMIN MODE
+- if admin mode is not removed, you will have NO INPUTS available regardless of what you do
+
+====================================================================
+The King of Fighters XIII Climax (KingofFightersXIIIClimax)
+
+====================================================================
+The King of Fighters XIII Climax (KingofFightersXIIIClimaxNesica)
+
+====================================================================
+The King of Fighters XIV (KingOfFightersXIV)
+
+====================================================================
+K.O. Drive (Prototype) (KODrive)
+
+- exe is M-DriveR_RingWide.exe
+- game must have the DongleRegion and PcbRegion set to JAPAN
+- testmode to make settings changes, use TestMode.exe
+
+====================================================================
+Koihime Enbu (Koihime)
+
+- screen rotated with reshader
+-CRT overlay fuckery disabled, I kept the bezel though
+
+====================================================================
+Koihime Enbu RyoRaiRai Version 3 (APM3) (KoihimeEnbuAPM3)
+
+- TP MUST BE RUN IN ADMIN MODE, or else the game will crash when you press the start button
+- there is nothing different between 1.01.00 and 1.02.00 (3.01 and 3.02).  1.02.00 has the same 3.01 version on the title screen.
+
+====================================================================
+Lethal Enforcers 3 (LethalEnforcers3)
+
+- Best played with RawInput
+- Enable crosshairs 
+- change "General - GameMode" to "PLAYER 1 ONLY" if you only want one screen, 1 player
+- change "General - GameMode" to "2 PLAYERS" if you  want dual screen, 2 player
+====================================================================
+Let's Go Island - Lost on the Island of Tropics (LGI)
+
+- start game before the intro gets to the end, at times game will crash after intro ends
+- game does NOT work on INTEL
+====================================================================
+Let's Go Island 3D - Lost on the Island of Tropics (LGI3D)
+
+If playing a solo game, the QTE events require the P1 and P2 start button, so be sure to assign them to the P1 gun.
+
+====================================================================
+Let's Go Jungle - Lost on the Island of Spice (1.0) (LGJ)
+
+GAME IS NOT WORTH PLAYING SINCE THE GUN/VOICEOVER AUDIO ISSUE WAS NOT FIXED ON THIS SPECIFIC VERSION.  Only kept in the collection because TPUI still supports it.
+
+If playing a solo game, the QTE events require the P1 and P2 start button, so be sure to assign them to the P1 gun.
+
+*****Play the Rev A version instead, which has the fixed audio*****
+
+If you try to play the game solo as Player 1, your crosshairs will NOT work. You have to start the game as PLAYER 2 to be able to control your crosshairs.
+
+Save files:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBJJ_e2prom.bin
+SBJJ_sram.bin
+
+elf files:
+lgj_final  	1360x768 native, or set a custon res in TPUI game settings  (USE THIS ELF)
+lgj640		640x480
+lgj1920		1920x1080
+lgjGUN		
+lgjGUN640	
+
+- game does NOT work on INTEL
+
+====================================================================
+Let's Go Jungle - Lost on the Island of Spice (Rev. A) (LGJ)
+
+PLAY THIS VERSION.
+
+- game was ported to ElfLdr2 to fix audio issues
+
+If you try to play the game solo as Player 1, your crosshairs will NOT work. You have to start the game as PLAYER 2 to be able to control your crosshairs.
+
+If playing a solo game, the QTE events require the P1 and P2 start button, so be sure to assign them to the P1 gun.
+
+exe: lgj_final
+
+If starting the game for the first time, YOU MUST SET THE CABINET TYPE TO "STANDARD" in the test menu.  Leaving it set to "THEATER" will cause you to not hear the guns or voiceovers, which are played through a 3rd speaker in the original game.  Make the change and exit the menu, then turn off test mode and start the game.
+
+Save files:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBLU_e2prom.bin
+SBLU_sram.bin
+
+====================================================================
+Let's Go Jungle Special  (LGJS)
+
+====================================================================
+Let's Go Safari (LGS)
+
+====================================================================
+Lost Land Adventure (LostLand)
+
+TPUI now only works with the following game exe:
+\LLA\Binaries\Win64DomeShooterGame-Win64-Shipping.exe  (CRC 210d855e)
+
+the original game exe is:
+Win64DomeShooterGame-Win64-Shipping.exe  (CRC f55eeab7)
+
+alt full screen fix?
+DomeShooterGame-Win64-Shipping3520x1980.exe  (CRC caea8477)
+
+Do NOT check "relative input"
+Relative input is moving the target cursor based from the target cursor position vs absolute input which is moving it based on x y position of joystick itself. It is for gamepad usage only and not raw input
+
+If the game crashes, apply the following fix to the "<GameFolder>\LLA\Engine\Config\BaseEngine.ini" file:
+change AutoReloadChangedShaders = False
+
+====================================================================
+Luigi's Mansion Arcade (LuigisMansion)
+
+- \exe\x64\VACUUM.exe (crc D09C2FAE) is consistently detected as malware/virus
+
+====================================================================
+Lupin III (Lupin3)
+
+====================================================================
+Magical Beat (MagicalBeat)
+
+====================================================================
+maimai GreeN (MaiMaiGreen)
+
+- will work on INTEL if freeglut.dll and libcurl.dll are in the main folder
+
+====================================================================
+New Super Mario Bros Wii Coin World (MarioBros)
+
+====================================================================
+Maximum Heat 3D (MaximumHeat)
+
+- MUST USE RIVATUNER 60FPS or alternate frame rate limiter
+- exit service menu with test key
+
+====================================================================
+Melty Blood Actress Again Current Code (MB)
+
+====================================================================
+Melty Blood Actress Again Current Code (RE2) (MeltyBloodRE2)
+
+====================================================================
+Milkchan (MilkChan)
+
+====================================================================
+Million Arthur Arcana Blood (MillionArthurArcanaBlood)
+
+====================================================================
+Mario Kart DX USA (MKDXUSA)
+
+This supports the 1.05-OF and 1.06-OF English versions of Mario Kart.  
+
+====================================================================
+Mario Kart DX USA (MKDXUSA106)
+
+This supports the 1.05-OF and 1.06-OF English versions of Mario Kart.
+
+The "MK_AGP3_FINAL.exe" requires a 4GB patch, which TPUI will apply on game startup if your exe is not patched.  It will backup the original file with a ".back" extension.
+
+Game REQUIRES a specific Direct3D dll to be in the game's root folder (no longer needed to be placed in the Windows system folder). The game folder contains the 64-bit version of "D3D11Ref.dll" for use on 64-bit operating systems. If you have a 32-bit OS, you'll need to get the correct 32-bit version of "D3D11Ref.dll" from the TP Discord and use it instead.
+
+To set a custom resolution and expand the game screen to match:
+	- in game settings, enable "General - CustomResolution"
+	- in "General - ResolutionWidth" and "General - ResolutionHeight", enter your screen dimension (ie. 1920, 1080)
+
+	Otherwise, the game will default to 720p resolution (1360x768). If you run the game without a CustomResolution set on a monitor with a higher resolution than 720p, the game will shrink the game screen to 720p and you will have a big ugly black border around it.
+
+You must create and use a Mario Kart Arcade GP DX Profile ID. Get one from the teknoparrot.com site, login to your account, and select "Online Profiles" from the top menu. Your unique MKGP ProfileID will be listed there. DO NOT SHARE IT WITH ANYONE!  Copy the number into the game settings under "Network - PlayerId".  
+
+"Network - Gateway", set this to however your local network is configured. In Windows, use the command prompt of "ipconfig /all" to find out what your main IP address' gateway IP is.  if you can't figure this out, go chat with an AI bot and get your hand held to figure it out on your own.
+
+The following folders and their contents can be safely deleted, if you want to completely reset the game and wipe out any changes you made to the service menu. The game will recreate them the next time the game is run.
+FBookkeeping
+FDongleData
+Fsystem
+FTestMode
+GBookkeeping
+GDongleData
+GTestMode
+
+In 1.05-OF version:
+in the root folder, this file is created after the first successful race:
+Gboot_limit_1757253xxx.bin
+and anything similar to these with the same timestamps.
+
+In 1.06-OF version:
+in the root folder, the following files are generated with gameplay and can be safely deleted:
+any file that starts with "Gcnt_"
+
+====================================================================
+Mario Kart Arcade GP DX (MKDX)
+
+supports the v1.10 Japanese version, or the v1.10 English Mod
+
+You can setup a Banapass card to save your progression.  It has a long story mode that will have you playing for hours. A big thank you to the English mod team for bringing this game to the English players, I completely understand why you did.
+
+The following folders and their contents can be safely deleted, if you want to completely reset the game and wipe out any changes you made to the service menu. The game will recreate them the next time the game is run.
+FBookkeeping
+FDongleData
+Fincome
+Fplaydata
+Fsystem
+FTestMode
+GBookkeeping
+GDongleData
+GTestMode
+
+the following files are auto-generated during/after gameplay and can be safely deleted to restore factory defaults:
+GPlayData_xxxxx.bin
+GIncome_xxxxx.bin
+Glast_auth_xxxxx.bin
+Glast_update_event_version_xxxxxx.bin
+hints.dat
+and anything similar to these with the same timestamps.
+
+If you happen to accidentally delete these settings:
+ServerAddress: 104.244.72.41
+ServerPort: 49200
+AmAuthPort: 49199
+
+NOTE:  There are numerous patches available (not included) for v1.10, such as:
+- custom USA/JPN attract audio
+- No music patch
+- shader resolution
+- character voiceover update/fix
+- unlocked profile
+- French mod
+Make a backup of your game folder first before applying any of these mods.
+
+If you are patching your own v1.10 Japan game folder to English:
+The English mod "files" folder and its included .dds files DO NOT need to be kept in the game folder after patching. The .dds files are only file patches which get used to inject/patch data into existing files in the game's "Data" folder, using the patcher. Again, after patching the game to English, you can remove the "files" folder, as it is not needed.
+
+====================================================================
+Mario Kart Arcade GP DX 1.18 (MKDX118)
+
+As you probably figured out, this one supports v1.18
+
+You can setup a Banapass card to save your progression.  It has a long story mode that will have you playing for hours. A big thank you to the English mod team for bringing this game to the English players, I completely understand why you did.
+
+If you happen to accidentally delete these settings:
+ServerAddress: 104.244.72.41
+ServerPort: 49200
+AmAuthPort: 49199
+
+The following folders and their contents can be safely deleted, if you want to completely reset the game and wipe out any changes you made to the service menu. The game will recreate them the next time the game is run.
+FBookkeeping
+FDongleData
+Fsystem
+FTestMode
+GBookkeeping
+GDongleData
+GTestMode
+
+the following files are auto-generated during/after gameplay and can be safely deleted to restore factory defaults:
+Gcnt_*******.bin
+Gevent_*******.bin
+Glast_*******.bin
+GRecordRanking_*******.bin
+hints.dat
+and anything similar to these with the same timestamps.
+
+====================================================================
+MotoGP (MotoGP)
+
+Raw Thrills "game" executable note: You can play these linux "game" executables from any system path without issue. Path depth doesn't appear to be an issue either, Just don't make the total path too long.. keep it reasonable.
+
+====================================================================
+MachStorm (MS)
+
+- if you accidentally get yourself locked into the service menu, delete the *BookKeeping.dat files in the "\src\game\ACE7_WIN" folder and start the game again.
+- the X and Y axis need to be mapped to separate joypads/sticks.  you cannot use the same stick for both axes.
+
+====================================================================
+Music GunGun! 2 (MusicGunGun2)
+
+====================================================================
+Nicktoons Nitro Racing (NicktoonsNitro)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+====================================================================
+Nirin (Nirin)
+
+====================================================================
+Nitro+ Blasterz - Heroines Infinite Duel (NitroplusBlasterz)
+
+On some systems, you might need to run the following in command line before starting the game for the first time:
+@REGSVR32 /s XAUDIO2_5.DLL
+@REGSVR32 /s XACTENGINE3_5.DLL
+
+
+
+====================================================================
+Nosferatu Lilinor (Nosferatu)
+
+====================================================================
+Operation G.H.O.S.T. (OG)
+
+Set DongleRegion and PCBRegion to JAPAN, in order to save settings in the test menu.  
+Calibrate the guns in the test menu.
+
+
+====================================================================
+OutRun 2 SP SDX (or2spdlx)
+
+====================================================================
+Otoshu DX (OtoshuDX)
+
+====================================================================
+Pac-Man Chomp Mania (PacmanChomp)
+
+====================================================================
+Pengo! Online (Pengo5)
+
+====================================================================
+P4U - Persona 4 The Ultimate in Mayonaka Arena (Persona4A)
+
+- press any player button 1 thru 6 to bypass the handful of network error prompts, you'll have to press the button eight (8) times.
+- Nesys doesn't seem to want to work for this game
+- DO NOT START TEKNOPARROT IN ADMIN MODE, otherwise inputs will not work
+- game will crash at some point during the attract mode, usually before a demo match loads
+
+====================================================================
+P4UU - Persona 4 The Ultimax Ultra Suplex Hold (Persona4U)
+
+- DO NOT START TEKNOPARROT IN ADMIN MODE
+- if admin mode is not removed, you will not have any inputs.
+
+====================================================================
+Phantom Breaker - Another Code (PhantomBreaker)
+
+====================================================================
+Point Blank X (PointBlankX)
+
+if you get a no ticket error when loading, enter and exit the test menu.
+
+====================================================================
+Pokken Tournament (Ver. A) (PokkenTournament)
+
+====================================================================
+Police Trainer 2 (PoliceTrainer2)
+
+====================================================================
+Gouketsuji Ichizoku - Matsuri Senzo Kuyou (PowerInstinctV)
+
+====================================================================
+Puyo Puyo!! Quest Arcade (PPQ)
+
+====================================================================
+Primeval Hunt (Primevil)
+
+Touch screen doesn't work.  turn off under Test menu 'Options' and you will move automatically to the next scene.
+
+====================================================================
+Project Diva Arcade (ProjectDiva)
+
+====================================================================
+Puck Off (PuckOff)
+
+====================================================================
+Puyo Puyo e-Sports (PuyoPuyoEsports)
+
+====================================================================
+Puzzle Bobble (PuzzleBobble)
+
+====================================================================
+QMA (QMA)
+
+====================================================================
+R-Tuned - Ultimate Street Racing (R-Tuned)
+
+dsr
+dsr_HD
+dsr_HD_FFB - force feedback
+dsr_VGA
+dsr_VGA_FFB - force feedback
+
+====================================================================
+Rabbids Hollywood (RabbidsHollywood)
+
+I had to apply the "triggers & crosshairs" fix (Assembly-CSharp.dll), otherwise assigned TPUI controls don't work
+
+Use RabbidsHollywood_Operator.exe to set the game operator settings (this is done with a BepInEx plugin, and the operator settings are modified with the included app)
+- set your desktop resolution (saves entry to registry)
+- also set GUN 1 to ON
+- set any other things you want (probably don't need to)
+- click on SAVE and exit app (will create a small .conf file)
+- run Teknoparrot
+
+The trigger button in this game is seriously messed up, even with the trigger fix.  The trick with getting your gun into "autofire" is to perform a double-click with your left mouse button, but on the 2nd click, HOLD IT DOWN.  90% of the time you will be successful in getting yourself into autofire mode. 
+
+There really isn't any single-shot mode and the real arcade game expects you to hold the trigger down, since to make each single shot requires a double-click.  It's about as good as it gets until the devs fix this.
+
+====================================================================
+Radikal Bikes (RadikalBikers)
+
+====================================================================
+Raiden III (RaidenIII)
+
+====================================================================
+Raiden III (RaidenIIINesica)
+
+If you're having controller issues with the 1.02 (Landscape,Bezel) version of the game, try running the 1.02 Portrait version first, then running the landscape version afterward.
+
+====================================================================
+Raiden IV (RaidenIV)
+
+====================================================================
+Raiden IV (RaidenIVNesica)
+
+There is no portrait mode 1.03J version of Raiden IV.
+
+====================================================================
+Rambo (Rambo)
+
+Native resolution is 1360x768
+
+====================================================================
+Rampage (Rampage)
+
+====================================================================
+Rastan Saga (RastanSaga)
+
+====================================================================
+Ring Riders (RingRiders)
+
+====================================================================
+Robin Hood (RobinHood)
+
+====================================================================
+Rolling Gunner (RollingGunner)
+
+MUST RUN TP IN ADMINISTRATOR MODE, otherwise no controls
+
+====================================================================
+The Rumble Fish 2 (RumbleFish2Nesica)
+
+- test mode does not work
+
+====================================================================
+Samurai Shodown (SamuraiShodown)
+
+====================================================================
+Samurai Spirits Sen (SamuraiSpiritsSen)
+
+====================================================================
+Sword Art Online Deep Explorer (SAO)
+
+- Game is TOUCH, so use the mouse for in-game menu stuff
+- I can't get the service menu to work
+
+====================================================================
+Savage Quest (SavageQuest)
+
+====================================================================
+School of Ragnarok Reboot (SchoolOfRagnarok)
+
+do not use TieProduction.exe in game root
+
+====================================================================
+Dream Raiders (SDR)
+
+- native resolution is 1280x720
+- edit Game.ini if you want to run a different resolution.  change SCREEN_* and RENDER_* values.
+- edit Game.ini and set ENABLE_VSYNC 0 if you experience bad lag
+
+- set region to JAPAN / JAPAN
+- First game run, start game in test mode and then exit it
+- game controllers seem to work fine, xinput mouse setup doesn't
+
+====================================================================
+Mario and Sonic at the Rio 2016 Olympic Games (SegaOlympic2016)
+
+====================================================================
+SEGA Race TV (segartv)
+
+====================================================================
+Senko no Ronde DUO - Dis-United Order (SenkoNoRondeDuo)
+
+====================================================================
+Senko no Ronde DUO - Dis-United Order (SenkoNoRondeDuoNesica)
+
+====================================================================
+Shikigami no Shiro III (Shigami3)
+
+====================================================================
+Shining Force - Cross Elysion (ShiningForceCrossElysion)
+
+====================================================================
+Shining Force - Cross Exlesia (ShiningForceCrossExlesia)
+
+- no public dump available, and likely only listed as working in TPUI since it uses the same platform as the other games in the Shining series (Cross Raid and Cross Elysion are supported, Exlesia Zenith has no support)
+
+====================================================================
+Shining Force - Cross Raid (ShiningForceCrossRaid)
+
+====================================================================
+Showdown (Showdown)
+
+Important Language options here:
+ShellData\GameSettings.ini
+
+Game settings here:
+ShellData\ShellData.ini
+
+====================================================================
+Silent Hill The Arcade (SilentHill)
+
+====================================================================
+SiN (SiN)
+
+====================================================================
+SkullGirls 2nd Encore (Skullgirls2E)
+
+====================================================================
+SNK Heroines Tag Team Frenzy (SNKHeroines)
+
+====================================================================
+Winter X Games Snocross (SnoCross)
+
+"sdaemon.exe":  Most of the Raw Thrills games are in this executable format. If the game quits after it finishes loading, create a folder in "C:\rawart" and move the contents of the game's folder to that rawart folder.
+
+You should now setup the game exe path in TPUI to look like this:  C:\rawart\sdaemon.exe
+
+A long-standing argument is some TP users will swear they can get these games to run from other folder locations, but I haven't been able to reproduce those results.
+
+====================================================================
+X-Games Snowboarder (Snowboarder)
+
+The contents of the game folder MUST BE LOCATED HERE:  
+C:\rawart\
+
+Your executable path must look something like this:
+C:\rawart\sdaemon.exe
+
+If you don't do this, the game will not run.
+
+====================================================================
+Sonic Dash Extreme (SonicDashExtreme)
+
+====================================================================
+Space Invaders (SpaceInvaders)
+
+GAME ONLY WORKS WITH ONE MONITOR TURNED ON. If you have any other extra monitors on your PC turned on, you'll need to turn them off to play the game.  
+
+If you try to run the game with multiple monitors turned on, you'll end up with a popup window that has a title of "ƒXƒy[ƒXƒCƒ“ƒx[ƒ_[" and some mojibake line that starts with "MTS", which when deciphered it is saying something to the effect of "MTS system initialization failed".  The game is basically saying it can’t talk to its MTS subsystem (Taito’s Multi Terminal System, basically the NESiCAxLive network/auth layer).  The only thing I can think of is TPUI getts messed up with multiple monitor sources when it tries to handle the Nesys patching/hooking.  If I'm wrong, please correct me as I'd really enjoy knowing!
+
+If you play the game and then turn on a 2nd monitor, the game will crash.  
+
+====================================================================
+Spica Adventure (SpicaAdventure)
+
+====================================================================
+Spider-Man Homecoming (Spiderman)
+
+====================================================================
+SpongeBob SquarePants Bikini Bottom Bowling (SpongeBob)
+
+====================================================================
+SEGA Rally 3  (SR3)
+
+====================================================================
+SEGA Racing Classic (SRC)
+
+====================================================================
+Storm Racer G (SRG)
+
+====================================================================
+Sonic & SEGA All-Stars Racing (SSASR)
+
+set game resolution in:  Settings.ini
+
+====================================================================
+Star Trek Voyager (StarTrekVoyager)
+
+Set the 30FPS limit in TPUI game settings
+enable Linear Filtering, Line Fix if having any other issues
+
+====================================================================
+Star Wars Battle Pod (StarWars)
+
+- the game passes rumble feedback to attached gamepads even if using directinput
+- the game may start iMPR0perly if there are multiple active monitors connected.  Turn off all extra monitors so only one monitor is on.
+
+====================================================================
+StarWing Paradox (StarwingParadox)
+
+====================================================================
+Storm Rider (StormRider)
+
+====================================================================
+Strania - The Stella Machina (StraniaTheStellaMachina)
+
+====================================================================
+Street Fighter III 3rd Strike - Fight for the Future (StreetFighterIII3rdStrike)
+
+====================================================================
+Street Fighter IV (StreetFighterIV)
+
+====================================================================
+Street Fighter V Type Arcade (StreetFighterVTypeArcade)
+
+This has nude content already enabled
+
+====================================================================
+Street Fighter V Type Arcade (3.53-4.12) (StreetFighterVTypeArcade353)
+
+IF TP IS IN ADMIN MODE, THIS GAME WILL ACTUALLY TURN OFF THE WINDOWS FIREWALL BY ITSELF!
+
+====================================================================
+Street Fighter Zero 3 (StreetFighterZero3)
+
+====================================================================
+Suggoi! Arcana Heart 2 (SuggoiArcanaHeart2Nesica)
+
+====================================================================
+Super Street Fighter IV Arcade Edition (2010-09-14)  (SuperStreetFighterIVArcadeEdition)
+
+launcher.exe = NESYS 
+
+NESYS doesn't work so there is no game saving.
+
+Service Menu Password: S2K7MB4Q
+unlocks Evil Ryu and Oni (both CPU and Playable)
+
+Upon first start, go into service menu and set the following:
+1. Coin input does NOT work, so set the game to FREE PLAY
+2. set English and Japanese language
+3. enter password for extra characters
+
+The game will save configuration data to the OpenParrot folder
+
+
+====================================================================
+Super Street Fighter IV Arcade Edition (2010-11-04) (Export, Standalone)  (SuperStreetFighterIVArcadeEditionEXP)
+
+game.exe =  Export
+
+Service Menu Password: TYV2BQ9C
+unlocks Evil Ryu and Oni (both CPU and Playable)
+
+Upon first start, go into service menu and set the following:
+1. Coin input does NOT work, so set the game to FREE PLAY
+2. set English and Japanese language
+3. enter password for extra characters
+
+THIS VERSION WILL NOT WRITE CONFIG DATA, I guess the TP Devs forgot to do this.
+
+====================================================================
+Super Street Fighter IV Arcade Edition Ver. 2012 (SuperStreetFighterIVArcadeEditionVer2012)
+
+Service Menu Password: S2K7MB4Q
+unlocks Evil Ryu and Oni (both CPU and Playable)
+
+Upon first start, go into service menu and set the following:
+1. Coin input does NOT work, so set the game to FREE PLAY
+2. set English and Japanese language
+3. enter password for extra characters
+
+THIS VERSION WILL NOT WRITE CONFIG DATA, I guess the TP Devs forgot to do this.
+
+====================================================================
+SEGA World Drivers Championship (SWDC)
+
+====================================================================
+Taiko no Tatsujin Nijiro Ver. (Taiko)
+
+====================================================================
+Taisen Hot Gimmick 5 - Mirai Eigou (TaisenHotGimmick5)
+
+- This game's inputs are not fully supported in TeknoParrot, so the game is not playable. The workaround for this is to use the TTX-Monitor+ loader, which supports the game's full set of inputs by hooking the JVS interface to your keyboard. This is the rare exception I made for including a 3rd party loader so the game can be played. Perhaps someday the devs can natively add all the required buttons so you won't need to use a separate loader.
+
+- From the game folder, run TTX-Config.exe and setup your keyboard keys. Run TTX-Loader.exe to run the game.
+
+I know mahjong games aren't everyone's cup of tea, but it would be nice to see them not need workarounds.
+
+====================================================================
+Taisen Hot Gimmick 5 - Mix Party (TaisenMixParty)
+
+====================================================================
+TANK! TANK! TANK! (TankTankTank)
+
+====================================================================
+Target - Terror Gold (TargetTerrorGold)
+
+The contents of the game folder MUST BE LOCATED HERE:  
+C:\rawart\
+
+Your executable path must look something like this:
+C:\rawart\sdaemon.exe
+
+If you don't do this, the game will not run.
+
+This game is slow to load.
+
+====================================================================
+Time Crisis 5 (TC5)
+
+====================================================================
+Tekken 7 (Tekken7)
+
+====================================================================
+Tekken 7 Fated Retribution (Tekken7FR)
+
+====================================================================
+Tekken 7 Fated Retribution Round 2 (Tekken7R2)
+
+====================================================================
+Terminator Salvation (Terminator)
+
+The contents of the game folder MUST BE LOCATED HERE:  
+C:\rawart\
+
+Your executable path must look something like this:
+C:\rawart\sdaemon.exe
+
+If you don't do this, the game will not run.
+
+Remove Crosshair:
+- Disable (uncheck) ForceReticle in TeknoParrot's Terminator Salvation Game Settings menu.
+- Launch the game and press the Test Button
+- Go to Operator Adjustments > Game Adjustments > Change Shooting Mode to Default or TracerOnly
+
+====================================================================
+Tetris The Grand Master 3 - Terror-Instinct (TetrisTheGrandMaster3TerrorInstinct)
+
+====================================================================
+The Act (TheAct)
+
+====================================================================
+Theatrhythm Final Fantasy - All-Star Carnival (Theatrhythm)
+
+====================================================================
+Tippin' Bloks (TippinBloks)
+
+====================================================================
+Tokyo Cop (TokyoCop)
+
+====================================================================
+Tomb Raider (TombRaider)
+
+Native resolution of 1920x1080 required for proper aiming
+
+If you already loaded the game in another resolution, changing it requires a registry edit
+Computer\HKEY_CURRENT_USER\SOFTWARE\Sarbakan\SquareEnix_TombRaider
+Screenmanager Resolution Height - 1080
+Screenmanager Resolution Width - 1920
+====================================================================
+Transformers - Human Alliance (Transformers)
+
+====================================================================
+Transformers - Shadows Rising (TransformersShadowsRising)
+
+====================================================================
+Trouble Witches AC Episode1 - Daughters of Amalgam (TroubleWitches)
+
+====================================================================
+Trouble Witches AC Episode1 - Daughters of Amalgam (TroubleWitchesNesica)
+
+====================================================================
+Under Defeat HD+ (UDX)
+
+====================================================================
+Ultimate Arctic Thunder (UltimateArcticThunder)
+
+====================================================================
+Ultra Street Fighter 4 (UltraStreetFighterIV)
+
+- the game defaults to Japanese, but you can change it to English in the Service menu (Game Settings > Language). The game will save the settings, but will exit. Just restart the game to play with the new setting(s).
+
+====================================================================
+Umihara Kawase Fresh! (Umifresh)
+
+====================================================================
+Under Night In-Birth Exe - Late [cl-r] (APM3 Edition) (UnderNightAPM3)
+
+====================================================================
+Under Night In-Birth Exe - Late (UnderNightInBirth)
+
+====================================================================
+Under Night In-Birth Exe - Late [st] (UnderNightInBirthExeLatest)
+
+====================================================================
+Vampire Savior - The Lord of Vampire (VampireSavior)
+
+====================================================================
+Virtua Fighter 5 (Version B) (VF5B)
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBLM_sram.bin
+SBLM_e2prom.bin
+====================================================================
+Virtua Fighter 5 (Version C) (VF5C)
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBLM_sram.bin
+SBLM_e2prom.bin
+====================================================================
+Virtua Fighter eSports (VF5Esports)
+
+====================================================================
+Virtua Fighter 5 Final Showdown (VF5FS)
+
+====================================================================
+Virtua Fighter 5 Final Showdown (APM3) (VF5FSapm3)
+
+after pressing the start button, a black screen will come up playing music. Press the game buttons and it will advance to the player select screen.
+
+====================================================================
+Virtua Fighter 5 R (VF5R)
+
+NVidia shader fix by Nezarn applied (rom\shader.farc)
+AMD (rom\shader.farc.amd) and original (rom\shader.farc.original) in folder
+
+Save:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBUV_e2prom.bin
+SBUV_sram.bin
+
+====================================================================
+Valve Limit R (VirtuaRLimit)
+
+====================================================================
+Virtua Tennis 3 (VT3)
+
+vt3_Lindbergh
+vt3_Lindbergh_FULLHD
+vt3_Lindbergh_HD
+vt3_Lindbergh_VGA
+====================================================================
+Virtua Tennis 3 (Elfloader2) (VT3ELF2)
+
+====================================================================
+Virtua Tennis 4 (VT4)
+
+====================================================================
+Wacky Races (WackyRaces)
+
+====================================================================
+Walking Dead, The (WalkingDead)
+
+====================================================================
+Wartran Troopers (WartranTroopers)
+
+====================================================================
+Wasteland Racers 2071 (WastelandRacers)
+
+====================================================================
+Wheel of Fortune (WheelOfFortune)
+
+====================================================================
+Winning Eleven 08 (WinningEleven08)
+
+====================================================================
+Wangan Midnight Maximum Tune 3 (WMMT3)
+
+====================================================================
+Wangan Midnight Maximum Tune 3DX+ (WMMT3DXP)
+
+====================================================================
+Wangan Midnight Maximum Tune 5 (WMMT5)
+
+ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+
+====================================================================
+Wangan Midnight Maximum Tune 5DX (WMMT5DX)
+
+ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+
+====================================================================
+Wangan Midnight Maximum Tune 5DX+ (WMMT5DXPlus)
+
+ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+
+Error E2212 - STR PCB Link Error
+as long as you're not using a steering wheel, you can fix this error by:
+- when the error comes up, press the assigned TEST button
+- using the assigned up and down keys, go to Game Options
+- turn OFF the following 3 options: IC Card R/W Use, IC Card Vendor Use, and Steering Power
+- press the TEST button a few times to exit the service menu, which will then retry the system boot
+- play game
+
+====================================================================
+Wangan Midnight Maximum Tune 6 (WMMT6)
+
+- ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+- set "Network - RouterIP" to your router's address (eg. 192.168.1.1)
+- TPUI needs to be run as administrator
+- \AMCUS\MuchaBin\muchacd.exe will need to be allowed in your firewall (inbound rules, UDP, all ports, any IP, private profile)
+
+====================================================================
+Wangan Midnight Maximum Tune 6R (WMMT6R)
+
+ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+
+====================================================================
+Wangan Midnight Maximum Tune 6RR (WMMT6RR)
+
+ensure "General - TerminalEmulator" is enabled, or you'll get stuck at the "connecting to Wangan Terminal" message
+- you can use an EXVS2 Online ID from the teknoparrot website in the onlineID settings (https://teknoparrot.com/OnlineProfile/EXVS2)
+- might have to run TPUI as admin
+
+====================================================================
+Wonderland Wars (WonderlandWars)
+
+====================================================================
+Xiyangyang (Xiyangyang)
+
+====================================================================
+Yugioh 5DS Duel Terminal 6 (YugiohDT6U)
+
+Requires total path name less than 64 characters. Adjust the game folder's location and rename it if you have to. Example, 
+D:\TPGames\Yugioh
+
+If detected, TPUI will display a warning that the game has exceeded a 64-character limit in the file path.  You'll need to fix your path length by shortening the path length to the the game folder.
+
+====================================================================
+Power Putt Live 2012 (PowerPuttLive2012)
+
+====================================================================
+Crossfire Maximum Paintball (CrossfirePaintball)
+
+====================================================================
+Psychic Force 2012 (PsychicForce2012)
+
+====================================================================
+The King of Fighters 2002 - Unlimited Match (KingofFighters2002)
+
+====================================================================
+Harley Davidson King of the Road (Harley)
+
+====================================================================
+Deal or No Deal UK (DealOrNoDealUK)
+
+====================================================================
+ReVolt (Revolt)
+
+- Run TPUI as Admin
+
+====================================================================
+Golden Tee Live 2007 (GoldenTeeLive2007)
+
+====================================================================
+Let's Go JUNGLE! Lost on the Island of Spice (Rev A) (LGJ)
+
+====================================================================
+Hummer (Hummer)
+
+- has the flicker and shader fix applied, with the original files tagged.
+
+YOU ABSOLUTELY MUST CALIBRATE THE GAS PEDAL and BUTTONS IN THE SERVICE MENU!!
+If you don't, the pedal will not go to the maximum value of FFh and you'll never go fast enough.  Also, the button to land needs to be calibrated or you'll never land properly.
+
+====================================================================
+Silver Strike Bowling Live (SilverStrikeBowlingLive)
+
+====================================================================
+Gunslinger Stratos 3 (Gunslinger)
+
+====================================================================
+Raccoon Rampage (RaccoonRampage)
+
+I chose to include two versions of Raccoon Rampage to allow people to pick depending on what hardware they are using.  Originally the game was released with ReShade baked in to provide Sinden lightgun support.  Knowing that not everyone would want to see the white bars around the screen edges if they're not using a lightgun, I created an "Original" version with ReShade removed.
+
+====================================================================
+Night Hunter After Dark Chapter II (AfterDark2)
+
+if the game will NOT go into widescreen mode automatically, even with the option checked in game settings, DELETE the following folders from the registry:
+
+Computer\HKEY_CURRENT_USER\Software\DefaultCompany\link
+Computer\HKEY_CURRENT_USER\Software\DefaultCompany\test_gun
+
+
+====================================================================
+Mario and Sonic at the Tokyo 2020 Olympic Games (SegaOlympic2020)
+
+the game is expected to be played in portrait-mode. If you choose to play it on a landscape monitor, you'll want to use the included bezel and the following settings in the TPUI:
+		General - Windowed - off
+		General - Fullscreen Display Rotation - disabled
+		Graphics - Enable Bezel - on
+		General - Use Custom Resolution - on
+		Resolution Width - 1920
+		Resolution Height - 1080
+
+If your bezel is not working, double-check the resolution width and height are set properly.
+
+====================================================================
+Golden Tee Unplugged 2008 (GoldenTeeLive2008)
+
+====================================================================
+Golden Tee Unplugged 2009 (GoldenTeeLive2009)
+
+====================================================================
+Target Toss Pro Bags (TargetTossProBags)
+
+====================================================================
+Dino King Battle - King of Jurassic (DinoKing)
+
+- game does not work fullscreen
+- if you have problems with windowed mode, likely nothing you do will get the game to run.  
+- another game the devs never really worked on
+
+====================================================================
+Pull the Trigger (PullTheTrigger)
+
+If you have a problem with the game's cutscenes videos not playing, you have to restore the old Intel Indeo video codec dll. This dll is still included in Windows 10/11, but is deregistered. Run the following elevated command line:
+
+regsvr32.exe /s "C:\Windows\SysWow64\ir50_32.dll"
+====================================================================
+Skylanders Cloud Patrol (Skylanders)
+
+====================================================================
+Go Go Drummer Babe (GoGoDrummer)
+
+====================================================================
+Drakons Realm Keepers (Drakons)
+
+====================================================================
+Orange County Choppers Pinball (OCCPinball)
+
+====================================================================
+Wild West Shootout (WildWestShootout)
+
+- the TPUI test/service key mappings are overly sensitive, making it extremely difficult to navigate with them. In the TPUI game settings, deselect "DisableHardcodedControls", then use the hardcoded A,S,D keys to navigate
+- for a widescreen game display, use the included registry file (game default is 4x3)
+
+if setting a custom setting and the aiming is not working properly, DELETE the following folder from the registry and run the game with native 1080p:
+
+Computer\HKEY_CURRENT_USER\SOFTWARE\Yingqi\CowBoy
+ 
+====================================================================
+Tottemo E Mahjong (TottemoEMahjong)
+
+Has two different game2.exe's, one is the original 1280x768 resolution and the alternate is the JConfig version set to 1920x1080
+
+====================================================================
+Exception (ExceptionNesica)
+
+====================================================================
+Chaos Breaker (ChaosBreakerNesica)
+
+- enable "General - Framelimiter" in TPUI, otherwise game runs way too fast
+
+====================================================================
+Chase Chase Joker (ChaseChaseJoker)
+
+====================================================================
+Power Putt Live 2013 (PowerPuttLive2013)
+
+the game starts with "Raw Talk" (adult trash-talking commentary) enabled by default, and the included leaderboards are populated with some fairly crude names. If you plan on letting your kids play this game or you're just an overly sensitive snowflake, I would highly recommend:
+- disabling Raw Talk (Service Menu > PowerPutt Golf Settings/Audits > Game Options > Raw Talk)
+- resetting the leaderboards (Service Menu > PowerPutt Golf Settings/Audits > Reset Leaderboards)
+
+====================================================================
+Sonic Blast Heroes (SonicBlastHeroes)
+
+====================================================================
+Dark Awake - The King Has No Name (DarkAwakeNesica)
+
+====================================================================
+Cyber Diver (CyberDiver)
+
+TP Devs changed the supported version from v1.05 to v1.20j.  1.05 is no longer supported, so don't bother trying to get it to run.
+
+Game only runs in ONLINE mode, so you need to have other players in a game room via TPUI to play the game.
+
+====================================================================
+Medaru no Gunman (MedaruNoGunman)
+
+At first run, you'll see an error message "3003 ROM HAS CHANGED". Press your assigned Service key to enter the Service menu.  Using the service key to move the cursor and the test key to make a selection, select "clear backup data" and perform the "ALL DATA CLEAR" task. Make any other changes you want, then exit. TPUI creates two ROM files and places them in its AppData folder. TPUI will use these ROMs anytime the game is started. These files are located in the following location on your PC and are safe to delete, which resets the service menu back to its initial state:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+delete these 2 files:
+SBTF_sram.bin
+SBTF_e2prom.bin
+
+If you get a "3001 RAM DATA IS BAD" error when restarting the game, press the Service button to finish booting. 
+
+====================================================================
+Need for Speed Heat TakeDown (NFSHeatTakedown)
+
+====================================================================
+Golden Tee Unplugged 2010 (GoldenTeeLive2010)
+
+====================================================================
+Target Toss Pro Lawn Darts & Bags (TargetTossProLawndarts)
+
+====================================================================
+Rainbow BomberGirl (RainbowBombergirl)
+
+Must use latest BepInEx plugin
+
+MUST USE CONTROLLER!  Setup XINPUT
+
+to use mouse for touchscreen (screen will accept touch input after character select screen)
+- disable "HideCursor"
+- remove "Touch" controller entries (leave blank)
+- use mouse in-game
+
+Game runs natively in 1920x1080, using other resolutions may impact the layout of the screens, including reversing the order (main screen on left, touchscreen on right)
+
+The original game ran its main screen in portait mode, and the secondary touchscreen monitor in portait mode. If you run the game in forced single screen mode, both screens will be combined, and results in an empty black space above the portait mode touchscreen.  You can use ReShade to add a bezel into the empty area if you wanted to.  TP Devs might add a bezel to the unutilized black space at a later date.
+
+====================================================================
+Family Guy Bowling (FamilyGuyBowling)
+
+As of plugin v1.7, the game is fully playable and all inputs are working.
+
+Game REQUIRES BepInEx and the appropriate plugin for this game to work.
+
+***FIRST SETUP***f
+To fix the hanging "hazy blue sky" screen, RUN THE GAME ONCE TO ALLOW BepInEx TO SET ITSELF UP. When exiting the hung game, if the command line window does not close, use Task Manager to end the process.
+
+Once you've exited the game, with a text editor, go into the "BepInEx\config" folder and open the newly created "BepInEx.cfg" file.
+
+Scroll down to the bottom of the file to the "[Preloader.Entrypoint]" section
+Change the line that reads "Type = Application" to "Type = MonoBehaviour"
+
+NOTE THE CAPITALIZATION AND SPELLING of the word "MonoBehaviour".  Don't spell it wrong.  Better yet, how about you just copy and paste it from this text file into the config file.. then you can't fuck it up.
+
+Save the changes you just made to the cfg file, and restart the game.
+
+ENABLE REDPIN:  Redpin is only available in 2-4 player modes (disable tournament)
+
+Archived:  The following original hardcoded controls in the game that were disabled in TPUI
+T - test 
+S - start
+Enter - select
+Left/Right arrow - hook
+
+====================================================================
+Golden Tee Unplugged 2011 (GoldenTeeLive2011)
+
+No problems to report on this game.
+
+The build date for 2011 is oddly the same as 2010 and 2009.  I've been told the location for the build date is hardcoded in the game's source code.  It is possible these games all received a final update on the same date and that is why the build dates are all the same. Otherwise, I have no idea.
+
+====================================================================
+Mars Sortie (MarsSortie)
+
+- requires BepInEx plugin, get the latest one from the TP Discord's #fixes channel.
+- custom webcam images should be in 480x640 resolution, jpg format, called "webcam1.jpg", "webcam2.jpg" and so on
+
+Game still does not boot on Windows 11 and 13th Gen Core i7.  I have yet to even get this game to start but there was only ever one public dump available, so I at leasat know the files are correct.
+
+Config.ini variables:
+start shooter
+start shooter -popupwindow
+
+Non-TP game has embedded controls (not required if game run in TPUI)
+[1] ~~ [6] 			= Coin P1 - P6
+[A] / Mouse Left 	= Trigger P1
+[S]/ Mouse Right 	= Trigger P2
+[D], [F], [G], [H] 	= Trigger P3-P6
+[SPACE] 			= TEST menu (full chinese)
+
+====================================================================
+NERF Arcade (NERF)
+
+- requires BepInEx plugin, get the latest one from the TP Discord's #fixes channel.
+- the optional "PK-UnityPlugin.dll" goes in the "\NERF_Data\Plugins" folder, and is ONLY REQUIRED if you want to use the "General - GraphicsFix" option in the TPUI menu.  Otherwise, you DO NOT NEED this .dll to play the game, just ensure the aforementioned graphics fix option is disabled.
+
+The game is rather fun, and is now fully working with the latest TP and bepinex updates.
+
+====================================================================
+Golden Tee Golf 2012 (GoldenTeeLive2012)
+
+No problems to report on this game.
+
+====================================================================
+Deathsmiles II - Makai no Merry Christmas (Deathsmiles2)
+
+To get into the TEST/SERVICE MENU, press and hold the assigned TEST button for at least 3 seconds. When successful, the menu will automatically appear.
+
+There are a bunch of different versions of this game floating around on the internet, all with various loaders attached to them and hacked executables.  Those people who have issues with the game have one of the patched/hacked copies.
+
+The original cvgame.exe from the MAME version has a CRC of 6d6755f8
+A working hacked cvgame.exe has a CRC of f9f619ae
+
+Comparing the bytes of each exe, there are 27 distinct and separate byte differences between the two exe's.  However, both exe's play the same, with no visual differences to tell between them (at least none that I could see).  
+
+I've selected the MAME cvgame.exe as the main exe, and kept the altered version as "cvgame.exe.f9f619ae"
+
+Cleaned up additional loader files that don't belong:
+ds2_monitor.dll
+monitor_input.bin
+monitor_opt.bin
+DSII_Icon.ico
+
+In the RES folder, when you start the game for the first time, the "_gdata987.rpm" gets written to.  I would assume this may be some sort of setting file.
+
+Other than some minor random flickering and graphical issues, the game is playable.
+
+====================================================================
+K-On! After School Rhythm Selection (KOn2)
+
+- native resolution 640x480
+- game operating fine
+
+====================================================================
+Teenage Mutant Ninja Turtles (TMNT)
+
+- the required DLL's to use the game option "General - GraphicsFix" are included. OrenVid.dll and PK-UnityPlugin.dll in \TMNT_Data\Plugins\x86_64
+- Game requires BepInEx and latest TMNT plugin (get from TP Discord)
+- On first startup, You MUST run the game twice in order for the BepInEx plugin to fully configure itself
+- as of BepInEx patch v1.2 and latest TPUI update (17Apr2025), the game is working great.
+
+====================================================================
+Golden Tee Golf 2013 (GoldenTeeLive2013)
+
+This version adds some graphics options such as MSAA, Shadow Resolution and Hires reflections.  If your GPU can handle it, definitely enable and tweak them to suit.
+
+RawInputTrackball input has been completely overhauled!
+
+RawInputTrackball:
+- this is the best option to use, as you do not need to worry about Mouse Speed or Windows Scaling
+- Set Teknoparrot X and Y axis sliders to 25%
+
+Dinput:  
+
+- At 4k Resolution, set your Windows Scaling to 200%, Windows mouse speed to 3, and the Teknoparrot X,Y sliders to 100%
+- at 1080p Resolution, set your Windows Scaling to 100%, Windows mouse speed to 4, and the Teknoparrot X,Y sliders to 100%
+- You may need to use Dinput if you are using a gamepad encoder for your button input, as opposed to a keyboard encoder (iPac).
+- If using a Gamepad encoder, your other option is to use RawinputTrackball and use Joy2Key software to set your buttons.
+
+Recommended Hardware:  (other hardware does work, but these are recommended for an authentic to Golden Tee experience)
+
+- 3" Happ Trackball with red boards - requires an Optiwiz (From GroovyGameGear)
+Button input requires an iPac or similar keyboard encoder.
+- Elwood's firmware with an Arduino replaces the need for both Optiwiz  and iPac..  You need an Arduino Micro/Leonardo (recommend ordering a presoldered device)
+
+More info is on the TP Discord in the #golden-tee channel
+
+====================================================================
+Golden Tee Golf 2014 (GoldenTeeLive2014)
+
+- as of the GT 2014 version, the user no longer needs to edit the database during initial setup, as TPUI autopopulates the database settings. There is still a setup guide, it's just a lot less work now.
+
+If you have a black border around your screen:
+ - start game and go into Test menu
+ - Troubleshooting Shortcuts > Screen Size Adjustments > select "Bigger" until the test pattern is expanded to the screen edges.
+ - exit test menu
+
+====================================================================
+Mission Impossible Arcade (MissionImpossible)
+
+nothing to report, game works fine
+
+====================================================================
+Super Monkey Ball Ticket Blitz (Mballblitz)
+
+- This game is for trackballs only. 
+- You can use a mouse to get the monkey to start moving, but you won't gain any real speed and end up stuck in various places that have any sort of incline.
+- The game chooses one of twelve random levels to start.  You only get to play one level per game.
+
+- This game records revealing digital information when it creates text files used to store a player's game stats.  
+	1. It queries for the hostname of the computer the game is running on
+	2. It queries for the current logged on user's local username
+	
+	The game then creates game stat and replay files based on the hostname, username, and stage number in the following format, for example:
+		averageinfo_MyComputerName_MyLocalUserName_stage0xx.txt
+		playinfo_MyComputerName_MyLocalUserName_stage0xx.txt
+		replay_MyComputerName_MyLocalUserName_20250518_130802.rep  (this filename also records the date and time)
+
+	The game will start writing these files into one of the "playrecord\stage0xx" folders as each level gets played.
+
+	If you're a privacy advocate, you will want to ensure you delete these files after playing the game on your own PC before sharing the game files to someone else.
+
+- The "prjMonkey_tv_final.exe" game file is patched to run in 1920x1080.
+
+- The game's native resolution is 1280x720.  The closest patch is 1280x768.
+
+- There are additional patched executables available which will force the game window to run in a specific resolution - these executables work fine in TP. Standard 4:3 resolutions will not look correct and the right side of the screen will get cut off, as the game is natively widescreen. Use a widescreen resolution for best results.  I have placed these patched exe's in the "various patched resolutions" folder.  Simply rename the existing exe and copy the executable you want to use into the main game folder.
+
+- If you have multiple monitors and select a patched resolution larger than your main monitor supports, the game will spread the game screen out over multiple monitors.
+
+- The game's service mode save files are located here:
+%USERPROFILE%\AppData\Roaming\TeknoParrot
+SBVJ_sram.bin
+SBVJ_e2prom.bin
+
+- Use the "test mode" toggle in TPUI to enable running test mode if you want to change things like difficulty, ticket/amusement mode, and game time.
+- The game volume is set quite low, and there is no volume adjustment via the service menu. You'll need to crank up your speakers instead.
+
+Running the game without TP:
+
+- Running "Play.exe" directly from the game folder will run the game in fullscreen (non-windowed) mode. Keyboard commands are:
+	Esc or F11 = exit game
+	0  or  F10 = insert coin
+	1 or F9 = start coin 
+	PageUp / PageDown = volume +/-
+	You still need to use a trackball though, you won't get anywhere with a mouse.
+	
+- Someone also setup XPadder as a standalone patch to work with "Play.exe", so you can play the game with your gamepad as TP does not currently support movement on gamepads at this time. 
+ - Install AutoHotKey
+ - run XPadder.exe once and add the file association (.xpadderprofile).  You can do this either during the XPadder setup, or in the settings (main window, wrench icon in top right, select Installation, and click on Associate files) 
+ - run "Run_Super_Monkey_Ball_Ticket_Blitz.ahk"
+ - game will only run with its default settings and set for ticket redemption (meaning you'll likely never get a jackpot)
+ 
+It's better to just do it manually,
+ - run XPadder.exe
+ - to the left of the word "XpadderProfile" is a button that looks like a document. Click on that and select "Open"
+ - open the file "XpadderProfile.xpadderprofile"
+ - leaving XPadder running, run Play.exe and you'll now be able to control the monkey with your gamepad.  Press ESC to exit the game, and close the XPadder window. 
+ - in Settings > Options, if you enable "AutoOpen last used profile", it will reopen the profile when you run it so you don't have to do it repeatedly.
+
+====================================================================
+Crazy Speed Arcade (CrazySpeed)
+
+- game works
+- test/service mode does not work (yet?)
+
+====================================================================
+After Dark (AfterDark)
+
+- 4GB patch was required to be applied on original GamePlayer.exe
+- game works
+
+====================================================================
+F-Zero AX (Rev E) (GDT-0004E) (2003) (Japan) (FZeroAX)
+F-Zero AX Monster Ride (SBHA6W) (2004) (Japan) (FZeroAXMonster)
+Gekitou Pro Yakyuu Mizushima Shinji All Stars vs. Pro Yakyuu (Rev C) (GDT-0008C) (2003) (Japan) (GekitouProYakyuu)
+Mario Kart Arcade GP (MKA3 Ver.A) (2005-10-11) (Japan) (MarioKartGP)
+Mario Kart Arcade GP 2 (MK21 Ver.A) (2007-08-20) (Japan) (MarioKartGP2)
+Virtua Striker 3 Ver. 2002 (GDT-0002) (2002) (Export) (VirtuaStriker3)
+Virtua Striker 4 Ver. 2006 (GDT-0021) (2006) (Export) (VirtuaStriker4)
+
+If Triforce game has a camera, wait until camera fails the check, then press the TEST key. It will then give you an option to press a button to skip.
+
+If Triforce game checks for a network ID, wait ~30 seconds, then the timer will start counting down from 59 seconds. When countdown completes, game will start.
+
+Triforce games require the Dolphin emulator, which TPUI will download via its updater and place inside your TeknoParrot folder, called "CrediarDolphin". Without it, you'll get an error when trying to boot Triforce games.
+
+=======================
+Disable Motor Setup, Disable CyCraft Setup
+
+This is only required for the following games: 
+
+F-Zero AX Monster Ride (SBHA)
+F-Zero AX (SBGG)
+
+create SBHA.ini and put the following inside it:
+
+[OnFrame]
+$Disable Motor Setup
+0x8023A0F4:dword:0x8016B4EC
+0x8023A0F8:dword:0x8016B350
+$Disable CyCraft Setup
+0x8023A1D0:dword:0x8016B4EC
+0x8023A1D4:dword:0x8016B350
+[Core]
+FPRF = True
+CPUThread = True
+[OnFrame_Enabled]
+$Disable Motor Setup
+
+
+create SBGG.ini and put the following inside it:
+
+[OnFrame]
+$Disable Motor Setup (Rev. D)
+0x8024E034:dword:0x80180D5C
+0x8024E038:dword:0x80180BC0
+$Disable Motor Setup (Rev. E)
+0x8024E4B4:dword:0x801812E8
+0x8024E4B8:dword:0x8018114C
+[Core]
+FPRF = True
+CPUThread = True
+[OnFrame_Enabled]
+$Disable Motor Setup (Rev. E)
+
+- copy both .ini files into your TeknoParrot/CrediarDolphin/User/GameSettings folder.
+
+====================================================================
+Namco System 246 common notes:
+
+If using MAME CHD's as the disc source, you will need to ensure the CHD is in the correct format. Download the latest MAME binary release from https://www.mamedev.org . Extract chdman.exe and use it to check the CHD's using Command Prompt.  Substitute "image" for whatever the CHD is called.
+
+Add chdman.exe to your system path, or copy the exe into the folder next to the CHD. Run the following command:
+chdman.exe info -i image.chd
+
+If you see:
+ Metadata: Tag='GDDD'
+it means your CDVD image needs to be converted. 
+
+It can be done in 3 steps (substitute the word "image" for the name of your CHD):
+
+rename or copy "image.chd" to "image.chd.orig"
+chdman.exe extracthd -i image.chd.orig -o image.iso
+chdman.exe createcd -i image.iso -o image.chd
+
+when you have your converted CHD, you can delete "image.iso" and do whatever you want with the old "image.chd.orig"
+
+Some GDDD drive images are huge, I've seen them into the hundreds of GB.
+
+LACK OF CONTROLS:
+- if you assign controls in TPUI and they still don't work, run TPUI as administrator.
+
+====================================================================
+Bloody Roar 3 (BRT1 Ver. A1 bootleg) (bldyr3b)
+- Namco System 246
+Once the system boot is complete, on the glitchy screen, press Coin key and the attract screen will come up.
+- game starts
+
+====================================================================
+Pride GP 2003 (PR21 Ver. A) (prdgp03)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game has emulator-related glitches
+- game starts
+
+====================================================================
+Tekken 4 (TEF3 Ver. C) (tekken4)
+- Namco System 246
+- game starts
+
+====================================================================
+Wangan Midnight (WMN1 Ver. A) (wanganmd)
+- Namco System 246
+- game starts
+
+====================================================================
+Capcom Fighting Jam (JAM1 Ver. A) (fghtjam)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Wangan Midnight R (WMR1 Ver. A) (wanganmr)
+- Namco System 246
+- game starts
+
+====================================================================
+Pac-Man Battle Royale Chompionship (PBR1) (pacmanbr)
+- Namco System 147
+- needs TPUI run as administrator for controls to work
+- game starts
+
+====================================================================
+Fate - Unlimited Codes (FUD1 ver. A) (fateulc)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Sengoku Basara X Cross (BAX1, Ver. A) (sbxc)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Soul Calibur III - Arcade Edition (SC31001-NA-A key, NA-B disc) (soulclb3)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Tekken 5 - Dark Resurrection (TED1 Ver. A) (tekken5d)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Tekken 5.1 (TE51 Ver. B) (tekken51)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Time Crisis 3 (TST1 Ver. A) (timecrs3)
+- Namco System 246
+- the MAME CHD is a GDDD image and needs to be converted.
+- game starts
+
+====================================================================
+Time Crisis 4 (TSF1002-NA-A) (World) (timecrs4)
+- Namco System 256
+- game starts
+
+====================================================================
+Vampire Night (VPN3 Ver. B) (vnight)
+- Namco System 246
+- game starts
+
+====================================================================
+Super Dragon Ball Z (DB1 Ver. B) (superdbz)
+- Namco System 256
+- game starts
+
+====================================================================
+Tatsunoko vs. Capcom (A07) (2008-11-05) (2008) (tatsuvscap)
+
+- the contents of the "Wii" game folder goes in TPUI's "CrediarDolphin\User\Wii" folder.  
+
+For example:
+
+C:\TeknoParrot\CrediarDolphin\User\Wii
+ 
+Wii folder will look like:
+	import\
+	meta\
+	shared1\
+	shared2\
+	sys\
+	ticket\
+	title\
+	tmp\
+	wfs\
+	fst.bin
+	keys.bin
+
+====================================================================
+MotoGP (MGP1 Ver. B) (2000) [Namco System 246] [TP]
+- Namco System 246
+- game starts
+
+====================================================================
+Ace Driver 3 - Final Turn (ADT1 Ver. A) (2008) [Namco System 246] [TP]
+- Namco System 246
+- game starts
+
+====================================================================
+Cobra - The Arcade (CBR1 Ver. B) (cobrata)
+- Namco System 246
+
+====================================================================
+Kinnikuman Muscle Grand Prix (KN1 Ver. A) (kinniku)
+- Namco System 256
+
+====================================================================
+Kinnikuman Muscle Grand Prix 2 (KN2 Ver. A) (kinniku2)
+- Namco System 256
+
+====================================================================
+Mobile Suit Gundam - Gundam vs. Gundam (GVS1 Ver. A) (gdvsgd)
+- Namco System 256
+
+====================================================================
+Mobile Suit Gundam - Gundam vs. Gundam NEXT (GNX1 Ver. A) (gdvsgdnx)
+- Namco System 256
+
+====================================================================
+Mobile Suit Gundam SEED Destiny - Rengou vs. Z.A.F.T. (SED1 Ver. A) (gundzaft)
+- aka "M.S. Gundam SEED Destiny O.M.N.I. vs Z.A.F.T." in TPUI menu
+- Namco System 246
+
+====================================================================
+Mobile Suit Gundam SEED Destiny - Rengou vs. Z.A.F.T. II (GSD1 Ver. A) (gsd)
+- aka "M.S. Gundam SEED Destiny O.M.N.I. vs Z.A.F.T. II" in TPUI menu
+- Namco System 246
+
+====================================================================
+Mobile Suit Gundam Zeta - A.E.U.G. vs. Titans (ZGA1 Ver. A) (zgundm)
+- Namco System 246
+
+====================================================================
+Mobile Suit Gundam Zeta - A.E.U.G. vs. Titans DX (ZDX1 Ver. A) (zgundmdx)
+- Namco System 246
+
+====================================================================
+Pac-Man's Arcade Party  (pacmanap)
+- Namco System 147
+
+you will need to map your TP buttons to the hard coded buttons. 
+button name - action : default key
+
+HOLD R1 - Test Menu : 8
+Select - Enter  : backspace
+Start - Service/Coin : enter
+X - Button 1  : Z
+Circle - Button 2 : X
+L2 - Player 1 : 2
+R2 - Player 2 : 9
+L1 - Coin : 1
+Analog_Right_X - Coin 2, 3 : J,L
+Analog_Right_Y - UP, Down : I or arrow up, K or down arrow 
+
+When launching in TP just hold 8 to go to the test menu. use I and K to move the menu up and down, go to others, and initilize backup memory. once done let go of 8 
+
+====================================================================
+Soul Calibur II (SC23 Ver. A) (soulclb2)
+- Namco System 246
+
+====================================================================
+Zoids Infinity (B3900076A Ver. 2.02J)  (zoidsinf)
+- Namco System 246
+
+====================================================================
+Zoids Infinity EX Plus (B3900107A Ver. 2.10J) (zoidiexp)
+- Namco System 256
+
+====================================================================
+Cobra - The Arcade World (CBR2 Ver. B) (cobrataw)
+- Namco System 246
+- TPUI wants "cobrata.zip", load "cobrataw.zip" instead
+
+====================================================================
+Animal Kaiser Evolution (2007) [Namco System 147] [TP] (akaievo)
+- Namco System 246
+
+====================================================================
+Cooper's 9 (2006) [Konami PC] (coopers9)
+- gun game requires gun calibration setup in the test menu during initial boot
+- use the gun trigger to move in the test menu, P1 start to select
+- after making changes, be sure to save your changes
+- when calibrating gun, make sure you shoot at 3 targets in total (upper left, bottom right, center). it is easy to press the trigger one too many times when starting the calibration which will cause you to skip the first calibration target.
+- test menu files created after saving:  expdat, extdat
+
+TEST MENU:  ensure you have the P2 gun trigger and P2 start buttons mapped.  the P1/P2 gun triggers move up/down in the test menu. When in a selectable sub-menu, the P1/P2 start buttons move left/right.
+
+Crosshairs are currently slightly stretched vertically. If it bothers you that much, make your own custom crosshairs by adjusting them about 20% off the vertical height of your png's. Unsure if the devs will fix this or not.
+
+====================================================================
+Virtua Fighter 3tb Online (APM3) (1.00.00) (2023-11-28) (Japan) [Sega ALLS] [TP] (VF3TB)
+Virtua Fighter 3tb Online (APM3) (1.01.00) (2023-12-14) (Japan) [Sega ALLS] [TP] (VF3TB)
+
+No test mode.
+Nothing else to report for this game.  
+
+Ver.1.01 differences (from https://info-virtuafighter.sega.jp/archives/665)
+(Updated on December 14, 2023)
+Bug fixes
+- Fixed an issue where the opponent's character would not be displayed in the "Record of the Last 30 Battles" section on the linked site "VF3tb Online.NET."
+
+====================================================================
+Golden Tee Golf 2015 (GoldenTeeLive2015)
+
+- as of the GT 2014 version, the user no longer needs to edit the database during initial setup, as TPUI autopopulates the database settings. There is now a universal setup guide for all iT games.
+
+====================================================================
+Super Bikes 3 (SB3)
+
+- TPUI only supports the x64 version of this game
+- requires BepInEx and latest plugin to work (get plugin from Discord)
+- requires Unity Fmod x64_v1.10.10
+- some people report the game will only work in 60Hz mode for them if they have their monitor set to a different frequency. Use Riva Tuner or make changes to your GPU settings.
+- some graphic cards have massive stalling/screen glitching. My T1000 won't play the game properly - the game still runs, it's just unplayable. 
+
+There is a standalone x86 version of this game available and works great for me, so if this game is causing you problems with fucked up graphics, use the x86 version.
+
+Native resolution is 1360x768
+
+Game writes to the registry:
+Computer\HKEY_CURRENT_USER\Software\RawThrills\sb3
+
+and to:
+C:\Users\your_username\AppData\LocalLow\RawThrills\sb3
+====================================================================
+Dark Escape 4D  (DarkEscape4D)
+ROM:  DES100-2-NA-MPR0-X56
+
+- Languages available: English, Russian, Italian, Spanish
+- First boot will take 2-4 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+- you can turn off the 3D View in the Service menu > Others > 3D View Setting
+
+- if you don't like the "compiling shaders" message that pops up in the bottom left corner of your screen while you're playing, you can turn it off in RPCS3 in the Settings > Emulator tab > Emulator Settings > disable "Show shader compilation hint".
+
+- "3-5 Vital Signs Censor Error" is a benign error, as the original game has a pulse monitor sensor in the gun handle to monitor the player's heart rate
+
+====================================================================
+Deadstorm Pirate Special Edition  (DSPS)
+ROM:  DSP200-2-NA-MPR0-G23
+
+- Languages available: English, Italian, Spanish
+- First boot will take 2-3 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Dragon Ball Zenkai Battle Royale  (dbzenkai)
+ROM:  DZB326-1-ST-MPR0-A01  Dec 25 2017
+
+- Languages available: Japanese
+- First boot will take 2-3 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+If your test menu is not saving, go into dev_hdd0\game\SCEEXE000\USRDIR\SAVEDIR_CFG0 and rename _CONFIG.DAT to just CONFIG.DAT (basically remove the underscore). do the same in the SAVEDIR_CFG1 folder.
+====================================================================
+Sailor Zombie AKB48 Arcade Edition  (AKB48)
+ROM:  TON100-1-NA-MPR0-X08
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Green Version  (taikogreen)
+ROM: S11113-1-NA-MPR0-N02  2020-02-07
+
+- Languages available: Japanese
+- First boot will take 2-4 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Tekken Tag Tournament 2 Unlimited  (ttt2u)
+ROM:  TG2100-2-NA-HDD0-H05 
+
+- First boot will take 5-10 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+- On-screen languages available: English, Japanese
+- 357security.bin is 0 bytes. Attempting to place any value in the file will result in the game zeroing it out on next boot.
+
+19-2 SYSTEM ERROR:
+
+- ensure you have a REGION.TXT file in the USRDIR.  Just paste the following into it:
+--------------------------------------------------------
+[AC_TG2]
+section=region_1
+region=1
+lang=e
+livemonitor=0
+lmip=192.168.93.11
+server=1
+--------------------------------------------------------
+
+- Setting the "lang=" variable is for the on-screen character subtitles.  Only "j" and "e" are valid in this disc dump. You will need to save this setting directly in the REGION.TXT file, as currently the TPUI Devs haven't bothered to enable Service mode saving yet.
+
+- The "lmip" variable does not affect anything as the online/networking component is blocked.
+
+- edit the VER01800.TXT file and add "offline" at the end of the "region_x" line that matches with the REGION.TXT file. This puts the game in offline mode and won't enable the online network stuff. It also stops the online icon and message from showing up on the screen.  For example:
+--------------------------------------------------------
+[region_1]
+self=GAME0180.SELF karmalimit=1000 karmadec=1 romver=H05 muchagidno=1 muchaappver=0205 pairplay=1 keylatency=1 offline
+--------------------------------------------------------
+
+If you leave the game in online mode, you'll be shown 3 errors during boot, but the game will still start. You'll see the online icon and messages during gameplay, which can be annoying.
+21-3 USB MEMORY ERROR: NOT FOUND
+7-11 CARD R/W DISCONNECT (UNIT 1)
+23-1 NETWORK ERROR 1
+
+I can't seem to see any reason to change the region to anything else other than REGION 2 as it contains the on-screen display language setting that can be set to English or Japanese. The other regions only contain slightly different default service settings and no language options, as indicated below (region 1 being the default).
+
+region 1:
+	Game Options:
+		Game Level: Medium
+		Fight Count <1P Game>: 2
+		Fight Count <VS Game>: 2
+		Character change at continue: Yes	
+		Character change at Vs game: No	
+		Event Mode: Off
+		Pair Play Mode: Off
+		Round Time: 80
+		Life Bar <1P Game>: Normal
+		Life Bar <VS Game>: Normal
+		Guard Damage: Off
+		Neutral Guard: On
+		Hit Color: Red
+		Attract Movie: On
+
+region 2:
+	Game Options:
+		Game Level: Hard
+		Character change at Vs game: Yes	
+		Hit Color: Yellow
+		Display Language: English or Japanese (English is default)
+
+**this is the only region that has a Display Language option**
+
+region 3:
+	Game Options:
+		Game Level: Hard
+		Character change at Vs game: Yes	
+		Hit Color: Yellow
+		
+region 5:
+	Game Options:
+		Game Level: Hard
+		Character change at Vs game: Yes	
+
+
+region 6:
+	Game Options:
+		Game Level: Hard
+		Hit Color: Yellow
+
+====================================================================
+Offroad Thunder (1999) (OffroadThunder)
+
+You can extract the game from the MAME CHD "offrthnd.chd"
+- ensure you have 7-Zip installed on your system
+- obtain offrthnd.chd
+- download a recent version of MAME from https://www.mamedev.org/release.html
+- inside the download is "chdman.exe", copy that to a temp folder that also contains offrthnd.chd
+- start a command prompt window, change the path to the temp folder and type:
+	chdman extracthd -i offrthnd.chd -o offroad.img
+- when complete, right-click on "offroad.img" and in the context menu, select 7-Zip and "Extract to offroad\"
+- after that img is extracted, go into the "offroad" folder
+- using the same extraction method as above, right click on "0.fat" and "1.fat" and extract each into their own folder (ignore the "2" file, it does not contain any data and is only a placeholder)
+- take the file contents of both "0" and "1" folders and combine them together into a single folder called whatever you want
+- take that folder and put it with your other TP games.. you've got the game files now.
+- delete any leftover files, you don't need them.
+
+If you just extracted the game yourself from the CHD, you will need to patch your game exe:
+- get "ThunderPatcher&ThunderGlide2x" fix patch from the TP Discord server
+- put Glide2x.dll and ThunderPatcher.exe in the game folder
+- drag and drop the "offroad3.exe" game file on to ThunderPatcher.exe. It'll create 2 new executables, offroad-x86.exe and offroad-x64.exe.
+- delete ThunderPatcher.exe from your game folder.
+
+Game is non-working right now but I'm sure will be fixed shortly.
+
+====================================================================
+Razing Storm (Time Crisis) (2009)   (RazingStorm)
+ROM: RST100-2-NA-MPR0-A72
+
+- Languages available: English, Italian, Spanish, Russian
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Blue Version (11.01BF) (2018-01-31)   (taikoblue)
+ROM: S10100-1-NA-MPR0-A05 2018-01-31
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Kimidori Version (13.01) (2014-06-19)   (taikokimidori)
+ROM: ST5100-1-NA-HDD0-A12 2014-06-19
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Momoiro Version (20.01) (2013-10-30)   (taikomomoiro)
+ROM: ST4100-1-NA-HDD0-A11 2013-10-30
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Murasaki Version (10.01) (2015-02-02)   (taikomurasaki)
+ROM: ST6100-1-NA-HDD0-A11 2015-02-02
+
+"Authentication server not responding
+Please check the service start date for this version"
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Red Version (10.01) (2016-07-27)   (taikored)
+ROM: ST8100-7-NA-MPR0-A06 2016-07-27
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Sorairo Version (09.04) (2013-01-29)   (taikosorairo)
+ROM: ST3100-1-NA-HDD0-A14 2013-01-29
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Wadaiko Master (2014-06-30)   (wadaikomaster)
+ROM: ST4100-8-NA-HDD0-B03 2014-06-30
+
+- Languages available: Spanish, Portuguese
+- First boot will take 1-2 minutes for RPCS3 to c1reate the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin White Version (11.01) (2015-10-26)   (taikowhite)
+ROM: ST7100-1-NA-MPR0-A13 2015-10-26
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Taiko no Tatsujin Yellow Version (10.01) (2017-02-06)   (taikoyellow)
+ROM: ST9100-1-NA-MPR0-A13 2017-02-06
+
+- Languages available: Japanese
+- First boot will take 1-2 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Tekken 6 (2007)   (Tekken6)
+ROM: TE6100-1-NA-HDD0-B23 
+
+- Languages available: English
+- First boot will take 9-10 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Tekken 6 Bloodline Rebellion (2008)   (Tekken6BR)
+ROM: T6B100-1-NA-HDD0-A81
+
+TEST MENU CRASHES, WILL PROBABLY BE FIXED BY THE TIME I POST THIS.
+
+- Languages available: English
+- First boot will take 5-6 minutes for RPCS3 to create the cache/shader files, which are stored in the RPCS3\cache folder.  Once they've been created once, subsequent game boots will be significantly faster.
+
+====================================================================
+Tekken Tag Tournament 2 (2011)   (ttt2)
+ROM: TG2100-1-NA-HDD0-E06
+
+If your RPCS3 dump has an EBOOT.BIN in the root of the SCEEXE000 folder (alongside the ICON0.PNG file, for reference), it needs to be moved.  
+1. Inside the USRDIR, rename EBOOT.BIN to EBOOT.BIN.BAD
+2. from the SCEEXE000 folder, move EBOOT.BIN into the USRDIR folder
+3. game will now work.
+
+correct EBOOT.BIN CRC: 3DD05100
+incorrect EBOOT.BIN CRC: 919F19EC
+
+For whatever reason, the EBOOT.BIN.BAD file has been hex edited to rename the SCEEXE000 folder to SCEEXE001, which doesn't exist in the TP setup. I don't know why this was done, likely something to do with RPCS3, and I don't care to spend any more time wondering why.
+
+- Languages available: English
+
+====================================================================
+
+░█▀▀░█▀▀▄░█▀▄░░░▄▀▀▄░█▀▀░░░█▀▀░░▀░░█░░█▀▀
+░█▀▀░█░▒█░█░█░░░█░░█░█▀░░░░█▀░░░█▀░█░░█▀▀
+░▀▀▀░▀░░▀░▀▀░░░░░▀▀░░▀░░░░░▀░░░▀▀▀░▀▀░▀▀▀

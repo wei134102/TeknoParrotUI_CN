@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -46,6 +46,63 @@ namespace TeknoParrotUi.Views
 
         private void LogTextBox(string log, bool initialize = false)
         {
+            // 使用列表存储需要保存到日志文件的警告关键词
+            var warningKeywords = new List<string> 
+            {
+                TeknoParrotUi.Properties.Resources.GameScannerWarningDirectoryNotFound,
+                TeknoParrotUi.Properties.Resources.GameScannerWarningExecutableNotFound,
+                TeknoParrotUi.Properties.Resources.GameScannerWarningExecutable2NotFound,
+                TeknoParrotUi.Properties.Resources.GameScannerErrorLoadingDAT,
+                TeknoParrotUi.Properties.Resources.GameScannerErrorProcessingGame,
+                TeknoParrotUi.Properties.Resources.GameScannerGameSetupNotFound,
+                TeknoParrotUi.Properties.Resources.GameScannerFailedDeserialize,
+                TeknoParrotUi.Properties.Resources.GameScannerChecksumMismatch,
+                TeknoParrotUi.Properties.Resources.VerifyInvalid
+            };
+
+            // 检查日志消息是否包含任何警告或错误关键词的开头部分
+            // 处理各种可能的占位符格式，包括{0}、'{0}'等
+            bool isWarningOrError = warningKeywords.Any(keyword => 
+                log.StartsWith(keyword.Replace("{0}", "").Replace("'{0}'", "").TrimEnd()));
+
+            // 如果是警告或错误，将其保存到scan.log文件，确保包含完整文件路径
+            if (isWarningOrError)
+            {
+                try
+                {
+                    // 获取当前时间戳
+                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    // 确保日志包含完整的文件路径信息
+                    string logWithTimestamp = $"[{timestamp}] {log}";
+                    
+                    // 写入日志文件，使用Task.Run来异步执行，避免阻塞UI
+                            Task.Run(() =>
+                            {
+                                try
+                                {
+                                    // 使用程序目录作为日志文件位置
+                                    string logDir = AppDomain.CurrentDomain.BaseDirectory;
+                                    Directory.CreateDirectory(logDir); // 确保目录存在
+                                    string logPath = Path.Combine(logDir, "scan.log");
+                                    
+                                    File.AppendAllText(logPath, logWithTimestamp + Environment.NewLine);
+                                    // 同时在UI上显示日志文件位置，方便用户查找
+                                    Console.WriteLine("日志已写入: " + logPath);
+                                }
+                                catch (Exception fileEx)
+                                {
+                                    // 如果写入日志文件失败，显示错误信息以便调试
+                                    Console.WriteLine("无法写入scan.log: " + fileEx.Message);
+                                }
+                            });
+                }
+                catch (Exception ex)
+                {
+                    // 如果创建任务失败，不影响主程序功能
+                    Console.WriteLine("Failed to create logging task: " + ex.Message);
+                }
+            }
+
             // Use Dispatcher to ensure we're on the UI thread
             Application.Current.Dispatcher.Invoke(() => 
             {
@@ -280,10 +337,16 @@ namespace TeknoParrotUi.Views
                     {
                         var deSerializeIt = JoystickHelper.DeSerializeGameProfile($"GameProfiles\\{_foundGameIds[i]}.xml", false);
                         
-                        // Find the actual game directory - use FindGameDirectory if it's available
+                        // 优先使用之前扫描时找到的游戏目录路径
                         string gameDir = null;
                         
-                        if (_datFile != null)
+                        // 1. 首先尝试从_gameDirectories字典获取之前找到的路径
+                        if (_gameDirectories.TryGetValue(_foundGameIds[i], out string storedGameDir))
+                        {
+                            gameDir = storedGameDir;
+                        }
+                        // 2. 如果没有存储的路径，尝试使用DAT文件重新查找
+                        else if (_datFile != null)
                         {
                             var game = _datFile.Games.Find(g => g.GameProfile == _foundGameIds[i]);
                             if (game != null)
@@ -292,7 +355,7 @@ namespace TeknoParrotUi.Views
                             }
                         }
                         
-                        // If we couldn't find from DAT, default back to traditional folder structure
+                        // 3. 如果仍然找不到，默认回退到传统文件夹结构
                         if (string.IsNullOrEmpty(gameDir))
                         {
                             gameDir = Path.Combine(romDir, _foundGameIds[i]);
@@ -300,7 +363,7 @@ namespace TeknoParrotUi.Views
                         
                         if (!Directory.Exists(gameDir))
                         {
-                            LogTextBox(string.Format(TeknoParrotUi.Properties.Resources.GameScannerWarningDirectoryNotFound, _foundGameIds[i]));
+                            LogTextBox(string.Format(TeknoParrotUi.Properties.Resources.GameScannerWarningDirectoryNotFound, gameDir));
                             continue;
                         }
                         
@@ -328,9 +391,63 @@ namespace TeknoParrotUi.Views
                 }
             }
 
+            // 扫描完成后，保存所有日志到程序目录下的SCAN.LOG文件中，排除"找不到目录"的消息
+            SaveScanLogToFile();
+
             MessageBox.Show(TeknoParrotUi.Properties.Resources.GameScannerComplete);
             _library.ListUpdate();
             _contentControl.Content = _library;
+        }
+
+        /// <summary>
+        /// 将扫描日志保存到程序目录下的SCAN.LOG文件中，排除"找不到目录"的消息
+        /// </summary>
+        private void SaveScanLogToFile()
+        {
+            try
+            {
+                // 获取日志内容并按行分割
+                string[] logLines = ScannerText.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                
+                // 获取"找不到目录"的关键词（排除占位符）
+                string directoryNotFoundKeyword = TeknoParrotUi.Properties.Resources.GameScannerWarningDirectoryNotFound.Replace("{0}", "").TrimEnd();
+                
+                // 创建要保存的日志内容，排除"找不到目录"的行
+                StringBuilder filteredLog = new StringBuilder();
+                filteredLog.AppendLine($"扫描日志 - {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+                filteredLog.AppendLine("=" + new string('=', 70));
+                
+                foreach (string line in logLines)
+                {
+                    // 过滤掉"找不到目录"的消息
+                    if (!string.IsNullOrEmpty(line) && !line.StartsWith(directoryNotFoundKeyword))
+                    {
+                        filteredLog.AppendLine(line);
+                    }
+                }
+                
+                // 使用程序目录作为日志文件位置
+                string logDir = AppDomain.CurrentDomain.BaseDirectory;
+                string logPath = Path.Combine(logDir, "SCAN.LOG");
+                
+                // 确保目录存在
+                Directory.CreateDirectory(logDir);
+                
+                // 写入日志文件
+                File.WriteAllText(logPath, filteredLog.ToString());
+                
+                // 在控制台显示日志文件位置，方便用户查找
+                Console.WriteLine("扫描日志已保存到: " + logPath);
+                
+                // 在UI上显示保存成功的消息
+                LogTextBox(string.Format("扫描日志已保存到: {0}", logPath));
+            }
+            catch (Exception ex)
+            {
+                // 如果保存失败，在控制台显示错误信息
+                Console.WriteLine("无法保存扫描日志: " + ex.Message);
+                LogTextBox(string.Format("无法保存扫描日志: {0}", ex.Message));
+            }
         }
 
         // Update ScanWithDatClick method:
@@ -744,6 +861,9 @@ namespace TeknoParrotUi.Views
                 LogTextBox(string.Format(TeknoParrotUi.Properties.Resources.GameScannerCouldNotFindDirectory, game.Name));
                 return;
             }
+            
+            // 保存找到的游戏目录路径，供后续保存使用
+            _gameDirectories[game.GameProfile] = gameDir;
 
             // Try to get the game profile
             try

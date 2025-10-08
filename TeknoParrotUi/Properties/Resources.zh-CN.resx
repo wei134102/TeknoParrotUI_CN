@@ -1101,13 +1101,13 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
     <value>正在验证ROM</value>
   </data>
   <data name="GameScannerWarningDirectoryNotFound" xml:space="preserve">
-    <value>警告：找不到目录</value>
+    <value>警告：找不到目录 '{0}'</value>
   </data>
   <data name="GameScannerWarningExecutable2NotFound" xml:space="preserve">
-    <value>警告：找不到可执行文件2</value>
+    <value>警告：找不到可执行文件2 '{0}'</value>
   </data>
   <data name="GameScannerWarningExecutableNotFound" xml:space="preserve">
-    <value>警告：找不到可执行文件</value>
+    <value>警告：找不到可执行文件 '{0}'</value>
   </data>
   <data name="GameScannerWontAddAlreadyConfigured" xml:space="preserve">
     <value>不会添加 - 已配置</value>
