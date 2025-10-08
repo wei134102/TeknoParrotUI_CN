@@ -202,8 +202,13 @@
                     
                     <!-- Profile Selection -->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static p:Resources.MultiGameButtonConfigProfile}" VerticalAlignment="Center" Margin="0,0,10,0" />
-                    <ComboBox x:Name="ProfilesComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Width="200" 
-                              Margin="0,5" HorizontalAlignment="Left" IsEditable="True" KeyDown="ProfilesComboBox_KeyDown" />
+                    <ComboBox x:Name="ProfilesComboBox" Grid.Row="0" Grid.Column="1" Width="200" 
+                              Margin="0,5" HorizontalAlignment="Left" IsEditable="True" KeyDown="ProfilesComboBox_KeyDown" SelectionChanged="ProfilesComboBox_SelectionChanged" />
+                    
+                    <!-- XML File Selection -->
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text=".xml 配置文件" VerticalAlignment="Center" Margin="10,0,10,0" />
+                    <ComboBox x:Name="XmlFilesComboBox" Grid.Row="0" Grid.Column="3" Width="200" 
+                              Margin="0,5" HorizontalAlignment="Left" IsEnabled="False" />
                     
                     <!-- Profile Actions -->
                     <Button x:Name="SaveProfileButton" Grid.Row="1" Grid.Column="1" Content="{x:Static p:Resources.MultiGameButtonConfigSaveToProfile}" 

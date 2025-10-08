@@ -165,23 +165,44 @@ namespace TeknoParrotUi.UserControls
 
         private void UpdateButtonConfiguration()
         {
+            WriteDebugLog("UpdateButtonConfiguration() 开始执行");
+            
             var selectedGames = _filteredGames.Where(g => g.IsSelected).ToList();
+            WriteDebugLog($"选中的游戏数量: {selectedGames.Count}");
             
             if (!selectedGames.Any())
             {
+                WriteDebugLog("没有选中的游戏，清空按钮配置面板");
                 ButtonConfigPanel.ItemsSource = null;
                 StatusText.Text = TeknoParrotUi.Properties.Resources.MultiGameButtonConfigNoGamesSelected;
+                WriteDebugLog("UpdateButtonConfiguration() 执行完成");
                 return;
             }
 
             // Get all unique buttons across selected games with availability info
+            WriteDebugLog("开始生成按钮视图模型");
             var buttonViewModels = GenerateButtonViewModels(selectedGames.Select(g => g.Profile).ToList());
+            WriteDebugLog($"生成的按钮视图模型数量: {buttonViewModels.Count}");
+            
+            // 记录按钮视图模型的详细信息
+            foreach (var viewModel in buttonViewModels)
+            {
+                WriteDebugLog($"按钮视图模型 - InputMapping: {viewModel.Button.InputMapping}, ButtonName: {viewModel.Button.ButtonName}");
+                WriteDebugLog($"  DirectInputButton: {viewModel.Button.DirectInputButton}, BindNameDi: {viewModel.Button.BindNameDi}");
+                WriteDebugLog($"  XInputButton: {viewModel.Button.XInputButton}, BindNameXi: {viewModel.Button.BindNameXi}");
+                WriteDebugLog($"  RawInputButton: {viewModel.Button.RawInputButton}, BindNameRi: {viewModel.Button.BindNameRi}");
+                WriteDebugLog($"  当前显示的BindName: {viewModel.Button.BindName}");
+            }
 
             // Always show all buttons now
+            WriteDebugLog("更新ButtonConfigPanel.ItemsSource");
             ButtonConfigPanel.ItemsSource = buttonViewModels;
+            WriteDebugLog("ButtonConfigPanel.ItemsSource 更新完成");
 
             // Update status text
+            WriteDebugLog($"更新状态栏文本: 选中{selectedGames.Count}个游戏，显示{buttonViewModels.Count}个控制");
             StatusText.Text = string.Format(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigGamesSelectedControlsShown, selectedGames.Count, buttonViewModels.Count);
+            WriteDebugLog("UpdateButtonConfiguration() 执行完成");
         }
 
         private List<ButtonViewModel> GenerateButtonViewModels(List<GameProfile> selectedProfiles)
@@ -344,7 +365,29 @@ namespace TeknoParrotUi.UserControls
             StopListening();
         }
 
-        private const string PROFILES_DIRECTORY = "UserProfiles\\Profiles";
+        private const string PROFILES_DIRECTORY = "UserProfiles\\Profiles";        
+        private const string DEBUG_LOG_FILE = "UserProfiles\\0LoadProfileDebug.log";        
+        
+        private void WriteDebugLog(string message)
+        {
+            try
+            {
+                // 确保日志目录存在
+                string logDir = Path.GetDirectoryName(DEBUG_LOG_FILE);
+                if (!Directory.Exists(logDir))
+                {
+                    Directory.CreateDirectory(logDir);
+                }
+                
+                // 写入日志，包含时间戳
+                string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                File.AppendAllText(DEBUG_LOG_FILE, $"[{timestamp}] {message}\r\n");
+            }
+            catch (Exception)
+            {
+                // 忽略日志写入错误，不影响主程序功能
+            }
+        }
 
         private void RefreshProfilesList()
         {
@@ -358,9 +401,49 @@ namespace TeknoParrotUi.UserControls
             
             ProfilesComboBox.ItemsSource = profiles;
             
+            // Clear XML files combo box
+            XmlFilesComboBox.ItemsSource = null;
+            XmlFilesComboBox.IsEnabled = false;
+            
             if (profiles.Count > 0)
             {
                 ProfilesComboBox.SelectedIndex = 0;
+            }
+        }
+        
+        private void ProfilesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string profileName = ProfilesComboBox.SelectedItem as string;
+            if (string.IsNullOrWhiteSpace(profileName))
+            {
+                XmlFilesComboBox.ItemsSource = null;
+                XmlFilesComboBox.IsEnabled = false;
+                return;
+            }
+            
+            string profileDir = Path.Combine(PROFILES_DIRECTORY, profileName);
+            if (!Directory.Exists(profileDir))
+            {
+                XmlFilesComboBox.ItemsSource = null;
+                XmlFilesComboBox.IsEnabled = false;
+                return;
+            }
+            
+            // Get all XML files in the profile directory
+            var xmlFiles = Directory.GetFiles(profileDir, "*.xml")
+                                   .Select(Path.GetFileName)
+                                   .ToList();
+            
+            if (xmlFiles.Count > 0)
+            {
+                XmlFilesComboBox.ItemsSource = xmlFiles;
+                XmlFilesComboBox.SelectedIndex = 0; // 默认选中第一个XML文件
+                XmlFilesComboBox.IsEnabled = true;
+            }
+            else
+            {
+                XmlFilesComboBox.ItemsSource = null;
+                XmlFilesComboBox.IsEnabled = false;
             }
         }
 
@@ -449,6 +532,7 @@ namespace TeknoParrotUi.UserControls
             var selectedGames = _filteredGames.Where(g => g.IsSelected).ToList();
             if (!selectedGames.Any())
             {
+                WriteDebugLog("未选择任何游戏");
                 MessageBox.Show(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigSelectAtLeastOneGameToLoad, TeknoParrotUi.Properties.Resources.MultiGameButtonConfigNoGamesSelectedTitle, MessageBoxButton.OK);
                 return;
             }
@@ -456,76 +540,165 @@ namespace TeknoParrotUi.UserControls
             string profileName = ProfilesComboBox.Text?.Trim();
             if (string.IsNullOrWhiteSpace(profileName) || !Directory.Exists(Path.Combine(PROFILES_DIRECTORY, profileName)))
             {
+                WriteDebugLog("选择的配置文件无效或不存在: " + profileName);
                 MessageBox.Show(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigSelectValidProfile, TeknoParrotUi.Properties.Resources.MultiGameButtonConfigProfileNotFound, MessageBoxButton.OK);
                 return;
             }
             
             string profileDir = Path.Combine(PROFILES_DIRECTORY, profileName);
             int loadedCount = 0;
+            WriteDebugLog("开始加载配置文件: " + profileDir);
+            WriteDebugLog("选中的游戏数量: " + selectedGames.Count);
+            
+            // 获取选择的XML文件名
+            string selectedXmlFileName = XmlFilesComboBox.SelectedItem as string;
+            if (string.IsNullOrWhiteSpace(selectedXmlFileName))
+            {
+                WriteDebugLog("未选择XML配置文件");
+                MessageBox.Show("请选择一个XML配置文件", "配置文件未选择", MessageBoxButton.OK);
+                return;
+            }
+            
+            // 构建完整的配置文件路径
+            string profileFilePath = Path.Combine(profileDir, selectedXmlFileName);
+            
+            if (!File.Exists(profileFilePath))
+            {
+                WriteDebugLog("配置文件不存在: " + profileFilePath);
+                MessageBox.Show("选择的配置文件不存在", "配置文件未找到", MessageBoxButton.OK);
+                return;
+            }
+            
+            WriteDebugLog("找到配置文件: " + profileFilePath);
             
             try
             {
                 foreach (var game in selectedGames)
                 {
-                    string fileName = Path.Combine(profileDir, game.Profile.ProfileName + ".xml");
-                    
-                    if (!File.Exists(fileName))
-                    {
-                        continue; // Skip games that don't have saved profiles
-                    }
+                    WriteDebugLog("处理游戏: " + game.GameName + " (ProfileName: " + game.Profile.ProfileName + ")");
                     
                     GameProfile savedProfile;
-                    using (var reader = XmlReader.Create(fileName))
+                    using (var reader = XmlReader.Create(profileFilePath))
                     {
                         var serializer = new XmlSerializer(typeof(GameProfile));
                         savedProfile = (GameProfile)serializer.Deserialize(reader);
                     }
                     
+                    // 只有当至少有一个按钮成功匹配时才增加loadedCount
+                    bool gameHasMatches = false;
+                    
+                    WriteDebugLog("配置文件中的按钮数量: " + savedProfile.JoystickButtons.Count);
+                    WriteDebugLog("游戏中的按钮数量: " + game.Profile.JoystickButtons.Count);
+                    
                     // Apply the loaded configuration to the game
-                    foreach (var savedButton in savedProfile.JoystickButtons)
-                    {
-                        var gameButton = game.Profile.JoystickButtons.FirstOrDefault(b => b.InputMapping == savedButton.InputMapping);
-                        if (gameButton != null)
+                        foreach (var savedButton in savedProfile.JoystickButtons)
                         {
-                            // Copy all input types regardless of current input API
-                            gameButton.DirectInputButton = savedButton.DirectInputButton;
-                            gameButton.XInputButton = savedButton.XInputButton;
-                            gameButton.RawInputButton = savedButton.RawInputButton;
-                            gameButton.BindNameDi = savedButton.BindNameDi;
-                            gameButton.BindNameXi = savedButton.BindNameXi;
-                            gameButton.BindNameRi = savedButton.BindNameRi;
+                            WriteDebugLog("尝试匹配按钮 - InputMapping: " + savedButton.InputMapping + ", ButtonName: " + savedButton.ButtonName);
                             
-                            // Update the current display binding based on current input API
-                            switch (_currentInputApi)
+                            // 首先尝试通过InputMapping匹配（原始逻辑）
+                            var gameButton = game.Profile.JoystickButtons.FirstOrDefault(b => b.InputMapping == savedButton.InputMapping);
+                            
+                            if (gameButton != null)
                             {
-                                case InputApi.DirectInput:
-                                    gameButton.BindName = savedButton.BindNameDi;
-                                    break;
-                                case InputApi.XInput:
-                                    gameButton.BindName = savedButton.BindNameXi;
-                                    break;
-                                case InputApi.RawInput:
-                                case InputApi.RawInputTrackball:
-                                    gameButton.BindName = savedButton.BindNameRi;
-                                    break;
+                                WriteDebugLog("通过InputMapping匹配成功");
+                            }
+                            
+                            // 如果InputMapping匹配失败，尝试通过ButtonName匹配作为备选方案
+                            if (gameButton == null)
+                            {
+                                WriteDebugLog("InputMapping匹配失败，尝试ButtonName匹配");
+                                gameButton = game.Profile.JoystickButtons.FirstOrDefault(b => 
+                                    !string.IsNullOrEmpty(b.ButtonName) && 
+                                    !string.IsNullOrEmpty(savedButton.ButtonName) &&
+                                    b.ButtonName.Equals(savedButton.ButtonName, StringComparison.InvariantCultureIgnoreCase)
+                                );
+                                
+                                if (gameButton != null)
+                                {
+                                    WriteDebugLog("通过ButtonName匹配成功");
+                                }
+                            }
+                            
+                            if (gameButton != null)
+                            {
+                                // 记录替换前的按钮值
+                                string beforeValues = $"DirectInputButton: {gameButton.DirectInputButton}, XInputButton: {gameButton.XInputButton}, " +
+                                                    $"RawInputButton: {gameButton.RawInputButton}, BindNameDi: {gameButton.BindNameDi}, " +
+                                                    $"BindNameXi: {gameButton.BindNameXi}, BindNameRi: {gameButton.BindNameRi}";
+                                
+                                // Copy all input types regardless of current input API
+                                gameButton.DirectInputButton = savedButton.DirectInputButton;
+                                gameButton.XInputButton = savedButton.XInputButton;
+                                gameButton.RawInputButton = savedButton.RawInputButton;
+                                gameButton.BindNameDi = savedButton.BindNameDi;
+                                gameButton.BindNameXi = savedButton.BindNameXi;
+                                gameButton.BindNameRi = savedButton.BindNameRi;
+                                
+                                // Update the current display binding based on current input API
+                                string bindNameBefore = gameButton.BindName;
+                                switch (_currentInputApi)
+                                {
+                                    case InputApi.DirectInput:
+                                        gameButton.BindName = savedButton.BindNameDi;
+                                        break;
+                                    case InputApi.XInput:
+                                        gameButton.BindName = savedButton.BindNameXi;
+                                        break;
+                                    case InputApi.RawInput:
+                                    case InputApi.RawInputTrackball:
+                                        gameButton.BindName = savedButton.BindNameRi;
+                                        break;
+                                }
+                                
+                                // 记录替换后的按钮值
+                                string afterValues = $"DirectInputButton: {gameButton.DirectInputButton}, XInputButton: {gameButton.XInputButton}, " +
+                                                    $"RawInputButton: {gameButton.RawInputButton}, BindNameDi: {gameButton.BindNameDi}, " +
+                                                    $"BindNameXi: {gameButton.BindNameXi}, BindNameRi: {gameButton.BindNameRi}";
+                                
+                                // 添加详细日志
+                                WriteDebugLog($"配置文件路径: {Path.Combine(profileDir, "profile.xml")}");
+                                WriteDebugLog($"替换的游戏配置文件路径: {Path.Combine(Path.GetDirectoryName(PROFILES_DIRECTORY), game.Profile.ProfileName + ".xml")}");
+                                WriteDebugLog($"替换的按钮名称: InputMapping={gameButton.InputMapping}, ButtonName={gameButton.ButtonName}");
+                                WriteDebugLog($"按钮替换前: {beforeValues}, BindName: {bindNameBefore}");
+                                WriteDebugLog($"按钮替换后: {afterValues}, BindName: {gameButton.BindName}");
+                                
+                                gameHasMatches = true; // 标记至少有一个按钮匹配成功
+                                WriteDebugLog("成功应用按钮配置");
+                            }
+                            else
+                            {
+                                WriteDebugLog($"未找到匹配的按钮: InputMapping={savedButton.InputMapping}, ButtonName={savedButton.ButtonName}");
                             }
                         }
-                    }
                     
-                    loadedCount++;
+                    if (gameHasMatches)
+                    {
+                        loadedCount++; // 只有当至少有一个按钮匹配成功时才增加计数
+                        WriteDebugLog("游戏配置加载成功，loadedCount = " + loadedCount);
+                    }
+                    else
+                    {
+                        WriteDebugLog("游戏无匹配的按钮配置");
+                    }
                 }
+                
+                WriteDebugLog("加载完成，总成功加载的游戏数量: " + loadedCount);
                 
                 if (loadedCount > 0)
                 {
+                    WriteDebugLog("显示加载成功消息");
                     MessageBox.Show(string.Format(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigSuccessfullyLoadedProfile, loadedCount, profileName),
                                   TeknoParrotUi.Properties.Resources.MultiGameButtonConfigProfileLoaded, MessageBoxButton.OK);
                     
                     _hasUnsavedChanges = true; // Set flag after loading a profile
                     // Update the UI to show the loaded configuration
+                    WriteDebugLog("调用UpdateButtonConfiguration()更新右侧窗口显示");
                     UpdateButtonConfiguration();
+                    WriteDebugLog("UpdateButtonConfiguration()调用完成");
                 }
                 else
                 {
+                    WriteDebugLog("显示无匹配配置消息");
                     MessageBox.Show(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigNoMatchingConfigurations,
                                   TeknoParrotUi.Properties.Resources.MultiGameButtonConfigNoConfigurationsFound, MessageBoxButton.OK);
                 }
