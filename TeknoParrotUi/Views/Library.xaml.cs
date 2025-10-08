@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -392,6 +392,13 @@ namespace TeknoParrotUi.Views
             }
 
             listRefreshNeeded = false;
+            
+            // 更新游戏列表数量显示
+            if (gameCountText != null)
+            {
+                gameCountText.Text = $"共 {gameList.Items.Count} 个游戏";
+            }
+            
             //wei134102
             if (gameList.SelectedItem != null && LastGameAutoLaunch && Lazydata.ParrotData.SaveLastPlayed)
             {
