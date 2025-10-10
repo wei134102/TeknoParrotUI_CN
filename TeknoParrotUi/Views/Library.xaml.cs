@@ -73,6 +73,7 @@ namespace TeknoParrotUi.Views
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                request.CachePolicy = new System.Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore);
                 request.Timeout = 5000;
                 request.Proxy = null;
 
