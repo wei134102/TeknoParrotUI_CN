@@ -51,17 +51,7 @@
                 <ComboBoxItem Content="{x:Static p:Resources.MultiGameButtonConfigRawInputTrackball}" />
             </ComboBox>
             
-            <ComboBox  
-                x:Name="GameCategorySelector"
-                Grid.Column="2"
-                Width="150"
-                Margin="10,0"
-                SelectionChanged="GameCategorySelector_SelectionChanged" Visibility="Hidden">
-                <ComboBoxItem Content="{x:Static p:Resources.MultiGameButtonConfigAllGames}" />
-                <ComboBoxItem Content="{x:Static p:Resources.MultiGameButtonConfigRacingGames}" />
-                <ComboBoxItem Content="{x:Static p:Resources.MultiGameButtonConfigShootingGames}" />
-                <ComboBoxItem Content="{x:Static p:Resources.MultiGameButtonConfigArcadeGames}"/>
-            </ComboBox>
+            <!-- GameCategorySelector moved to game selection panel -->
             
             <CheckBox
                 x:Name="ShowCommonButtonsOnly"
@@ -91,11 +81,19 @@
             
             <!-- Game selection panel -->
             <DockPanel Grid.Column="0">
-                <TextBlock 
-                    DockPanel.Dock="Top" 
-                    Text="{x:Static p:Resources.MultiGameButtonConfigSelectGames}" 
-                    FontSize="18" 
-                    Margin="0,0,0,10" />
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock 
+                        Text="{x:Static p:Resources.MultiGameButtonConfigSelectGames}" 
+                        FontSize="18" 
+                        VerticalAlignment="Center" />
+                    <TextBlock 
+                        x:Name="GameCountText" 
+                        Text="游戏数量：0" 
+                        Margin="10,0,0,0" 
+                        FontSize="14" 
+                        VerticalAlignment="Center" 
+                        Foreground="Gray" />
+                </StackPanel>
                 
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
                     <Button 
@@ -106,7 +104,14 @@
                     <Button 
                         x:Name="ClearSelectionButton" 
                         Content="{x:Static p:Resources.MultiGameButtonConfigClear}" 
+                        Margin="0,0,10,0" 
                         Click="ClearSelectionButton_Click" />
+                    <ComboBox  
+                        x:Name="GameCategorySelector"
+                        Width="150"
+                        Margin="0,0,0,0"
+                        SelectionChanged="GameCategorySelector_SelectionChanged"/>
+                    <!-- GameCategorySelector is populated in code-behind using GenreTranslationHelper -->
                 </StackPanel>
                 
                 <ListView 

@@ -15,6 +15,7 @@ using TeknoParrotUi.Common;
 using TeknoParrotUi.Helpers;
 using TeknoParrotUi.Views;
 using TeknoParrotUi.Properties;
+using TeknoParrotUi.Helpers;
 
 namespace TeknoParrotUi.UserControls
 {
@@ -100,7 +101,9 @@ namespace TeknoParrotUi.UserControls
 
             // Set up the UI
             InputApiSelector.SelectedIndex = 0; // DirectInput by default
-            GameCategorySelector.SelectedIndex = 0; // All games by default
+            
+            // Initialize genre selector using GenreTranslationHelper
+            InitializeGenreSelector();
             
             // Load the game list
             LoadGameList();
@@ -109,11 +112,26 @@ namespace TeknoParrotUi.UserControls
             RefreshProfilesList();
         }
 
+        private void InitializeGenreSelector()
+        {
+            var genreItems = TeknoParrotUi.Helpers.GenreTranslationHelper.GetGenreItems(false);
+            GameCategorySelector.ItemsSource = genreItems;
+            GameCategorySelector.SelectedIndex = 0;
+        }
+
         private void LoadGameList()
         {
-            _filteredGames.Clear();
+            // 创建一个新的列表来存储筛选结果，确保完全清除之前的筛选
+            List<GameViewModel> newFilteredGames = new List<GameViewModel>();
             string searchText = SearchBox.Text?.ToLower() ?? "";
-            string category = ((GameCategorySelector.SelectedItem as ComboBoxItem)?.Content as string) ?? TeknoParrotUi.Properties.Resources.MultiGameButtonConfigAllGamesCategory;
+
+            // Get the selected genre
+            string selectedInternalGenre = "All";
+            if (GameCategorySelector != null && GameCategorySelector.SelectedItem != null)
+            {
+                var genreItem = GameCategorySelector.SelectedItem as TeknoParrotUi.Helpers.GenreItem;
+                selectedInternalGenre = genreItem?.InternalName ?? "All";
+            }
 
             foreach (var profile in _allGameProfiles)
             {
@@ -121,14 +139,12 @@ namespace TeknoParrotUi.UserControls
                 bool matchesSearch = string.IsNullOrEmpty(searchText) || 
                                     profile.GameNameInternal.ToLower().Contains(searchText);
 
-                bool matchesCategory = category == TeknoParrotUi.Properties.Resources.MultiGameButtonConfigAllGamesCategory || 
-                                     (category == TeknoParrotUi.Properties.Resources.MultiGameButtonConfigRacingGamesCategory && IsRacingGame(profile)) ||
-                                     (category == TeknoParrotUi.Properties.Resources.MultiGameButtonConfigShootingGamesCategory && IsShootingGame(profile)) ||
-                                     (category == TeknoParrotUi.Properties.Resources.MultiGameButtonConfigArcadeGamesCategory && IsArcadeGame(profile));
+                // Use GenreTranslationHelper to check if the game matches the selected genre
+                bool matchesGenre = TeknoParrotUi.Helpers.GenreTranslationHelper.DoesGameMatchGenre(selectedInternalGenre, profile);
 
-                if (matchesSearch && matchesCategory)
+                if (matchesSearch && matchesGenre)
                 {
-                    _filteredGames.Add(new GameViewModel
+                    newFilteredGames.Add(new GameViewModel
                     {
                         Profile = profile,
                         GameName = profile.GameNameInternal, // Use GameNameInternal here
@@ -137,30 +153,14 @@ namespace TeknoParrotUi.UserControls
                 }
             }
 
+            // 完全替换旧的筛选列表
+            _filteredGames = newFilteredGames;
             GameListView.ItemsSource = _filteredGames;
+            
+            // 更新游戏数量显示
+            GameCountText.Text = string.Format("游戏数量：{0}", _filteredGames.Count);
+            
             UpdateButtonConfiguration();
-        }
-
-        private bool IsRacingGame(GameProfile profile)
-        {
-            // Determine if the game is a racing game based on profile characteristics
-            return profile.JoystickButtons.Any(b => 
-                b.InputMapping == InputMapping.Analog0 || // Gas
-                b.InputMapping == InputMapping.Analog2);
-        }
-
-        private bool IsShootingGame(GameProfile profile)
-        {
-            // Determine if the game is a shooting game based on profile characteristics
-            return profile.JoystickButtons.Any(b => 
-                b.InputMapping == InputMapping.P1LightGun || 
-                b.InputMapping == InputMapping.P2LightGun);
-        }
-
-        private bool IsArcadeGame(GameProfile profile)
-        {
-            // Default for other arcade games that aren't racing or shooting
-            return !IsRacingGame(profile) && !IsShootingGame(profile);
         }
 
         private void UpdateButtonConfiguration()
