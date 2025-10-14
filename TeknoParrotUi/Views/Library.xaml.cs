@@ -56,13 +56,13 @@ namespace TeknoParrotUi.Views
 
         static BitmapSource LoadImage(string filename)
         {
-            //There's a weird issue on Windows 8.1 that causes a memory leak
-            //this code has issues!
-            var file = new FileStream(Path.GetFullPath(filename), FileMode.Open, FileAccess.Read, FileShare.Read);
-            PngBitmapDecoder decoder = new PngBitmapDecoder(file, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnDemand);
-            BitmapSource bs = decoder.Frames[0];
-
-            return bs;
+            using (var file = new FileStream(Path.GetFullPath(filename), FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                PngBitmapDecoder decoder = new PngBitmapDecoder(file, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                BitmapSource bs = decoder.Frames[0];
+                bs.Freeze();
+                return bs;
+            }
         }
 
         private static bool DownloadFile(string urlAddress, string filePath)
@@ -72,6 +72,7 @@ namespace TeknoParrotUi.Views
             try
             {
                 var request = (HttpWebRequest)WebRequest.Create(urlAddress);
+                request.CachePolicy = new System.Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore);
                 request.Timeout = 5000;
                 request.Proxy = null;
 
@@ -744,6 +745,7 @@ namespace TeknoParrotUi.Views
                 { "taikokimidori", ("taikokimidori", 0x05, 0x13, 0x0A, new byte[] { 0x43, 0x50 }, 0xA7, 0x9B) },
                 { "taikomomoiro", ("taikomomoiro", 0x04, 0x13, 0x08, new byte[] { 0x43, 0x50 }, 0xA7, 0x9B) },
                 { "taikosorairo", ("taikosorairo", 0x03, 0x13, 0x08, new byte[] { 0x43, 0x50 }, 0xA7, 0x9B) },
+                { "taikokatsudon", ("taikokatsudon", 0x02, 0x11, 0x08, new byte[] { 0x43, 0x50 }, 0xA7, 0x9B) },
                 // Wadaiko Master = Brazilian release of momoiro
                 { "wadaikomaster", ("wadaikomaster", 0x04, 0x13, 0x0A, new byte[] { 0x83, 0x20 }, 0xA7, 0x9B) },
             };
