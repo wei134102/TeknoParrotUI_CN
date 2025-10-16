@@ -47,7 +47,11 @@ namespace TeknoParrotUi.Views
 
             using (var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TeknoGods\TeknoParrot"))
             {
+#if DEBUG
+                var isPatron = true; // 强制设为赞助者状态用于测试
+#else
                 var isPatron = key != null && key.GetValue("PatreonSerialKey") != null;
+#endif
 
                 if (isPatron)
                 {
