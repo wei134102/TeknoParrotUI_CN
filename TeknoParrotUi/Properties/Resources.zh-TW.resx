@@ -1207,6 +1207,49 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
   <data name="Library64bit" xml:space="preserve">
     <value>此遊戲是64位的，無法在32位操作系統上運行。</value>
   </data>
+  <data name="ChangelogTitle" xml:space="preserve">
+    <value>更新完成！</value>
+  </data>
+  <data name="ChangelogSubtitle" xml:space="preserve">
+    <value>您的模擬器已更新至最新改進</value>
+  </data>
+  <data name="ChangelogSubscriptionTitle" xml:space="preserve">
+    <value>成爲訂閱者</value>
+  </data>
+  <data name="ChangelogSubscriptionTitlePatron" xml:space="preserve">
+    <value>感謝您保存歷史</value>
+  </data>
+  <data name="ChangelogSubscriptionDescription" xml:space="preserve">
+    <value>支持TeknoParrot的發展並解鎖獨家特權</value>
+  </data>
+  <data name="ChangelogSubscriptionBenefits" xml:space="preserve">
+    <value>搶先體驗新功能 • 優先支持 • 獨家核心和在線多人遊戲</value>
+  </data>
+  <data name="ChangelogSubscriptionBenefitsPatron" xml:space="preserve">
+    <value>您可以訪問{0}個獨家核心，部分支持在線保存和多人遊戲！</value>
+    <comment>{0} = 獨家核心數量</comment>
+  </data>
+  <data name="ChangelogPatronThankYou" xml:space="preserve">
+    <value>感謝您保存街機歷史！您的支持使TeknoParrot成爲可能。</value>
+  </data>
+  <data name="ChangelogContinueButton" xml:space="preserve">
+    <value>繼續使用TeknoParrot</value>
+  </data>
+  <data name="ChangelogContinueButtonNonPatron" xml:space="preserve">
+    <value>不支持並繼續</value>
+  </data>
+  <data name="ChangelogViewOnGitHub" xml:space="preserve">
+    <value>在GitHub上查看完整更新日誌</value>
+  </data>
+  <data name="ChangelogNoInformation" xml:space="preserve">
+    <value>沒有可用的更新日誌信息。</value>
+  </data>
+  <data name="ChangelogExclusiveCoresTitle" xml:space="preserve">
+    <value>您的獨家模擬核心：</value>
+  </data>
+  <data name="ChangelogExclusiveCoresCount" xml:space="preserve">
+    <value>獨家核心及在線多人遊戲</value>
+  </data>
   <data name="LibraryAnotherEmulator" xml:space="preserve">
     <value>看起來您已經在使用其他模擬器。
 請從遊戲目錄中刪除以下文件：</value>
@@ -2627,5 +2670,14 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
 請訪問 TeknoParrot Discord 的 #fixes 頻道以獲取 TP 插件...
 
 現在關閉...</value>
+  </data>
+  <data name="SettingsLanguageChineseSimplified" xml:space="preserve">
+    <value>中文（簡體）</value>
+  </data>
+  <data name="SettingsLanguageChineseTraditional" xml:space="preserve">
+    <value>中文（繁體）</value>
+  </data>
+  <data name="SettingsLanguageRestartRequired" xml:space="preserve">
+    <value>語言更改將在重啟應用程序後生效。</value>
   </data>
 </root>
