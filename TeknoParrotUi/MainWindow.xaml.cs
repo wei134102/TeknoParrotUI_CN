@@ -1019,7 +1019,7 @@ namespace TeknoParrotUi
 
         public void UpdateTitleBar()
         {
-            TitleName.Text = "TeknoParrot UI " + GetPatreonString() + " " + GameVersion.CurrentVersion;
+            TitleName.Text = "TeknoParrot UI(b站86年复古游戏厅定制版)" + GetPatreonString() + " " + GameVersion.CurrentVersion;
         }
 
         private void BtnDownloadMissingIcons(object sender, RoutedEventArgs e)
