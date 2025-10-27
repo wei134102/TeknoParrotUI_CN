@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaInitialD</EmulationProfile>
 	<GameProfileRevision>35</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>id6_dump_.exe</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<LaunchSecondExecutableMinimized>true</LaunchSecondExecutableMinimized>
 	<ConfigValues>

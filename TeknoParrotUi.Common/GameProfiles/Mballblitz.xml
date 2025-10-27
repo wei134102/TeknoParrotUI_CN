@@ -8,7 +8,8 @@
 	<EmulationProfile>Mballblitz</EmulationProfile>
 	<GameProfileRevision>15</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>prjMonkey_tv_final.exe</ExecutableName>
 	<DevOnly>false</DevOnly>
 	<ConfigValues>
 		<FieldInformation>

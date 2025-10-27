@@ -8,7 +8,8 @@
 	<EmulationProfile>Hotd4</EmulationProfile>
 	<GameProfileRevision>34</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>hod4M.elf</ExecutableName>
 	<InvertedMouseAxis>true</InvertedMouseAxis>
 	<GunGame>true</GunGame>
 	<xAxisMin>5</xAxisMin>

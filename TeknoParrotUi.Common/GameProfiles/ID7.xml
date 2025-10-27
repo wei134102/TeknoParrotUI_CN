@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaInitialD</EmulationProfile>
 	<GameProfileRevision>36</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>InitialD7_GLW_RE_SBYD.exe</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<LaunchSecondExecutableMinimized>true</LaunchSecondExecutableMinimized>
 	<ConfigValues>

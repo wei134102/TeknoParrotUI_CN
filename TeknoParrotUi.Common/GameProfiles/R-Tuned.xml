@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaRTuned</EmulationProfile>
 	<GameProfileRevision>19</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>dsr_HD</ExecutableName>
 	<msysType>3</msysType>
 	<ConfigValues>
 		<FieldInformation>

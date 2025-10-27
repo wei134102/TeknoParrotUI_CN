@@ -10,7 +10,8 @@
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<ResetHint>true</ResetHint>
 	<Is64Bit>true</Is64Bit>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>ferrum_app.exe</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<ConfigValues>
 		<FieldInformation>

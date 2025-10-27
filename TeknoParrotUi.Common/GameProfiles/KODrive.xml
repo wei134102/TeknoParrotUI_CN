@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaSonicAllStarsRacing</EmulationProfile>
 	<GameProfileRevision>21</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>exe\M-DriveR_RingWide.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

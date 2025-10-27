@@ -8,7 +8,8 @@
 	<EmulationProfile>Vt3Lindbergh</EmulationProfile>
 	<GameProfileRevision>4</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-  <EmulatorType>ElfLdr2</EmulatorType>
+  <EmulatorType>ElfLdr2</EmulatorType>	
+	<ExecutableName>vt3_Lindbergh\vt3_Lindbergh_HD</ExecutableName>
 	<Patreon>true</Patreon>
 	<ConfigValues>
 		<FieldInformation>

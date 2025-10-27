@@ -8,7 +8,8 @@
 	<EmulationProfile>Outrun2SPX</EmulationProfile>
 	<GameProfileRevision>38</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>or2g\disk0\Jennifer\Jennifer_VGA</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<ConfigValues>
 		<FieldInformation>

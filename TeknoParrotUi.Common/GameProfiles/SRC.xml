@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaRacingClassic</EmulationProfile>
 	<GameProfileRevision>34</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>d1a.exe</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<ConfigValues>
 		<FieldInformation>

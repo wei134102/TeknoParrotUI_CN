@@ -9,7 +9,8 @@
 	<GameProfileRevision>21</GameProfileRevision>
 	<Requires4GBPatch>true</Requires4GBPatch>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>sdaemon_x64.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
