@@ -6,7 +6,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using TeknoParrotUi.Common;
@@ -303,6 +305,12 @@ namespace TeknoParrotUi.Views
                     selectedInternalGenre = genreItem?.InternalName ?? "All";
                 }
 
+                string searchName = "";
+                if (GameSearchBox != null)
+                {
+                    searchName = GameSearchBox.Text;
+                }
+
                 foreach (var gameProfile in GameProfileLoader.UserProfiles)
                 {
                     var thirdparty = gameProfile.EmulatorType == EmulatorType.SegaTools;
@@ -313,16 +321,20 @@ namespace TeknoParrotUi.Views
                     if (!matchesGenre)
                         continue;
 
-                    var item = new ListBoxItem
+                    // 搜索功能：完全按照添加游戏的搜索逻辑实现
+                    if (gameProfile.GameNameInternal.IndexOf(searchName, 0, StringComparison.OrdinalIgnoreCase) != -1 || string.IsNullOrWhiteSpace(searchName))
                     {
-                        Content = gameProfile.GameNameInternal +
-                                    (gameProfile.Patreon ? TeknoParrotUi.Properties.Resources.LibrarySubscriptionSuffix : "") +
-                                    (thirdparty ? string.Format(TeknoParrotUi.Properties.Resources.LibraryThirdPartySuffix, gameProfile.EmulatorType) : ""),
-                        Tag = gameProfile
-                    };
+                        var item = new ListBoxItem
+                        {
+                            Content = gameProfile.GameNameInternal +
+                                        (gameProfile.Patreon ? TeknoParrotUi.Properties.Resources.LibrarySubscriptionSuffix : "") +
+                                        (thirdparty ? string.Format(TeknoParrotUi.Properties.Resources.LibraryThirdPartySuffix, gameProfile.EmulatorType) : ""),
+                            Tag = gameProfile
+                        };
 
-                    _gameNames.Add(gameProfile);
-                    gameList.Items.Add(item);
+                        _gameNames.Add(gameProfile);
+                        gameList.Items.Add(item);
+                    }
                 }
 
                 // Rest of the method remains the same...
@@ -366,7 +378,6 @@ namespace TeknoParrotUi.Views
                         gameList.SelectedIndex = 0;
                 }
 
-                gameList.Focus();
                 if (gameList.SelectedItem != null)
                 {
                     try
@@ -1526,6 +1537,12 @@ namespace TeknoParrotUi.Views
         {
             ListUpdate();
         }
+
+        private void GameSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ListUpdate();
+        }
+
 
         /// <summary>
         /// 检查并启用打开游戏位置按钮
