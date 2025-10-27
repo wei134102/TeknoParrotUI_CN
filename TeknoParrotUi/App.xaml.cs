@@ -484,7 +484,7 @@ namespace TeknoParrotUi
 
         public OAuthHelper OAuthHelper { get; private set; }
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             // Load ParrotData and apply language BEFORE base.OnStartup
             try
@@ -497,18 +497,13 @@ namespace TeknoParrotUi
             {
                 // If loading fails, continue with default language
             }
+            
+            // Call base.OnStartup to ensure proper initialization
             base.OnStartup(e);
 
             OAuthHelper = new OAuthHelper();
 
-            if (await OAuthHelper.EnsureAuthenticatedAsync(false))
-            {
-                Trace.WriteLine("User is logged in");
-            }
-            else
-            {
-                Trace.WriteLine("User is not logged in or has no internet connection");
-            }
+            // The actual startup logic is handled in Application_Startup event handler
         }
 
         private void StartApp()
