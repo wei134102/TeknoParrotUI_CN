@@ -8,7 +8,8 @@
 	<EmulationProfile>ExBoard</EmulationProfile>
 	<GameProfileRevision>5</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
-	<EmulatorType>OpenParrot</EmulatorType>
+	<EmulatorType>OpenParrot</EmulatorType>	
+	<ExecutableName>StreetFighterV\Binaries\Win64\StreetFighterV.exe</ExecutableName>
 	<Is64Bit>true</Is64Bit>
 	<ConfigValues>
 		<FieldInformation>

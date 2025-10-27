@@ -9,6 +9,7 @@
 	<GameProfileRevision>11</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
 	<EmulatorType>TeknoParrot</EmulatorType>
+	<ExecutableName>gl.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

@@ -10,7 +10,8 @@
 	<Is64Bit>true</Is64Bit>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
 	<TestExecIs64Bit>true</TestExecIs64Bit>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>game\Goonya Fighter.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

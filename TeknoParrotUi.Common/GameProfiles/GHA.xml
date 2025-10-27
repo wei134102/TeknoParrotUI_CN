@@ -9,7 +9,8 @@
 	<GameProfileRevision>23</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<RequiresAdmin>true</RequiresAdmin>
-	<EmulatorType>OpenParrot</EmulatorType>
+	<EmulatorType>OpenParrot</EmulatorType>	
+	<ExecutableName>GHA.exe</ExecutableName>
 	<InvalidFiles>xinput1_3.dll,Xinputter.ini,dinput8.dll</InvalidFiles>
 	<ConfigValues>
 		<FieldInformation>

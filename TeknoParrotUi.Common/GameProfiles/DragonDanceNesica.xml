@@ -8,7 +8,8 @@
 	<EmulationProfile>FastIo</EmulationProfile>
 	<GameProfileRevision>3</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
-	<EmulatorType>OpenParrot</EmulatorType>
+	<EmulatorType>OpenParrot</EmulatorType>	
+	<ExecutableName>Game.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

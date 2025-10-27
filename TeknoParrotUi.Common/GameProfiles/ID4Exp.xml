@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaInitialDLindbergh</EmulationProfile>
 	<GameProfileRevision>26</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>id4.elf</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<ConfigValues>
 		<FieldInformation>

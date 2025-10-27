@@ -8,7 +8,8 @@
 	<EmulationProfile>Vf5cLindbergh</EmulationProfile>
 	<GameProfileRevision>3</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>ElfLdr2</EmulatorType>
+	<EmulatorType>ElfLdr2</EmulatorType>	
+	<ExecutableName>vf5</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

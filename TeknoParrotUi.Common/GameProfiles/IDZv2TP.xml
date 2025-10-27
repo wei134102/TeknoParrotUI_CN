@@ -15,7 +15,8 @@
 	<GameProfileRevision>14</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<RequiresAdmin>false</RequiresAdmin>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>InitialD0_DX11_Nu.exe</ExecutableName>
 	<OnlineIdFieldName>OnlineID</OnlineIdFieldName>
 	<OnlineIdType>SegaId</OnlineIdType>
 	<OnlineProfileURL>https://teknoparrot.com/OnlineProfile/APM3</OnlineProfileURL>

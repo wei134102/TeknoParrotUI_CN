@@ -8,7 +8,8 @@
 	<EmulationProfile>Vt3Lindbergh</EmulationProfile>
 	<GameProfileRevision>16</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>vt3_Lindbergh\vt3_Lindbergh_HD</ExecutableName>
 	<msysType>2</msysType>
 	<ConfigValues>
 		<FieldInformation>

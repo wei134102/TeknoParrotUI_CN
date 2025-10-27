@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaJvsLetsGoIsland</EmulationProfile>
 	<GameProfileRevision>21</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>LGI_RingW_F_safe.exe</ExecutableName>
 	<GunGame>true</GunGame>
 	<xAxisMin>27</xAxisMin>
 	<xAxisMax>208</xAxisMax>

@@ -10,7 +10,8 @@
 	<Is64Bit>true</Is64Bit>
 	<TestExecIs64Bit>true</TestExecIs64Bit>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>pen5.exe</ExecutableName>
 	<OnlineIdFieldName>APM3ID</OnlineIdFieldName>
 	<OnlineIdType>SegaId</OnlineIdType>
 	<OnlineProfileURL>https://teknoparrot.com/OnlineProfile/APM3</OnlineProfileURL>

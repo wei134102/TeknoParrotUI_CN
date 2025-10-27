@@ -10,7 +10,8 @@
 	<Is64Bit>true</Is64Bit>
 	<TestExecIs64Bit>true</TestExecIs64Bit>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>TeknoParrot</EmulatorType>
+	<EmulatorType>TeknoParrot</EmulatorType>	
+	<ExecutableName>puyoe.exe</ExecutableName>
 	<HasTpoSupport>true</HasTpoSupport>
 	<OnlineIdFieldName>APM3ID</OnlineIdFieldName>
 	<OnlineIdType>SegaId</OnlineIdType>

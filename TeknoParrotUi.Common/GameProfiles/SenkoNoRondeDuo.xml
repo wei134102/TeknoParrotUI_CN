@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaJvs</EmulationProfile>
 	<GameProfileRevision>9</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
-	<EmulatorType>OpenParrot</EmulatorType>
+	<EmulatorType>OpenParrot</EmulatorType>	
+	<ExecutableName>game.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

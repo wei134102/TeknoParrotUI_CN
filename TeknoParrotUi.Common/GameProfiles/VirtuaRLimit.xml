@@ -8,7 +8,8 @@
 	<EmulationProfile>VirtuaRLimit</EmulationProfile>
 	<GameProfileRevision>20</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
-	<EmulatorType>OpenParrot</EmulatorType>
+	<EmulatorType>OpenParrot</EmulatorType>	
+	<ExecutableName>launcher.exe</ExecutableName>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>

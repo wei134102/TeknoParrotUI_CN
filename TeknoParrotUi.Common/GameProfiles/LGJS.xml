@@ -8,7 +8,8 @@
 	<EmulationProfile>SegaJvsLetsGoJungle</EmulationProfile>
 	<GameProfileRevision>21</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
-	<EmulatorType>Lindbergh</EmulatorType>
+	<EmulatorType>Lindbergh</EmulatorType>	
+	<ExecutableName>lgjsp_app</ExecutableName>
 	<msysType>3</msysType>
 	<InvertedMouseAxis>true</InvertedMouseAxis>
 	<GunGame>true</GunGame>
