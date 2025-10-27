@@ -1543,6 +1543,40 @@ namespace TeknoParrotUi.Views
             ListUpdate();
         }
 
+        /// <summary>
+        /// 复制游戏标题到剪贴板
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CopyGameTitle_Click(object sender, RoutedEventArgs e)
+        {
+            if (gameList.SelectedItem != null)
+            {
+                var selectedItem = gameList.SelectedItem as ListBoxItem;
+                if (selectedItem != null)
+                {
+                    string gameTitle = selectedItem.Content?.ToString() ?? "";
+                    if (!string.IsNullOrEmpty(gameTitle))
+                    {
+                        try
+                        {
+                            Clipboard.SetText(gameTitle);
+                            // 可选：显示复制成功的提示
+                            // MessageBox.Show($"已复制游戏标题: {gameTitle}", "复制成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"复制失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先选择一个游戏", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
 
         /// <summary>
         /// 检查并启用打开游戏位置按钮

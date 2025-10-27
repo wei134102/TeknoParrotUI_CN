@@ -38,6 +38,11 @@
             Margin="4"
             SelectionMode="Extended"
             SelectionChanged="StockGameList_SelectionChanged">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="复制游戏标题" Click="CopyGameTitle_Click" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
             <ListBox.ItemContainerStyle>
                 <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="7" />
