@@ -133,7 +133,8 @@
                  Margin="4"
                  BorderThickness="1"
                  SelectionMode="Extended"
-                 SelectionChanged="ListBox_SelectionChanged">
+                 SelectionChanged="ListBox_SelectionChanged"
+                 KeyDown="GameList_KeyDown">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="复制游戏标题" Click="CopyGameTitle_Click" />

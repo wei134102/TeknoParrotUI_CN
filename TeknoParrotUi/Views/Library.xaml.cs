@@ -1577,6 +1577,22 @@ namespace TeknoParrotUi.Views
             }
         }
 
+        /// <summary>
+        /// 游戏列表键盘事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.C && 
+                (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) == System.Windows.Input.ModifierKeys.Control)
+            {
+                // Ctrl+C 快捷键复制游戏标题
+                CopyGameTitle_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
 
         /// <summary>
         /// 检查并启用打开游戏位置按钮

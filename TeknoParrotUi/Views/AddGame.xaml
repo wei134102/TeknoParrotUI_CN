@@ -37,7 +37,8 @@
             Grid.Column="1"
             Margin="4"
             SelectionMode="Extended"
-            SelectionChanged="StockGameList_SelectionChanged">
+            SelectionChanged="StockGameList_SelectionChanged"
+            KeyDown="StockGameList_KeyDown">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="复制游戏标题" Click="CopyGameTitle_Click" />
