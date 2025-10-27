@@ -400,23 +400,23 @@ namespace TeknoParrotUi.Views
         }
 
         /// <summary>
-        /// 复制游戏标题到剪贴板
+        /// 复制游戏标题到剪贴板（公共方法，可供其他位置调用）
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CopyGameTitle_Click(object sender, RoutedEventArgs e)
+        /// <param name="selectedItems">选中的游戏项列表</param>
+        /// <returns>是否成功复制</returns>
+        public bool CopyGameTitlesToClipboard(System.Collections.IList selectedItems)
         {
             try
             {
-                if (stockGameList.SelectedItems.Count == 0)
+                if (selectedItems == null || selectedItems.Count == 0)
                 {
                     MessageBox.Show("请先选择要复制的游戏", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
+                    return false;
                 }
 
                 var gameTitles = new List<string>();
                 
-                foreach (ListBoxItem item in stockGameList.SelectedItems)
+                foreach (ListBoxItem item in selectedItems)
                 {
                     var gameProfile = (GameProfile)item.Tag;
                     // 获取原始游戏标题（不包含后缀）
@@ -429,12 +429,26 @@ namespace TeknoParrotUi.Views
                     var titlesText = string.Join("\n", gameTitles);
                     Clipboard.SetText(titlesText);
                     // 复制成功，不显示弹窗提示
+                    return true;
                 }
+                
+                return false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"复制失败：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
+        }
+
+        /// <summary>
+        /// 复制游戏标题到剪贴板（事件处理方法）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CopyGameTitle_Click(object sender, RoutedEventArgs e)
+        {
+            CopyGameTitlesToClipboard(stockGameList.SelectedItems);
         }
 
         /// <summary>
@@ -448,7 +462,7 @@ namespace TeknoParrotUi.Views
                 (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) == System.Windows.Input.ModifierKeys.Control)
             {
                 // Ctrl+C 快捷键复制游戏标题
-                CopyGameTitle_Click(sender, e);
+                CopyGameTitlesToClipboard(stockGameList.SelectedItems);
                 e.Handled = true;
             }
         }

@@ -1544,37 +1544,15 @@ namespace TeknoParrotUi.Views
         }
 
         /// <summary>
-        /// 复制游戏标题到剪贴板
+        /// 复制游戏标题到剪贴板（调用AddGame中的公共函数）
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CopyGameTitle_Click(object sender, RoutedEventArgs e)
         {
-            if (gameList.SelectedItem != null)
-            {
-                var selectedItem = gameList.SelectedItem as ListBoxItem;
-                if (selectedItem != null)
-                {
-                    string gameTitle = selectedItem.Content?.ToString() ?? "";
-                    if (!string.IsNullOrEmpty(gameTitle))
-                    {
-                        try
-                        {
-                            Clipboard.SetText(gameTitle);
-                            // 可选：显示复制成功的提示
-                            // MessageBox.Show($"已复制游戏标题: {gameTitle}", "复制成功", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"复制失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("请先选择一个游戏", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            // 创建AddGame实例并调用其公共复制函数
+            var addGame = new AddGame(_contentControl, this);
+            addGame.CopyGameTitlesToClipboard(gameList.SelectedItems);
         }
 
         /// <summary>
@@ -1587,8 +1565,9 @@ namespace TeknoParrotUi.Views
             if (e.Key == System.Windows.Input.Key.C && 
                 (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) == System.Windows.Input.ModifierKeys.Control)
             {
-                // Ctrl+C 快捷键复制游戏标题
-                CopyGameTitle_Click(sender, e);
+                // Ctrl+C 快捷键复制游戏标题（调用AddGame中的公共函数）
+                var addGame = new AddGame(_contentControl, this);
+                addGame.CopyGameTitlesToClipboard(gameList.SelectedItems);
                 e.Handled = true;
             }
         }
