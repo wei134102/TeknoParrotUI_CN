@@ -67,11 +67,7 @@ namespace TeknoParrotUi.UserControls
         {
             public JoystickButtons Button { get; set; }
             public string ButtonName { get => Button.ButtonName; }
-            public string BindName 
-            { 
-                get => Button.BindName; 
-                set => Button.BindName = value;
-            }
+            public string BindName { get; set; }
             public string Availability { get; set; }
         }
 
@@ -219,10 +215,27 @@ namespace TeknoParrotUi.UserControls
             {
                 int count = selectedProfiles.Count(p => 
                     p.JoystickButtons.Any(b => b.InputMapping == button.InputMapping));
-                    
+
+                // 基于当前 API 选择展示用的 BindName（不修改源 Profile）
+                string displayBindName = button.BindName;
+                switch (_currentInputApi)
+                {
+                    case InputApi.DirectInput:
+                        displayBindName = button.BindNameDi;
+                        break;
+                    case InputApi.XInput:
+                        displayBindName = button.BindNameXi;
+                        break;
+                    case InputApi.RawInput:
+                    case InputApi.RawInputTrackball:
+                        displayBindName = button.BindNameRi;
+                        break;
+                }
+
                 buttonViewModels.Add(new ButtonViewModel
                 {
                     Button = button,
+                    BindName = displayBindName,
                     Availability = string.Format(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigUsedInGames, count, selectedProfiles.Count)
                 });
             }
@@ -758,19 +771,19 @@ namespace TeknoParrotUi.UserControls
             StopListening();
             
             // Update the input API
-            string apiString = ((ComboBoxItem)InputApiSelector.SelectedItem).Content.ToString();
-            switch (apiString)
+            // 使用 SelectedIndex 避免本地化字符串导致判断失败
+            switch (InputApiSelector.SelectedIndex)
             {
-                case "DirectInput":
+                case 0:
                     _currentInputApi = InputApi.DirectInput;
                     break;
-                case "XInput":
+                case 1:
                     _currentInputApi = InputApi.XInput;
                     break;
-                case "RawInput":
+                case 2:
                     _currentInputApi = InputApi.RawInput;
                     break;
-                case "RawInputTrackball":
+                case 3:
                     _currentInputApi = InputApi.RawInputTrackball;
                     break;
             }
@@ -784,33 +797,11 @@ namespace TeknoParrotUi.UserControls
             _joystickControlXInput = new JoystickControlXInput();
             _joystickControlRawInput = new JoystickControlRawInput();
             
-            // Update button bindings for display
-            var selectedGames = _filteredGames.Where(g => g.IsSelected).ToList();
-            foreach (var game in selectedGames)
-            {
-                foreach (var button in game.Profile.JoystickButtons)
-                {
-                    // Update the visible binding name based on the current input API
-                    switch (_currentInputApi)
-                    {
-                        case InputApi.DirectInput:
-                            button.BindName = button.BindNameDi;
-                            break;
-                        case InputApi.XInput:
-                            button.BindName = button.BindNameXi;
-                            break;
-                        case InputApi.RawInput:
-                        case InputApi.RawInputTrackball:
-                            button.BindName = button.BindNameRi;
-                            break;
-                    }
-                }
-            }
-            
             // Rebuild the button viewmodels and update the UI
             UpdateButtonConfiguration();
 
             // Update status message
+            var apiString = ((ComboBoxItem)InputApiSelector.SelectedItem)?.Content?.ToString() ?? "";
             StatusText.Text = string.Format(TeknoParrotUi.Properties.Resources.MultiGameButtonConfigSwitchedToMode, apiString);
         }
 
