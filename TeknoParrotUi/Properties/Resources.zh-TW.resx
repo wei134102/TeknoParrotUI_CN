@@ -589,6 +589,17 @@
   <data name="ErrorNoAPM3Id" xml:space="preserve">
     <value>配置文件中沒有設置（或無效的）APM3Id。APM3遊戲需要這些才能工作。請點擊在線配置文件按鈕獲取您的ID並將其輸入到遊戲設置的APM3Id字段中。</value>
   </data>
+  <data name="ErrorElfLoader2SpecialChars" xml:space="preserve">
+    <value>ElfLoader 2 無法處理檔案路徑中的特殊字元（重音符號、非ASCII符號）。
+
+問題路徑：
+{0}
+
+請將遊戲移動到僅包含標準ASCII字元（A-Z、0-9、基本符號）的路徑。</value>
+  </data>
+  <data name="ErrorNoOnlineId" xml:space="preserve">
+    <value>您的OnlineID缺失或錯誤。請輸入從網站獲取的OnlineID，否則您的遊戲將在啓動時卡在Aime檢查上。點擊在線配置文件按鈕打開網站。</value>
+  </data>
   <data name="ErrorNoOnlineId" xml:space="preserve">
     <value>您的OnlineID缺失或錯誤。請輸入從網站獲取的OnlineID，否則您的遊戲將在啓動時卡在Aime檢查上。點擊在線配置文件按鈕打開網站。</value>
   </data>
