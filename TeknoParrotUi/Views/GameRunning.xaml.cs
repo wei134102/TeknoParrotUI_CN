@@ -434,6 +434,7 @@ namespace TeknoParrotUi.Views
                         _pipe = new APM3Pipe();
                     break;
                 case EmulationProfile.WonderlandWars:
+                case EmulationProfile.Xiyangyang:
                     if (_pipe == null)
                     {
                         _pipe = new amJvsPipe();
@@ -685,6 +686,12 @@ namespace TeknoParrotUi.Views
                 case EmulationProfile.RPCS3:
                     if (_controlSender == null)
                         _controlSender = new RPCS3Pipe();
+                    break;
+                case EmulationProfile.LadyLuck:
+                    if (_controlSender == null)
+                    {
+                        _controlSender = new LadyLuckPipe();
+                    }
                     break;
             }
 
