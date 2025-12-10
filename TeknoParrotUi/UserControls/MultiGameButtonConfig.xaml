@@ -11,7 +11,7 @@
     d:DesignWidth="1200"
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="0"
-    FontFamily="pack://application:,,,/Resources/#Inter"
+    FontFamily="Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
     <Grid>

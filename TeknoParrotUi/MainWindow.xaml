@@ -17,7 +17,7 @@
     MaxHeight="800"
     Background="{DynamicResource MaterialDesignPaper}"
     Closing="Window_Closing"
-    FontFamily="pack://application:,,,/Resources/#Inter"
+    FontFamily="Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif"
     Icon="teknoparrot_by_pooterman-db9erxd.ico"
     Loaded="Window_Loaded"
     ResizeMode="CanResize"

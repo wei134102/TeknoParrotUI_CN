@@ -12,7 +12,7 @@
     Background="{DynamicResource MaterialDesignPaper}"
     BorderThickness="0"
     ContentRendered="MetroWindow_ContentRendered"
-    FontFamily="pack://application:,,,/Resources/#Inter"
+    FontFamily="Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif"
     ResizeMode="CanResize"
     SizeToContent="WidthAndHeight"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
