@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Win32;
 using TeknoParrotUi.Common;
 using TeknoParrotUi.Helpers;
@@ -21,12 +22,19 @@ namespace TeknoParrotUi.UserControls
         ContentControl _contentControl;
         Views.Library _library;
         bool isInitialized = false;
+
+        // Font families for Chinese fonts
+        private List<string> _chineseFontFamilies;
+
         public SettingsControl(ContentControl control, Views.Library library)
         {
             InitializeComponent();
 
             // reload ParrotData from file
             JoystickHelper.DeSerialize();
+
+            // Initialize font families list
+            InitializeFontFamilies();
 
             ChkUseSto0ZCheckBox.IsChecked = Lazydata.ParrotData.UseSto0ZDrivingHack;
             sTo0zZonePercent.Value = Lazydata.ParrotData.StoozPercent;
@@ -66,7 +74,6 @@ namespace TeknoParrotUi.UserControls
             }
 
 
-
             UiColour.ItemsSource = new SwatchesProvider().Swatches.Select(a => a.Name).ToList();
             UiColour.SelectedItem = Lazydata.ParrotData.UiColour;
             ChkUiDarkMode.IsChecked = Lazydata.ParrotData.UiDarkMode;
@@ -84,6 +91,10 @@ namespace TeknoParrotUi.UserControls
             _contentControl = control;
             _library = library;
             LoadLanguageSetting();
+            
+            // Load font settings
+            LoadFontSettings();
+            
             isInitialized = true;
         }
 
@@ -139,12 +150,90 @@ namespace TeknoParrotUi.UserControls
             };
         }
 
+        private void InitializeFontFamilies()
+        {
+            // Use the improved font detection method
+            _chineseFontFamilies = FontHelper.GetChineseSupportingFonts();
+        }
+
+        private void LoadFontSettings()
+        {
+            // Populate font selectors
+            SimplifiedChineseFontSelector.ItemsSource = _chineseFontFamilies;
+            TraditionalChineseFontSelector.ItemsSource = _chineseFontFamilies;
+
+            // Set selected items
+            string simplifiedFont = Lazydata.ParrotData.SimplifiedChineseFont ?? "Microsoft YaHei UI";
+            string traditionalFont = Lazydata.ParrotData.TraditionalChineseFont ?? "Microsoft JhengHei UI";
+            
+            // Find the closest matches in our filtered list
+            var simplifiedMatch = _chineseFontFamilies.FirstOrDefault(f => 
+                string.Equals(f, simplifiedFont, StringComparison.OrdinalIgnoreCase)) ?? 
+                _chineseFontFamilies.FirstOrDefault(f => 
+                    f.IndexOf("YaHei", StringComparison.OrdinalIgnoreCase) >= 0) ?? 
+                _chineseFontFamilies.FirstOrDefault();
+                
+            var traditionalMatch = _chineseFontFamilies.FirstOrDefault(f => 
+                string.Equals(f, traditionalFont, StringComparison.OrdinalIgnoreCase)) ?? 
+                _chineseFontFamilies.FirstOrDefault(f => 
+                    f.IndexOf("Jheng", StringComparison.OrdinalIgnoreCase) >= 0) ?? 
+                _chineseFontFamilies.FirstOrDefault();
+
+            SimplifiedChineseFontSelector.SelectedItem = simplifiedMatch;
+            TraditionalChineseFontSelector.SelectedItem = traditionalMatch;
+            
+            // Set font size
+            FontSizeSlider.Value = Lazydata.ParrotData.FontSize > 0 ? Lazydata.ParrotData.FontSize : 14.0;
+            
+            // Update preview
+            UpdateFontPreview();
+        }
+
+        private void FontSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInitialized)
+            {
+                UpdateFontPreview();
+            }
+        }
+
+        private void FontSizeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isInitialized)
+            {
+                UpdateFontPreview();
+            }
+        }
+
+        private void UpdateFontPreview()
+        {
+            if (SimplifiedChineseFontSelector.SelectedItem != null && 
+                TraditionalChineseFontSelector.SelectedItem != null)
+            {
+                try
+                {
+                    // Create composite font family string
+                    string fontFamilyString = $"Inter, {SimplifiedChineseFontSelector.SelectedItem}, {TraditionalChineseFontSelector.SelectedItem}, sans-serif";
+                    
+                    // Apply to preview text block
+                    FontPreviewTextBlock.FontFamily = new FontFamily(fontFamilyString);
+                    FontPreviewTextBlock.FontSize = FontSizeSlider.Value;
+                }
+                catch
+                {
+                    // If there's an error with the font, fall back to default
+                    FontPreviewTextBlock.FontFamily = new FontFamily("Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif");
+                    FontPreviewTextBlock.FontSize = FontSizeSlider.Value;
+                }
+            }
+        }
+
         private void BtnSaveSettings(object sender, RoutedEventArgs e)
         {
             try
             {
                 Lazydata.ParrotData.UseSto0ZDrivingHack = ChkUseSto0ZCheckBox.IsChecked != null &&
-                                                  ChkUseSto0ZCheckBox.IsChecked.Value;
+                                                      ChkUseSto0ZCheckBox.IsChecked.Value;
                 Lazydata.ParrotData.StoozPercent = (int)sTo0zZonePercent.Value;
 
 
@@ -198,10 +287,26 @@ namespace TeknoParrotUi.UserControls
                     Lazydata.ParrotData.DatXmlLocation = "";
                 }
 
+                // Save font settings
+                if (SimplifiedChineseFontSelector.SelectedItem != null)
+                {
+                    Lazydata.ParrotData.SimplifiedChineseFont = SimplifiedChineseFontSelector.SelectedItem.ToString();
+                }
+                
+                if (TraditionalChineseFontSelector.SelectedItem != null)
+                {
+                    Lazydata.ParrotData.TraditionalChineseFont = TraditionalChineseFontSelector.SelectedItem.ToString();
+                }
+                
+                Lazydata.ParrotData.FontSize = FontSizeSlider.Value;
+
                 DiscordRPC.StartOrShutdown();
 
                 JoystickHelper.Serialize();
 
+                // Show restart required message for font settings
+                MessageBoxHelper.InfoOK(Properties.Resources.SettingsFontRestartRequired);
+                
                 Application.Current.Windows.OfType<MainWindow>().Single().ShowMessage(string.Format(Properties.Resources.SuccessfullySaved, Properties.Resources.SettingsParrotDataFileName));
                 _contentControl.Content = _library;
             }

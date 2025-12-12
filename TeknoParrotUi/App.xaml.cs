@@ -20,6 +20,7 @@ using TeknoParrotUi.Views;
 using System.IO.MemoryMappedFiles;
 using TeknoParrotUi.Properties;
 using System.Globalization;
+using TeknoParrotUi.Helpers;
 
 namespace TeknoParrotUi
 {
@@ -362,6 +363,9 @@ namespace TeknoParrotUi
             LoadTheme(Lazydata.ParrotData.UiColour, Lazydata.ParrotData.UiDarkMode, Lazydata.ParrotData.UiHolidayThemes);
             if (Lazydata.ParrotData.UiDisableHardwareAcceleration)
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            
+            // Apply font settings
+            FontHelper.ApplyFontSettings();
 
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

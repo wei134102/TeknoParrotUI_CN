@@ -374,6 +374,89 @@
             Content="{x:Static p:Resources.SettingsHideDolphinGUI}" />
                         <Rectangle Height="10" Fill="Transparent" />
                     </StackPanel>
+                    <StackPanel Name="FontSettings">
+                        <Label
+            HorizontalAlignment="Left"
+            Content="{x:Static p:Resources.SettingsFontSettings}"
+            FontSize="20" />
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="170" SharedSizeGroup="LabelColumn" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="215" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{x:Static p:Resources.SettingsSimplifiedChineseFont}"
+                FontSize="15" />
+                            <ComboBox
+                Grid.Column="2"
+                Name="SimplifiedChineseFontSelector"
+                HorizontalAlignment="Left"
+                SelectionChanged="FontSelector_SelectionChanged" />
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="170" SharedSizeGroup="LabelColumn" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="215" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{x:Static p:Resources.SettingsTraditionalChineseFont}"
+                FontSize="15" />
+                            <ComboBox
+                Grid.Column="2"
+                Name="TraditionalChineseFontSelector"
+                HorizontalAlignment="Left"
+                SelectionChanged="FontSelector_SelectionChanged" />
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="170" SharedSizeGroup="LabelColumn" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="215" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{x:Static p:Resources.SettingsFontSize}"
+                FontSize="15" />
+                            <Slider
+                Grid.Column="2"
+                Name="FontSizeSlider"
+                Minimum="8"
+                Maximum="24"
+                Value="14"
+                TickFrequency="1"
+                IsSnapToTickEnabled="True"
+                ValueChanged="FontSizeSlider_ValueChanged" />
+                        </Grid>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="170" SharedSizeGroup="LabelColumn" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="215" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{x:Static p:Resources.SettingsFontPreview}"
+                FontSize="15" />
+                            <TextBlock
+                Grid.Column="2"
+                Name="FontPreviewTextBlock"
+                Text="简体中文 繁体中文 English"
+                VerticalAlignment="Center" />
+                        </Grid>
+                        <Rectangle Height="10" Fill="Transparent" />
+                    </StackPanel>
                 </StackPanel>
             </WrapPanel>
 

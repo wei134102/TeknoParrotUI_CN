@@ -48,5 +48,10 @@ namespace TeknoParrotUi.Common
         public string MarioKartId { get; set; } = "";
         public string Language { get; set; } = "en";
         public bool HideDolphinGUI { get; set; } = false;
+        
+        // Font settings
+        public string SimplifiedChineseFont { get; set; } = "Microsoft YaHei UI";
+        public string TraditionalChineseFont { get; set; } = "Microsoft JhengHei UI";
+        public double FontSize { get; set; } = 14.0;
     }
 }

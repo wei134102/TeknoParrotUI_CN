@@ -2645,6 +2645,24 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
   <data name="SettingsLanguageRestartRequired" xml:space="preserve">
     <value>语言更改将在重启应用程序后生效。</value>
   </data>
+  <data name="SettingsFontSettings" xml:space="preserve">
+    <value>字体设置</value>
+  </data>
+  <data name="SettingsSimplifiedChineseFont" xml:space="preserve">
+    <value>简体中文字体</value>
+  </data>
+  <data name="SettingsTraditionalChineseFont" xml:space="preserve">
+    <value>繁体中文字体</value>
+  </data>
+  <data name="SettingsFontSize" xml:space="preserve">
+    <value>字体大小</value>
+  </data>
+  <data name="SettingsFontPreview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="SettingsFontRestartRequired" xml:space="preserve">
+    <value>字体设置已保存。某些更改可能需要重启应用程序才能完全生效。</value>
+  </data>
   <data name="GameError870030" xml:space="preserve">
     <value>无法找到指定的Postgres服务器。请确保在启动游戏之前，Postgres服务/服务器正在运行。</value>
   </data>

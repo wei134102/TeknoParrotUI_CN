@@ -2645,6 +2645,24 @@ Please install!</value>
   <data name="SettingsLanguageRestartRequired" xml:space="preserve">
     <value>Language change will take effect after restarting the application.</value>
   </data>
+  <data name="SettingsFontSettings" xml:space="preserve">
+    <value>Font Settings</value>
+  </data>
+  <data name="SettingsSimplifiedChineseFont" xml:space="preserve">
+    <value>Simplified Chinese Font</value>
+  </data>
+  <data name="SettingsTraditionalChineseFont" xml:space="preserve">
+    <value>Traditional Chinese Font</value>
+  </data>
+  <data name="SettingsFontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="SettingsFontPreview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="SettingsFontRestartRequired" xml:space="preserve">
+    <value>Font settings saved. Some changes may require restarting the application to take full effect.</value>
+  </data>
   <data name="GameError870030" xml:space="preserve">
     <value>The specified Postgres server could not be found. Make sure the postgres service/server is running before starting the game.</value>
   </data>

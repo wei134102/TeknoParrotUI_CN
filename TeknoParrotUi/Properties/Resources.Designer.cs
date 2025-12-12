@@ -7244,5 +7244,59 @@ namespace TeknoParrotUi.Properties {
                 return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Settings.
+        /// </summary>
+        public static string SettingsFontSettings {
+            get {
+                return ResourceManager.GetString("SettingsFontSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simplified Chinese Font.
+        /// </summary>
+        public static string SettingsSimplifiedChineseFont {
+            get {
+                return ResourceManager.GetString("SettingsSimplifiedChineseFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Traditional Chinese Font.
+        /// </summary>
+        public static string SettingsTraditionalChineseFont {
+            get {
+                return ResourceManager.GetString("SettingsTraditionalChineseFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Size.
+        /// </summary>
+        public static string SettingsFontSize {
+            get {
+                return ResourceManager.GetString("SettingsFontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        public static string SettingsFontPreview {
+            get {
+                return ResourceManager.GetString("SettingsFontPreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font settings saved. Some changes may require restarting the application to take full effect..
+        /// </summary>
+        public static string SettingsFontRestartRequired {
+            get {
+                return ResourceManager.GetString("SettingsFontRestartRequired", resourceCulture);
+            }
+        }
     }
 }

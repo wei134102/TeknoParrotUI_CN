@@ -312,6 +312,7 @@
     <Compile Include="Helpers\WPFFolderBrowserInterop\shellwrapperdefinitions.cs" />
     <Compile Include="Helpers\JoystickControlRawInput.cs" />
     <Compile Include="Helpers\MessageBoxHelper.cs" />
+    <Compile Include="Helpers\FontHelper.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Helpers\WPFFolderBrowserDialog.cs" />
     <Compile Include="Helpers\XDelta3.cs" />
