@@ -10,7 +10,7 @@
     Height="706"
     d:DesignWidth="780"
     Background="{DynamicResource MaterialDesignPaper}"
-    FontFamily="pack://application:,,,/Resources/#Inter"
+    FontFamily="Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif"
     Loaded="UserControl_Loaded"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">

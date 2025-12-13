@@ -9,7 +9,7 @@
     xmlns:p="clr-namespace:TeknoParrotUi.Properties"
     Height="90"
     Background="{DynamicResource MaterialDesignPaper}"
-    FontFamily="pack://application:,,,/Resources/#Inter"
+    FontFamily="Inter, Microsoft YaHei UI, Microsoft JhengHei UI, sans-serif"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
     <Grid>
