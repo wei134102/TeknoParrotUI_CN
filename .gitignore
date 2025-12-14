@@ -319,3 +319,6 @@ ASALocalRun/
 
 TeknoParrotUi/CurrentCommit.txt
 TeknoParrotUi/Helpers/Secrets.cs
+bat/
+UserProfiles/
+create_bat_from_xml.py
