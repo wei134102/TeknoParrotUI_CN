@@ -1365,6 +1365,9 @@ attract、attractreplays、configuration、enterinitials、lasvegas、newyorksho
   <data name="LibraryGenreSports" xml:space="preserve">
     <value>體育</value>
   </data>
+  <data name="LibraryGenreOthers" xml:space="preserve">
+    <value>其他</value>
+  </data>
   <data name="LibraryGenreSubscription" xml:space="preserve">
     <value>訂閱</value>
   </data>

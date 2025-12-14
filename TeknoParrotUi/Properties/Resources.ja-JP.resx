@@ -1320,6 +1320,9 @@ TeknoParrotを再展開してください。</value>
   <data name="LibraryGenreSports" xml:space="preserve">
     <value>スポーツ</value>
   </data>
+  <data name="LibraryGenreOthers" xml:space="preserve">
+    <value>その他</value>
+  </data>
   <data name="LibraryGenreSubscription" xml:space="preserve">
     <value>サブスクリプション</value>
   </data>
