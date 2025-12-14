@@ -27,7 +27,8 @@ namespace TeknoParrotUi.Helpers
             { "Rhythm", nameof(Resources.LibraryGenreRhythm) },
             { "Shoot 'Em Up", nameof(Resources.LibraryGenreShootEmUp) },
             { "Shooter", nameof(Resources.LibraryGenreShooter) },
-            { "Sports", nameof(Resources.LibraryGenreSports) }
+            { "Sports", nameof(Resources.LibraryGenreSports) },
+            { "Others", nameof(Resources.LibraryGenreOthers) }
         };
 
         public static List<GenreItem> GetGenreItems(bool includeNotInstalled = false)
@@ -39,7 +40,7 @@ namespace TeknoParrotUi.Helpers
                 "All", "Installed", "Subscription", "System 246/256", "System 357/359/369", "Triforce",
                 "Action", "Card", "Compilation", "Fighting", "Flying",
                 "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up",
-                "Shooter", "Sports"
+                "Shooter", "Sports", "Others"
             };
 
             if (includeNotInstalled)
@@ -113,6 +114,17 @@ namespace TeknoParrotUi.Helpers
 
             bool matches = internalGenreName.Equals(gameGenre, System.StringComparison.OrdinalIgnoreCase);
             Debug.WriteLine($"  -> Matches: {matches}");
+            
+            // 如果是Others分类，则显示所有未匹配到其他分类的游戏
+            if (internalGenreName == "Others")
+            {
+                // 检查游戏是否匹配其他具体的分类
+                var specificGenres = new[] { "Action", "Card", "Compilation", "Fighting", "Flying",
+                    "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up", "Shooter", "Sports" };
+                bool matchesSpecificGenre = specificGenres.Any(g => g.Equals(gameGenre, System.StringComparison.OrdinalIgnoreCase));
+                return !matchesSpecificGenre;
+            }
+            
             return matches;
         }
     }

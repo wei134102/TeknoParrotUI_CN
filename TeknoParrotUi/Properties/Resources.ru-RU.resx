@@ -1320,6 +1320,9 @@ attract, attractreplays, configuration, enterinitials, lasvegas, newyorkshop, op
   <data name="LibraryGenreSports" xml:space="preserve">
     <value>Спорт</value>
   </data>
+  <data name="LibraryGenreOthers" xml:space="preserve">
+    <value>Другие</value>
+  </data>
   <data name="LibraryGenreSubscription" xml:space="preserve">
     <value>Подписка</value>
   </data>
