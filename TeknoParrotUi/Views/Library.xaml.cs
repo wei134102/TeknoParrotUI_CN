@@ -1456,8 +1456,8 @@ namespace TeknoParrotUi.Views
 
         private void BtnDeleteGame(object sender, RoutedEventArgs e)
         {
-            // 检查是否是多选模式
-            if (gameList.SelectedItems.Count > 1)
+            var selectedItem = (ListBoxItem)gameList.SelectedItem;
+            if (selectedItem == null)
             {
                 // 批量删除
                 var result = MessageBox.Show($"确定要删除选中的 {gameList.SelectedItems.Count} 个游戏吗？", "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -1472,7 +1472,15 @@ namespace TeknoParrotUi.Views
                     var selected = (GameProfile)selectedItem.Tag;
                     if (selected == null || selected.FileName == null) continue;
                     
-                    var splitString = selected.FileName.Split('\\');
+                    if (Lazydata.ParrotData.ConfirmGameDeletion)
+            {
+                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, selected.GameNameInternal);
+                if (!MessageBoxHelper.WarningYesNo(confirmMessage))
+                {
+                    return;
+                }
+            }
+            var splitString = selected.FileName.Split('\\');
                     try
                     {
                         Debug.WriteLine($@"Removing {selected.GameNameInternal} from TP...");
