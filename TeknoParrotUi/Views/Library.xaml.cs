@@ -1514,6 +1514,7 @@ namespace TeknoParrotUi.Views
             {
                 return;
             }
+<<<<<<< HEAD
             var singleSelected = (GameProfile)singleSelectedItem.Tag;
             if (singleSelected == null || singleSelected.FileName == null) return;
             
@@ -1522,6 +1523,19 @@ namespace TeknoParrotUi.Views
                 return;
 
             var splitStringSingle = singleSelected.FileName.Split('\\');
+=======
+            var selected = (GameProfile)selectedItem.Tag;
+            if (selected == null || selected.FileName == null) return;
+            if (Lazydata.ParrotData.ConfirmGameDeletion)
+            {
+                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, selected.GameNameInternal);
+                if (!MessageBoxHelper.WarningYesNo(confirmMessage))
+                {
+                    return;
+                }
+            }
+            var splitString = selected.FileName.Split('\\');
+>>>>>>> 377794ab (Merge pull request #1397 from EmiMidnight/master)
             try
             {
                 Debug.WriteLine($@"Removing {singleSelected.GameNameInternal} from TP...");

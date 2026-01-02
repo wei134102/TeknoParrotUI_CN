@@ -11,8 +11,11 @@ using System.Linq;
 using TeknoParrotUi.Properties;
 using TeknoParrotUi.Helpers;
 using MaterialDesignThemes.Wpf;
+<<<<<<< HEAD
 using System.Collections.Generic; // Added for List
 using Microsoft.Win32; // Added for Registry
+=======
+>>>>>>> 377794ab (Merge pull request #1397 from EmiMidnight/master)
 
 namespace TeknoParrotUi.Views
 {
