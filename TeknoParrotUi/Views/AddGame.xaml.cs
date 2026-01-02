@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using TeknoParrotUi.Properties;
 using TeknoParrotUi.Helpers;
+using MaterialDesignThemes.Wpf;
 using System.Collections.Generic; // Added for List
 using Microsoft.Win32; // Added for Registry
 
@@ -30,6 +31,7 @@ namespace TeknoParrotUi.Views
             _contentControl = control;
             _library = library;
             InitializeGenreComboBox();
+            AddGameSnackbar.MessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(2000));
         }
 
         private void InitializeGenreComboBox()
@@ -181,6 +183,7 @@ namespace TeknoParrotUi.Views
 
             var added = ((ListBoxItem)stockGameList.SelectedItem).Content.ToString().Contains(TeknoParrotUi.Properties.Resources.AddGameAddedSuffix);
             AddButton.IsEnabled = !added;
+            AddContinueButton.IsEnabled = !added;
             DeleteButton.IsEnabled = added;
             BatchAddButton.IsEnabled = false;
             BatchDeleteButton.IsEnabled = false;
@@ -220,6 +223,41 @@ namespace TeknoParrotUi.Views
         }
 
         /// <summary>
+        /// This is the code for the Add Game and Continue button, that adds the game and stays on the Add Game screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddGameAndContinueButton(object sender, RoutedEventArgs e)
+        {
+            if (_selected == null || _selected.FileName == null) return;
+            var splitString = _selected.FileName.Split('\\');
+            if (splitString.Length < 1) return;
+            try
+            {
+                _selected.FileName = _selected.FileName.Replace("UserProfiles", "GameProfiles");
+                File.Copy(_selected.FileName, Path.Combine("UserProfiles", splitString[1]));
+
+                var addedProfile = JoystickHelper.DeSerializeGameProfile(Path.Combine("UserProfiles", splitString[1]), true);
+                if (addedProfile != null && !string.IsNullOrEmpty(addedProfile.OnlineIdFieldName) && addedProfile.OnlineIdType != OnlineIdType.None)
+                {
+                    AutoFillOnlineId(addedProfile);
+                    JoystickHelper.SerializeGameProfile(addedProfile);
+                }
+            }
+            catch
+            {
+
+            }
+
+            _library.ListUpdate(_selected.GameNameInternal);
+
+            var message = string.Format(TeknoParrotUi.Properties.Resources.AddGameAdded, _selected.GameNameInternal);
+            AddGameSnackbar.MessageQueue.Enqueue(message);
+
+            UserControl_Loaded(null, null);
+        }
+
+        /// <summary>
         /// This is the code for the Remove Game button, that deletes the game profile in the UserProfiles folder so it doesn't show up in the menu
         /// </summary>
         /// <param name="sender"></param>
@@ -227,6 +265,16 @@ namespace TeknoParrotUi.Views
         private void DeleteGameButton(object sender, RoutedEventArgs e)
         {
             if (_selected == null || _selected.FileName == null) return;
+
+            if (Lazydata.ParrotData.ConfirmGameDeletion)
+            {
+                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, _selected.GameNameInternal);
+                if (!MessageBoxHelper.WarningYesNo(confirmMessage))
+                {
+                    return;
+                }
+            }
+
             var splitString = _selected.FileName.Split('\\');
             try
             {
