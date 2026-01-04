@@ -177,7 +177,6 @@
                 Grid.Column="2"
                 Margin="13,10,0,0"
                 Panel.ZIndex="999" />
-<<<<<<< HEAD
             <Button
                 x:Name="BatchAddButton"
                 Grid.Row="2"
@@ -206,8 +205,6 @@
                 Content="批量删除游戏"
                 Foreground="White"
                 IsEnabled="False" />
-=======
->>>>>>> 377794ab (Merge pull request #1397 from EmiMidnight/master)
             <Label
                 x:Name="GameCountLabel"
                 Width="248"
