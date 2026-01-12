@@ -1457,9 +1457,9 @@ namespace TeknoParrotUi.Views
         private void BtnDeleteGame(object sender, RoutedEventArgs e)
         {
             var selectedItem = (ListBoxItem)gameList.SelectedItem;
-            if (selectedItem == null)
+            if (gameList.SelectedItems.Count > 1)
             {
-                // 批量删除
+                // 批量删除 - 当选中多个游戏时
                 var result = MessageBox.Show($"确定要删除选中的 {gameList.SelectedItems.Count} 个游戏吗？", "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result != MessageBoxResult.Yes)
                     return;
@@ -1467,30 +1467,44 @@ namespace TeknoParrotUi.Views
                 var deletedCount = 0;
                 var failedGames = new List<string>();
 
-                foreach (ListBoxItem selectedItem in gameList.SelectedItems)
+                // 为每个选中的游戏单独处理删除确认
+                var gamesToDelete = new List<(ListBoxItem item, GameProfile profile)>();
+                
+                // 先收集所有有效游戏
+                foreach (ListBoxItem currentItem in gameList.SelectedItems)
                 {
-                    var selected = (GameProfile)selectedItem.Tag;
-                    if (selected == null || selected.FileName == null) continue;
-                    
-                    if (Lazydata.ParrotData.ConfirmGameDeletion)
-            {
-                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, selected.GameNameInternal);
-                if (!MessageBoxHelper.WarningYesNo(confirmMessage))
-                {
-                    return;
+                    var selected = (GameProfile)currentItem.Tag;
+                    if (selected != null && selected.FileName != null)
+                    {
+                        gamesToDelete.Add((currentItem, selected));
+                    }
                 }
-            }
-            var splitString = selected.FileName.Split('\\');
+                
+                // 如果启用了删除确认，显示总的确认对话框
+                if (Lazydata.ParrotData.ConfirmGameDeletion && gamesToDelete.Count > 0)
+                {
+                    var gameNames = string.Join("\n", gamesToDelete.Select(g => g.profile.GameNameInternal));
+                    var confirmMessage = $"确定要删除以下 {gamesToDelete.Count} 个游戏吗？\n\n{gameNames}";
+                    if (!MessageBoxHelper.WarningYesNo(confirmMessage))
+                    {
+                        return;
+                    }
+                }
+                
+                // 执行批量删除
+                foreach (var (item, profile) in gamesToDelete)
+                {
+                    var splitString = profile.FileName.Split('\\');
                     try
                     {
-                        Debug.WriteLine($@"Removing {selected.GameNameInternal} from TP...");
+                        Debug.WriteLine($@"Removing {profile.GameNameInternal} from TP...");
                         File.Delete(Path.Combine("UserProfiles", splitString[1]));
                         deletedCount++;
                     }
                     catch (Exception ex)
                     {
-                        failedGames.Add(selected.GameNameInternal);
-                        Debug.WriteLine($"Failed to delete {selected.GameNameInternal}: {ex.Message}");
+                        failedGames.Add(profile.GameNameInternal);
+                        Debug.WriteLine($"Failed to delete {profile.GameNameInternal}: {ex.Message}");
                     }
                 }
 
@@ -1505,6 +1519,10 @@ namespace TeknoParrotUi.Views
                 }
 
                 ListUpdate();
+                
+                // 重置删除按钮文本为默认状态
+                delGame.Content = Properties.Resources.LibraryDeleteGame;
+                
                 return;
             }
 
@@ -1514,7 +1532,6 @@ namespace TeknoParrotUi.Views
             {
                 return;
             }
-<<<<<<< HEAD
             var singleSelected = (GameProfile)singleSelectedItem.Tag;
             if (singleSelected == null || singleSelected.FileName == null) return;
             
@@ -1522,24 +1539,22 @@ namespace TeknoParrotUi.Views
             if (resultSingle != MessageBoxResult.Yes)
                 return;
 
-            var splitStringSingle = singleSelected.FileName.Split('\\');
-=======
-            var selected = (GameProfile)selectedItem.Tag;
-            if (selected == null || selected.FileName == null) return;
+            var singleSplitString = singleSelected.FileName.Split('\\');
+            var singleGameProfile = (GameProfile)singleSelectedItem.Tag;
+            if (singleGameProfile == null || singleGameProfile.FileName == null) return;
             if (Lazydata.ParrotData.ConfirmGameDeletion)
             {
-                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, selected.GameNameInternal);
+                var confirmMessage = string.Format(TeknoParrotUi.Properties.Resources.AddGameConfirmDelete, singleGameProfile.GameNameInternal);
                 if (!MessageBoxHelper.WarningYesNo(confirmMessage))
                 {
                     return;
                 }
             }
-            var splitString = selected.FileName.Split('\\');
->>>>>>> 377794ab (Merge pull request #1397 from EmiMidnight/master)
+            var singleProfileSplitString = singleGameProfile.FileName.Split('\\');
             try
             {
                 Debug.WriteLine($@"Removing {singleSelected.GameNameInternal} from TP...");
-                File.Delete(Path.Combine("UserProfiles", splitStringSingle[1]));
+                File.Delete(Path.Combine("UserProfiles", singleProfileSplitString[1]));
             }
             catch (Exception ex)
             {
@@ -1547,6 +1562,9 @@ namespace TeknoParrotUi.Views
             }
 
             ListUpdate();
+            
+            // 重置删除按钮文本为默认状态
+            delGame.Content = Properties.Resources.LibraryDeleteGame;
         }
 
         private void BtnPlayOnlineClick(object sender, RoutedEventArgs e)
