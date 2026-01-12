@@ -425,7 +425,7 @@ namespace ParrotPatcher
                 Process[] pname = Process.GetProcessesByName("TeknoParrotUi");
                 if (pname.Length == 0)
                     tpRunning = false;
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
 

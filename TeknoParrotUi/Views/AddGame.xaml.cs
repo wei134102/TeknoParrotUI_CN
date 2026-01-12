@@ -385,6 +385,11 @@ namespace TeknoParrotUi.Views
             }
 
             _library.ListUpdate();
+            
+            // 重置批量按钮文本为默认状态
+            BatchAddButton.Content = "批量添加游戏";
+            BatchDeleteButton.Content = "批量删除游戏";
+            
             _contentControl.Content = _library;
         }
 
@@ -444,6 +449,11 @@ namespace TeknoParrotUi.Views
             }
 
             _library.listRefreshNeeded = true;
+            
+            // 重置批量按钮文本为默认状态
+            BatchAddButton.Content = "批量添加游戏";
+            BatchDeleteButton.Content = "批量删除游戏";
+            
             _contentControl.Content = _library;
         }
 
