@@ -1205,7 +1205,16 @@ namespace TeknoParrotUi.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Browse 的本地化字符串。
+        ///   Looks up a localized string similar to Copy info to clipboard.
+        /// </summary>
+        public static string CopyInfoToClipboard {
+            get {
+                return ResourceManager.GetString("CopyInfoToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string CreateModBrowse {
             get {
@@ -5294,7 +5303,16 @@ namespace TeknoParrotUi.Properties {
         }
         
         /// <summary>
-        ///   查找类似 Advanced Controls 的本地化字符串。
+        ///   Looks up a localized string similar to Save info to text file.
+        /// </summary>
+        public static string SaveInfoToTextFile {
+            get {
+                return ResourceManager.GetString("SaveInfoToTextFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced Controls.
         /// </summary>
         public static string SettingsAdvancedControls {
             get {
@@ -6869,7 +6887,16 @@ namespace TeknoParrotUi.Properties {
         }
         
         /// <summary>
-        ///   查找类似 There is a new update available. 的本地化字符串。
+        ///   Looks up a localized string similar to Troubleshooting.
+        /// </summary>
+        public static string Troubleshooting {
+            get {
+                return ResourceManager.GetString("Troubleshooting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a new update available..
         /// </summary>
         public static string UpdaterAvailable {
             get {
