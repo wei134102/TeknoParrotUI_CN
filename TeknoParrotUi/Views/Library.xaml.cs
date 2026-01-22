@@ -41,6 +41,10 @@ namespace TeknoParrotUi.Views
         private DispatcherTimer _searchDebounceTimer;
         private bool _isSearchUpdate = false;
         private string _savedSelection = null;
+        private string _searchText = string.Empty;
+        private DispatcherTimer _searchDebounceTimer;
+        private bool _isSearchUpdate = false;
+        private string _savedSelection = null;
 
         public static bool LastGameAutoLaunch = false;//wei134102
         public static bool firstBoot = true;
@@ -1738,6 +1742,33 @@ namespace TeknoParrotUi.Views
                 MessageBox.Show($"打开游戏位置时发生错误：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var newSearchText = SearchBox.Text;
+            
+            if (string.IsNullOrWhiteSpace(_searchText) && !string.IsNullOrWhiteSpace(newSearchText))
+            {
+                if (gameList.SelectedIndex >= 0 && gameList.SelectedIndex < _gameNames.Count)
+                {
+                    _savedSelection = _gameNames[gameList.SelectedIndex].GameNameInternal;
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(_searchText) && string.IsNullOrWhiteSpace(newSearchText))
+            {
+                _searchDebounceTimer.Stop();
+                _searchText = string.Empty;
+                _isSearchUpdate = true;
+                ListUpdate(_savedSelection);
+                _isSearchUpdate = false;
+                _savedSelection = null;
+                return;
+            }
+            
+            _searchText = newSearchText;
+            _searchDebounceTimer.Stop();
+            _searchDebounceTimer.Start();
+        }
+
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var newSearchText = SearchBox.Text;
