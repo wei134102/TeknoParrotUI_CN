@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -36,6 +37,10 @@ namespace TeknoParrotUi.Views
         readonly GameSettingsControl _gameSettings = new GameSettingsControl();
         private ContentControl _contentControl;
         public bool listRefreshNeeded = false;
+        private string _searchText = string.Empty;
+        private DispatcherTimer _searchDebounceTimer;
+        private bool _isSearchUpdate = false;
+        private string _savedSelection = null;
 
         public static bool LastGameAutoLaunch = false;//wei134102
         public static bool firstBoot = true;
@@ -48,6 +53,22 @@ namespace TeknoParrotUi.Views
             _contentControl = contentControl;
             Joystick = new JoystickControl(contentControl, this);
             InitializeGenreComboBox();
+            InitializeSearchDebounceTimer();
+        }
+
+        private void InitializeSearchDebounceTimer()
+        {
+            _searchDebounceTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300)
+            };
+            _searchDebounceTimer.Tick += (s, e) =>
+            {
+                _searchDebounceTimer.Stop();
+                _isSearchUpdate = true;
+                ListUpdate();
+                _isSearchUpdate = false;
+            };
         }
 
         private void InitializeGenreComboBox()
@@ -268,6 +289,11 @@ namespace TeknoParrotUi.Views
 
             gameInfoText.Text = basicInfo;
             delGame.IsEnabled = true;
+
+            if (!string.IsNullOrWhiteSpace(_searchText) && !_isSearchUpdate)
+            {
+                _savedSelection = selectedGame.GameNameInternal;
+            }
         }
 
         private void resetLibrary()
@@ -321,16 +347,21 @@ namespace TeknoParrotUi.Views
                     if (!matchesGenre)
                         continue;
 
-                    // 搜索功能：完全按照添加游戏的搜索逻辑实现
-                    if (gameProfile.GameNameInternal.IndexOf(searchName, 0, StringComparison.OrdinalIgnoreCase) != -1 || string.IsNullOrWhiteSpace(searchName))
+                    // Filter by search text if present
+                    if (!string.IsNullOrWhiteSpace(_searchText))
                     {
-                        var item = new ListBoxItem
-                        {
-                            Content = gameProfile.GameNameInternal +
-                                        (gameProfile.Patreon ? TeknoParrotUi.Properties.Resources.LibrarySubscriptionSuffix : "") +
-                                        (thirdparty ? string.Format(TeknoParrotUi.Properties.Resources.LibraryThirdPartySuffix, gameProfile.EmulatorType) : ""),
-                            Tag = gameProfile
-                        };
+                        bool matchesSearch = gameProfile.GameNameInternal.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        if (!matchesSearch)
+                            continue;
+                    }
+
+                    var item = new ListBoxItem
+                    {
+                        Content = gameProfile.GameNameInternal +
+                                    (gameProfile.Patreon ? TeknoParrotUi.Properties.Resources.LibrarySubscriptionSuffix : "") +
+                                    (thirdparty ? string.Format(TeknoParrotUi.Properties.Resources.LibraryThirdPartySuffix, gameProfile.EmulatorType) : ""),
+                        Tag = gameProfile
+                    };
 
                         _gameNames.Add(gameProfile);
                         gameList.Items.Add(item);
@@ -378,6 +409,10 @@ namespace TeknoParrotUi.Views
                         gameList.SelectedIndex = 0;
                 }
 
+                if (!_isSearchUpdate)
+                {
+                    gameList.Focus();
+                }
                 if (gameList.SelectedItem != null)
                 {
                     try
@@ -1703,5 +1738,32 @@ namespace TeknoParrotUi.Views
                 MessageBox.Show($"打开游戏位置时发生错误：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var newSearchText = SearchBox.Text;
+            
+            if (string.IsNullOrWhiteSpace(_searchText) && !string.IsNullOrWhiteSpace(newSearchText))
+            {
+                if (gameList.SelectedIndex >= 0 && gameList.SelectedIndex < _gameNames.Count)
+                {
+                    _savedSelection = _gameNames[gameList.SelectedIndex].GameNameInternal;
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(_searchText) && string.IsNullOrWhiteSpace(newSearchText))
+            {
+                _searchDebounceTimer.Stop();
+                _searchText = string.Empty;
+                _isSearchUpdate = true;
+                ListUpdate(_savedSelection);
+                _isSearchUpdate = false;
+                _savedSelection = null;
+                return;
+            }
+            
+            _searchText = newSearchText;
+            _searchDebounceTimer.Stop();
+            _searchDebounceTimer.Start();
+        }
+
     }
 }
