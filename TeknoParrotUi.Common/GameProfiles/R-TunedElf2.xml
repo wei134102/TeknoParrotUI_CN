@@ -5,14 +5,11 @@
 	<TestMenuIsExecutable>false</TestMenuIsExecutable>
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
-	<EmulationProfile>HummerExtreme</EmulationProfile>
-	<GameProfileRevision>11</GameProfileRevision>
+	<EmulationProfile>SegaRTuned</EmulationProfile>
+	<GameProfileRevision>20</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
 	<EmulatorType>ElfLdr2</EmulatorType>
-	<ExecutableName>hummer_Master.elf</ExecutableName>
-	<Patreon>false</Patreon>
-	<GasAxisMin>32</GasAxisMin>
-	<GasAxisMax>208</GasAxisMax>
+	<msysType>3</msysType>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
@@ -26,44 +23,72 @@
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
+			<FieldName>DongleRegion</FieldName>
+			<FieldValue>EXPORT</FieldValue>
+			<FieldType>Dropdown</FieldType>
+			<FieldOptions>
+				<string>JAPAN</string>
+				<string>USA</string>
+				<string>EXPORT</string>
+			</FieldOptions>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>General</CategoryName>
+			<FieldName>PcbRegion</FieldName>
+			<FieldValue>EXPORT</FieldValue>
+			<FieldType>Dropdown</FieldType>
+			<FieldOptions>
+				<string>JAPAN</string>
+				<string>USA</string>
+				<string>EXPORT</string>
+			</FieldOptions>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>General</CategoryName>
+			<FieldName>FreePlay</FieldName>
+			<FieldValue>1</FieldValue>
+			<FieldType>Bool</FieldType>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>General</CategoryName>
 			<FieldName>Windowed</FieldName>
-			<FieldValue>0</FieldValue>
+			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Framelimiter</FieldName>
-      <FieldValue>1</FieldValue>
-      <FieldType>Bool</FieldType>
-    </FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>Hide Cursor</FieldName>
+			<FieldName>CustomResolution</FieldName>
 			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>Use Custom Resolution</FieldName>
+			<FieldName>Stretch2D</FieldName>
 			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>Custom Resolution Width</FieldName>
-			<FieldValue>1280</FieldValue>
+			<FieldName>AntiAliasing</FieldName>
+			<FieldValue>0</FieldValue>
+			<FieldType>Bool</FieldType>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>General</CategoryName>
+			<FieldName>ResolutionWidth</FieldName>
+			<FieldValue>1360</FieldValue>
 			<FieldType>Text</FieldType>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>Custom Resolution Height</FieldName>
+			<FieldName>ResolutionHeight</FieldName>
 			<FieldValue>768</FieldValue>
 			<FieldType>Text</FieldType>
 		</FieldInformation>
 		<FieldInformation>
-			<CategoryName>FFB Blaster</CategoryName>
-			<FieldName>Enable</FieldName>
-			<FieldValue>0</FieldValue>
+			<CategoryName>General</CategoryName>
+			<FieldName>Framelimiter</FieldName>
+			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
 		<FieldInformation>
@@ -91,92 +116,16 @@
 			<FieldOptions></FieldOptions>
 		</FieldInformation>
 		<FieldInformation>
-			<CategoryName>General</CategoryName>
-			<FieldName>DongleRegion</FieldName>
-			<FieldValue>JAPAN</FieldValue>
-			<FieldType>Dropdown</FieldType>
-			<FieldOptions>
-				<string>JAPAN</string>
-				<string>USA</string>
-				<string>EXPORT</string>
-			</FieldOptions>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
-			<FieldName>PcbRegion</FieldName>
-			<FieldValue>JAPAN</FieldValue>
-			<FieldType>Dropdown</FieldType>
-			<FieldOptions>
-				<string>JAPAN</string>
-				<string>USA</string>
-				<string>EXPORT</string>
-			</FieldOptions>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
-			<FieldName>FreePlay</FieldName>
-			<FieldValue>1</FieldValue>
+			<CategoryName>FFB Blaster</CategoryName>
+			<FieldName>Enable</FieldName>
+			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
 		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Dhcp</FieldName>
-			<FieldValue>1</FieldValue>
+			<CategoryName>General</CategoryName>
+			<FieldName>Enable Outputs</FieldName>
+			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Ip</FieldName>
-			<FieldValue>192.168.1.2</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Cab1IP</FieldName>
-			<FieldValue>192.168.1.2</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Cab2IP</FieldName>
-			<FieldValue>192.168.1.3</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Cab3IP</FieldName>
-			<FieldValue>192.168.1.4</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Cab4IP</FieldName>
-			<FieldValue>192.168.1.5</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Mask</FieldName>
-			<FieldValue>255.255.255.0</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Gateway</FieldName>
-			<FieldValue>192.168.1.1</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Dns1</FieldName>
-			<FieldValue>8.8.8.8</FieldValue>
-			<FieldType>Text</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Network</CategoryName>
-			<FieldName>Dns2</FieldName>
-			<FieldValue>8.8.4.4</FieldValue>
-			<FieldType>Text</FieldType>
 		</FieldInformation>
 	</ConfigValues>
 	<JoystickButtons>
@@ -189,12 +138,8 @@
 			<InputMapping>Service1</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Coin 1</ButtonName>
+			<ButtonName>Coin</ButtonName>
 			<InputMapping>Coin1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Coin 2</ButtonName>
-			<InputMapping>Coin2</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
 			<ButtonName>Start</ButtonName>
@@ -231,12 +176,28 @@
 			<AnalogType>Brake</AnalogType>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>ViewChange</ButtonName>
+			<ButtonName>Shift Up</ButtonName>
+			<InputMapping>P2ButtonUp</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Shift Down</ButtonName>
+			<InputMapping>P2ButtonDown</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>View Change</ButtonName>
 			<InputMapping>P1ButtonDown</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Boost</ButtonName>
-			<InputMapping>P2ButtonDown</InputMapping>
+			<ButtonName>Boost Button Left</ButtonName>
+			<InputMapping>P2Button1</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Boost Button Right</ButtonName>
+			<InputMapping>P1ButtonRight</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player Enter Card</ButtonName>
+			<InputMapping>P1ButtonUp</InputMapping>
 		</JoystickButtons>
 	</JoystickButtons>
 </GameProfile>

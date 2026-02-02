@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<GamePath></GamePath>
-	<TestMenuParameter>-t</TestMenuParameter>
+	<TestMenuParameter></TestMenuParameter>
 	<TestMenuIsExecutable>false</TestMenuIsExecutable>
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
-	<EmulationProfile>Vf5cLindbergh</EmulationProfile>
-	<GameProfileRevision>4</GameProfileRevision>
-	<HasSeparateTestMode>true</HasSeparateTestMode>
+	<ResetHint>false</ResetHint>
+	<EmulationProfile>WartranTroopers</EmulationProfile>
+	<GameProfileRevision>2</GameProfileRevision>
+	<HasSeparateTestMode>false</HasSeparateTestMode>
+	<Is64Bit>false</Is64Bit>
 	<EmulatorType>ElfLdr2</EmulatorType>
-	<Patreon>false</Patreon>
+	<Patreon>true</Patreon>
+	<RequiresAdmin>false</RequiresAdmin>
+	<ExecutableName>runner</ExecutableName>
+	<InvertedMouseAxis>true</InvertedMouseAxis>
+	<GunGame>false</GunGame>
+	<xAxisMin>0</xAxisMin>
+	<xAxisMax>255</xAxisMax>
+	<yAxisMin>0</yAxisMin>
+	<yAxisMax>255</yAxisMax>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
@@ -23,19 +33,13 @@
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>FreePlay</FieldName>
-			<FieldValue>1</FieldValue>
-			<FieldType>Bool</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
 			<FieldName>Windowed</FieldName>
-			<FieldValue>1</FieldValue>
+			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>VgaMode</FieldName>
+			<FieldName>HideCursor</FieldName>
 			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
 		</FieldInformation>
@@ -48,21 +52,22 @@
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
 			<FieldName>ResolutionWidth</FieldName>
-			<FieldValue>1360</FieldValue>
+			<FieldValue>320</FieldValue>
 			<FieldType>Text</FieldType>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
 			<FieldName>ResolutionHeight</FieldName>
-			<FieldValue>768</FieldValue>
+			<FieldValue>240</FieldValue>
 			<FieldType>Text</FieldType>
 		</FieldInformation>
-    <FieldInformation>
-      <CategoryName>General</CategoryName>
-      <FieldName>Framelimiter</FieldName>
-      <FieldValue>1</FieldValue>
-      <FieldType>Bool</FieldType>
-    </FieldInformation>
+		<FieldInformation>
+			<CategoryName>Bezel</CategoryName>
+			<FieldName>Enable</FieldName>
+			<FieldValue>0</FieldValue>
+			<FieldType>Bool</FieldType>
+			<Hint>Place file bezel.png in game folder. (FULLSCREEN ONLY!)</Hint>
+		</FieldInformation>
 	</ConfigValues>
 	<JoystickButtons>
 		<JoystickButtons>
@@ -70,12 +75,8 @@
 			<InputMapping>Test</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Service 1</ButtonName>
+			<ButtonName>Service</ButtonName>
 			<InputMapping>Service1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Service 2</ButtonName>
-			<InputMapping>Service2</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
 			<ButtonName>Coin 1</ButtonName>
@@ -90,64 +91,64 @@
 			<InputMapping>P1ButtonStart</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 1 Up</ButtonName>
-			<InputMapping>P1ButtonUp</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 1 Down</ButtonName>
-			<InputMapping>P1ButtonDown</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 1 Left</ButtonName>
-			<InputMapping>P1ButtonLeft</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 1 Right</ButtonName>
-			<InputMapping>P1ButtonRight</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 1 Punch</ButtonName>
+			<ButtonName>Player 1 Button A</ButtonName>
 			<InputMapping>P1Button1</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 1 Kick</ButtonName>
+			<ButtonName>Player 1 Button B</ButtonName>
 			<InputMapping>P1Button2</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 1 Block</ButtonName>
+			<ButtonName>Player 1 Button C</ButtonName>
 			<InputMapping>P1Button3</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 1 Up</ButtonName>
+			<InputMapping>JvsTwoP1Button1</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 1 Down</ButtonName>
+			<InputMapping>JvsTwoP1Button2</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 1 Left</ButtonName>
+			<InputMapping>JvsTwoP1Button3</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 1 Right</ButtonName>
+			<InputMapping>JvsTwoP1Button4</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
 			<ButtonName>Player 2 Start</ButtonName>
 			<InputMapping>P2ButtonStart</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 2 Up</ButtonName>
-			<InputMapping>P2ButtonUp</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 2 Down</ButtonName>
-			<InputMapping>P2ButtonDown</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 2 Left</ButtonName>
-			<InputMapping>P2ButtonLeft</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 2 Right</ButtonName>
-			<InputMapping>P2ButtonRight</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 2 Punch</ButtonName>
+			<ButtonName>Player 2 Button A</ButtonName>
 			<InputMapping>P2Button1</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 2 Kick</ButtonName>
+			<ButtonName>Player 2 Button B</ButtonName>
 			<InputMapping>P2Button2</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Player 2 Block</ButtonName>
+			<ButtonName>Player 2 Button C</ButtonName>
 			<InputMapping>P2Button3</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 2 Up</ButtonName>
+			<InputMapping>JvsTwoP2Button1</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 2 Down</ButtonName>
+			<InputMapping>JvsTwoP2Button2</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 2 Left</ButtonName>
+			<InputMapping>JvsTwoP2Button3</InputMapping>
+		</JoystickButtons>
+		<JoystickButtons>
+			<ButtonName>Player 2 Right</ButtonName>
+			<InputMapping>JvsTwoP2Button4</InputMapping>
 		</JoystickButtons>
 	</JoystickButtons>
 </GameProfile>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -35,6 +36,11 @@ namespace TeknoParrotUi.Views
         private ContentControl _contentControl;
         public bool listRefreshNeeded = false;
         public static bool firstBoot = true;
+        private string _searchText = string.Empty;
+        private DispatcherTimer _searchDebounceTimer;
+        private bool _isSearchUpdate = false;
+        private string _savedSelection = null;
+        private Window _highScoreWindow;
 
         public static BitmapImage defaultIcon = new BitmapImage(new Uri("../Resources/teknoparrot_by_pooterman-db9erxd.png", UriKind.Relative));
 
@@ -45,6 +51,22 @@ namespace TeknoParrotUi.Views
             _contentControl = contentControl;
             Joystick = new JoystickControl(contentControl, this);
             InitializeGenreComboBox();
+            InitializeSearchDebounceTimer();
+        }
+
+        private void InitializeSearchDebounceTimer()
+        {
+            _searchDebounceTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300)
+            };
+            _searchDebounceTimer.Tick += (s, e) =>
+            {
+                _searchDebounceTimer.Stop();
+                _isSearchUpdate = true;
+                ListUpdate();
+                _isSearchUpdate = false;
+            };
         }
 
         private void InitializeGenreComboBox()
@@ -136,6 +158,13 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
+            // Close high score window if it's open when selecting a different game
+            if (_highScoreWindow != null && _highScoreWindow.IsLoaded)
+            {
+                _highScoreWindow.Close();
+                _highScoreWindow = null;
+            }
+
             var modifyItem = (ListBoxItem)((ListBox)sender).SelectedItem;
             var profile = _gameNames[gameList.SelectedIndex];
             UpdateIcon(profile.IconName.Split('/')[1], ref gameIcon);
@@ -205,6 +234,27 @@ namespace TeknoParrotUi.Views
 
             gameInfoText.Text = basicInfo;
             delGame.IsEnabled = true;
+
+            if (!string.IsNullOrWhiteSpace(_searchText) && !_isSearchUpdate)
+            {
+                _savedSelection = selectedGame.GameNameInternal;
+            }
+
+            // Generate URL from ProfileName (hardcoded mapping)
+            string highScoreUrl = GetHighScoreUrlForProfile(selectedGame.ProfileName);
+
+            if (!string.IsNullOrEmpty(highScoreUrl) && IsValidHighScoreUrl(highScoreUrl))
+            {
+                highScoreButton.IsEnabled = true;
+                highScoreButton.Visibility = Visibility.Visible;
+                highScoreButton.ToolTip = "View High Scores";
+            }
+            else
+            {
+                highScoreButton.IsEnabled = false;
+                highScoreButton.Visibility = Visibility.Collapsed;
+                highScoreButton.ToolTip = null;
+            }
         }
 
         private void resetLibrary()
@@ -252,6 +302,14 @@ namespace TeknoParrotUi.Views
                     if (!matchesGenre)
                         continue;
 
+                    // Filter by search text if present
+                    if (!string.IsNullOrWhiteSpace(_searchText))
+                    {
+                        bool matchesSearch = gameProfile.GameNameInternal.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                        if (!matchesSearch)
+                            continue;
+                    }
+
                     var item = new ListBoxItem
                     {
                         Content = gameProfile.GameNameInternal +
@@ -287,7 +345,10 @@ namespace TeknoParrotUi.Views
                         gameList.SelectedIndex = 0;
                 }
 
-                gameList.Focus();
+                if (!_isSearchUpdate)
+                {
+                    gameList.Focus();
+                }
                 if (gameList.SelectedItem != null)
                 {
                     try
@@ -507,6 +568,17 @@ namespace TeknoParrotUi.Views
                 }
             }
 
+            if (gameProfile.EmulationProfile == EmulationProfile.IncredibleTechnologies)
+            {
+                var autoCreateDb = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Automatically create Database")?.FieldValue;
+                if (autoCreateDb == "1")
+                {
+                    if (!CheckPostgresDatabase(gameProfile))
+                    {
+                        return false;
+                    }
+                }
+            }
 
             if (gameProfile.EmulationProfile == EmulationProfile.NxL2)
             {
@@ -1024,6 +1096,303 @@ namespace TeknoParrotUi.Views
 
             return true;
         }
+
+        private static bool CheckPostgresDatabase(GameProfile gameProfile)
+        {
+            var postgresPath = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Path")?.FieldValue;
+            var postgresAddress = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Address")?.FieldValue;
+            var postgresPort = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Port")?.FieldValue;
+            var postgresDbName = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "DbName")?.FieldValue;
+            var postgresUser = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "User")?.FieldValue;
+            var postgresPass = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Pass")?.FieldValue;
+
+            Trace.WriteLine("[PostgreSQL Check] Starting database validation...");
+
+            if (string.IsNullOrWhiteSpace(postgresPath) || string.IsNullOrWhiteSpace(postgresDbName))
+            {
+                Trace.WriteLine("[PostgreSQL Check] Configuration incomplete");
+                MessageBoxHelper.ErrorOK("PostgreSQL configuration is incomplete. Please configure the Postgres settings in the game profile.");
+                return false;
+            }
+
+            var psqlExePath = Path.Combine(postgresPath, "psql.exe");
+            var pgRestoreExePath = Path.Combine(postgresPath, "pg_restore.exe");
+            
+            Trace.WriteLine($"[PostgreSQL Check] Looking for PostgreSQL tools at: {postgresPath}");
+            
+            if (!File.Exists(psqlExePath))
+            {
+                Trace.WriteLine("[PostgreSQL Check] psql.exe not found");
+                MessageBoxHelper.ErrorOK($"PostgreSQL executable not found at: {psqlExePath}\n\nPlease verify the Postgres Path setting in the game profile.");
+                return false;
+            }
+
+            if (!File.Exists(pgRestoreExePath))
+            {
+                Trace.WriteLine("[PostgreSQL Check] pg_restore.exe not found");
+                MessageBoxHelper.ErrorOK($"pg_restore.exe not found at: {pgRestoreExePath}\n\nPlease verify the Postgres Path setting in the game profile.");
+                return false;
+            }
+
+            try
+            {
+                // Use -w to prevent password prompts and set connection timeout
+                var arguments = $"-h {postgresAddress} -p {postgresPort} -U {postgresUser} -d postgres --set=connect_timeout=3 -tAc \"SELECT 1 FROM pg_database WHERE datname='{postgresDbName}'\"";
+                Trace.WriteLine($"[PostgreSQL Check] Prepared arguments: {arguments}");
+                var processInfo = new ProcessStartInfo
+                {
+                    FileName = psqlExePath,
+                    Arguments = arguments,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                if (!string.IsNullOrWhiteSpace(postgresPass))
+                {
+                    processInfo.EnvironmentVariables["PGPASSWORD"] = postgresPass;
+                    Trace.WriteLine("[PostgreSQL Check] Password environment variable set");
+                } else {
+                    processInfo.EnvironmentVariables["PGPASSWORD"] = "";
+                    Trace.WriteLine("[PostgreSQL Check] Password environment variable set with empty value as no pw specified");
+                }
+
+                Trace.WriteLine($"[PostgreSQL Check] Executing: {psqlExePath} {arguments}");
+                Trace.WriteLine($"[PostgreSQL Check] Connecting to: {postgresAddress}:{postgresPort}");
+                Trace.WriteLine($"[PostgreSQL Check] Database: {postgresDbName}, User: {postgresUser}");
+
+                using (var process = Process.Start(processInfo))
+                {
+                    if (process == null)
+                    {
+                        Trace.WriteLine("[PostgreSQL Check] Failed to start process");
+                        MessageBoxHelper.ErrorOK("Failed to start PostgreSQL process.");
+                        return false;
+                    }
+
+                    Trace.WriteLine("[PostgreSQL Check] Process started, waiting for exit...");
+                    
+                    if (!process.WaitForExit(5000))
+                    {
+                        Trace.WriteLine("[PostgreSQL Check] Process timed out after 5 seconds");
+                        Trace.WriteLine("[PostgreSQL Check] This usually means psql is waiting for password input or the connection is hanging");
+                        try
+                        {
+                            process.Kill();
+                            Trace.WriteLine("[PostgreSQL Check] Process killed");
+                        }
+                        catch (Exception killEx)
+                        {
+                            Trace.WriteLine($"[PostgreSQL Check] Error killing process: {killEx.Message}");
+                        }
+                        
+                        var timeoutMsg = "PostgreSQL connection timed out.\n\n" +
+                                       "Possible causes:\n" +
+                                       "• PostgreSQL server is not running\n" +
+                                       "• Password authentication is failing (check pg_hba.conf)\n" +
+                                       "• Network/firewall blocking connection\n" +
+                                       "• Incorrect connection settings\n\n" +
+                                       "Check the debug output for more details.";
+                        MessageBoxHelper.ErrorOK(timeoutMsg);
+                        return false;
+                    }
+
+                    Trace.WriteLine($"[PostgreSQL Check] Process exited with code: {process.ExitCode}");
+
+                    var output = process.StandardOutput.ReadToEnd();
+                    var error = process.StandardError.ReadToEnd();
+                    
+                    Trace.WriteLine($"[PostgreSQL Check] Output: '{output}'");
+                    if (!string.IsNullOrWhiteSpace(error))
+                        Trace.WriteLine($"[PostgreSQL Check] Error: '{error}'");
+
+                    if (process.ExitCode != 0)
+                    {
+                        var errorMessage = $"PostgreSQL connection failed (exit code {process.ExitCode}).\n\nError: {error}\n\nPlease verify your Postgres settings and ensure the PostgreSQL server is running.";
+                        Trace.WriteLine("[PostgreSQL Check] Connection failed");
+                        MessageBoxHelper.ErrorOK(errorMessage);
+                        return false;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(output) || output.Trim() != "1")
+                    {
+                        Trace.WriteLine("[PostgreSQL Check] Database does not exist");
+                        
+                        if (!MessageBoxHelper.WarningYesNo($"PostgreSQL database '{postgresDbName}' does not exist.\n\nWould you like to create it now?"))
+                        {
+                            return false;
+                        }
+
+                        Trace.WriteLine("[PostgreSQL Check] User chose to create database");
+
+                        try
+                        {
+                            var createDbArgs = $"-h {postgresAddress} -p {postgresPort} -U {postgresUser} -d postgres --set=connect_timeout=3 -tAc \"CREATE DATABASE \\\"{postgresDbName}\\\" WITH ENCODING 'SQL_ASCII'\"";
+                            Trace.WriteLine($"[PostgreSQL Check] Creating database with args: {createDbArgs}");
+
+                            var createDbInfo = new ProcessStartInfo
+                            {
+                                FileName = psqlExePath,
+                                Arguments = createDbArgs,
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                CreateNoWindow = true
+                            };
+
+                            if (!string.IsNullOrWhiteSpace(postgresPass))
+                                createDbInfo.EnvironmentVariables["PGPASSWORD"] = postgresPass;
+
+                            using (var createProcess = Process.Start(createDbInfo))
+                            {
+                                if (createProcess == null)
+                                {
+                                    MessageBoxHelper.ErrorOK("Failed to start psql process to create database.");
+                                    return false;
+                                }
+
+                                if (!createProcess.WaitForExit(5000))
+                                {
+                                    createProcess.Kill();
+                                    MessageBoxHelper.ErrorOK("Database creation timed out.");
+                                    return false;
+                                }
+
+                                var createOutput = createProcess.StandardOutput.ReadToEnd();
+                                var createError = createProcess.StandardError.ReadToEnd();
+
+                                Trace.WriteLine($"[PostgreSQL Check] Create output: {createOutput}");
+                                if (!string.IsNullOrWhiteSpace(createError))
+                                    Trace.WriteLine($"[PostgreSQL Check] Create error: {createError}");
+
+                                if (createProcess.ExitCode != 0)
+                                {
+                                    MessageBoxHelper.ErrorOK($"Failed to create database:\n{createError}");
+                                    return false;
+                                }
+                            }
+
+                            Trace.WriteLine("[PostgreSQL Check] Database created successfully");
+
+                            var alterDbArgs = $"-h {postgresAddress} -p {postgresPort} -U {postgresUser} -d postgres --set=connect_timeout=3 -tAc \"ALTER DATABASE \\\"{postgresDbName}\\\" SET standard_conforming_strings TO off\"";
+                            Trace.WriteLine($"[PostgreSQL Check] Setting database parameter");
+
+                            var alterDbInfo = new ProcessStartInfo
+                            {
+                                FileName = psqlExePath,
+                                Arguments = alterDbArgs,
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                CreateNoWindow = true
+                            };
+
+                            if (!string.IsNullOrWhiteSpace(postgresPass))
+                                alterDbInfo.EnvironmentVariables["PGPASSWORD"] = postgresPass;
+
+                            using (var alterProcess = Process.Start(alterDbInfo))
+                            {
+                                if (alterProcess == null)
+                                {
+                                    MessageBoxHelper.ErrorOK("Failed to configure database settings.");
+                                    return false;
+                                }
+
+                                if (!alterProcess.WaitForExit(5000))
+                                {
+                                    alterProcess.Kill();
+                                    MessageBoxHelper.ErrorOK("Database configuration timed out.");
+                                    return false;
+                                }
+
+                                var alterOutput = alterProcess.StandardOutput.ReadToEnd();
+                                var alterError = alterProcess.StandardError.ReadToEnd();
+
+                                if (!string.IsNullOrWhiteSpace(alterError))
+                                    Trace.WriteLine($"[PostgreSQL Check] Alter error: {alterError}");
+
+                                if (alterProcess.ExitCode != 0)
+                                {
+                                    Trace.WriteLine("[PostgreSQL Check] Failed to set database parameter (non-critical)");
+                                }
+                            }
+
+                            Trace.WriteLine("[PostgreSQL Check] Opening file dialog for backup selection");
+
+                            var openFileDialog = new OpenFileDialog
+                            {
+                                Title = "Select PostgreSQL Backup File",
+                                Filter = "All Files (*.*)|*.*",
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                                Multiselect = false
+                            };
+
+                            if (openFileDialog.ShowDialog() != true)
+                            {
+                                Trace.WriteLine("[PostgreSQL Check] User cancelled backup file selection");
+                                MessageBoxHelper.InfoOK("Database created but no backup restored. You may need to manually restore data.");
+                                return true;
+                            }
+
+                            var backupFile = openFileDialog.FileName;
+                            Trace.WriteLine($"[PostgreSQL Check] Restoring backup from: {backupFile}");
+
+                            var restoreArgs = $"-h {postgresAddress} -p {postgresPort} -U {postgresUser} -d \"{postgresDbName}\" -v \"{backupFile}\"";
+                            Trace.WriteLine($"[PostgreSQL Check] Restore arguments: {restoreArgs}");
+                            var restoreInfo = new ProcessStartInfo
+                            {
+                                FileName = pgRestoreExePath,
+                                Arguments = restoreArgs,
+                                UseShellExecute = false,
+                                CreateNoWindow = true
+                            };
+
+                            if (!string.IsNullOrWhiteSpace(postgresPass))
+                                restoreInfo.EnvironmentVariables["PGPASSWORD"] = postgresPass;
+
+                            using (var restoreProcess = Process.Start(restoreInfo))
+                            {
+                                if (restoreProcess == null)
+                                {
+                                    MessageBoxHelper.ErrorOK("Failed to start backup restoration process.");
+                                    return false;
+                                }
+
+                                restoreProcess.WaitForExit();
+
+                                if (restoreProcess.ExitCode != 0 && restoreProcess.ExitCode != 1) // pg_restore returns 1 for warnings I guess?
+                                {
+                                    Trace.WriteLine($"[PostgreSQL Check] Restore completed with exit code: {restoreProcess.ExitCode}");
+                                    MessageBoxHelper.WarningOK($"Backup restoration completed with exit code {restoreProcess.ExitCode}. Check the console output for details.");
+                                }
+                            }
+
+                            Trace.WriteLine("[PostgreSQL Check] Database created and backup restored successfully");
+                            MessageBoxHelper.InfoOK($"Database '{postgresDbName}' has been created and backup restored successfully!");
+                            return true;
+                        }
+                        catch (Exception createEx)
+                        {
+                            Trace.WriteLine($"[PostgreSQL Check] Exception during database creation: {createEx.Message}");
+                            MessageBoxHelper.ErrorOK($"Error creating database: {createEx.Message}");
+                            return false;
+                        }
+                    }
+
+                    Trace.WriteLine("[PostgreSQL Check] Database exists - validation successful");
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"[PostgreSQL Check] Exception: {ex.Message}");
+                Trace.WriteLine($"[PostgreSQL Check] Stack trace: {ex.StackTrace}");
+                MessageBoxHelper.ErrorOK($"Error checking PostgreSQL database: {ex.Message}");
+                return false;
+            }
+        }
         private static string CheckPlay(string gamepath, string gameName)
         {
             var getDir = Path.Combine(Path.GetDirectoryName(gamepath), gameName);
@@ -1142,6 +1511,8 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
+            CloseHighScoreWindow();
+
             var gameProfile = (GameProfile)((ListBoxItem)gameList.SelectedItem).Tag;
 
             bool changed = JoystickHelper.AutoFillOnlineId(gameProfile);
@@ -1161,6 +1532,9 @@ namespace TeknoParrotUi.Views
         {
             if (gameList.Items.Count == 0)
                 return;
+
+            CloseHighScoreWindow();
+
             Joystick = new JoystickControl(_contentControl, this);
             Joystick.LoadNewSettings(_gameNames[gameList.SelectedIndex], (ListBoxItem)gameList.SelectedItem);
             Joystick.Listen();
@@ -1174,6 +1548,8 @@ namespace TeknoParrotUi.Views
         {
             if (gameList.Items.Count == 0)
                 return;
+
+            CloseHighScoreWindow();
 
             var gameProfile = (GameProfile)((ListBoxItem)gameList.SelectedItem).Tag;
 
@@ -1198,6 +1574,8 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
+            CloseHighScoreWindow();
+
             var gameProfile = (GameProfile)((ListBoxItem)gameList.SelectedItem).Tag;
 
             Lazydata.ParrotData.LastPlayed = gameProfile.GameNameInternal;
@@ -1220,6 +1598,8 @@ namespace TeknoParrotUi.Views
             if (gameList.Items.Count == 0)
                 return;
 
+            CloseHighScoreWindow();
+
             var selectedGame = _gameNames[gameList.SelectedIndex];
             if (!File.Exists(Lazydata.ParrotData.DatXmlLocation))
             {
@@ -1234,6 +1614,8 @@ namespace TeknoParrotUi.Views
 
         private void BtnMoreInfo(object sender, RoutedEventArgs e)
         {
+            CloseHighScoreWindow();
+
             string path = string.Empty;
 
             if (gameList.Items.Count != 0)
@@ -1254,6 +1636,8 @@ namespace TeknoParrotUi.Views
 
         private void BtnOnlineProfile(object sender, RoutedEventArgs e)
         {
+            CloseHighScoreWindow();
+
             string path = string.Empty;
             if (gameList.Items.Count != 0)
             {
@@ -1328,6 +1712,8 @@ namespace TeknoParrotUi.Views
 
         private void BtnDeleteGame(object sender, RoutedEventArgs e)
         {
+            CloseHighScoreWindow();
+
             var selectedItem = (ListBoxItem)gameList.SelectedItem;
             if (selectedItem == null)
             {
@@ -1359,6 +1745,8 @@ namespace TeknoParrotUi.Views
 
         private void BtnPlayOnlineClick(object sender, RoutedEventArgs e)
         {
+            CloseHighScoreWindow();
+
             var app = Application.Current.Windows.OfType<MainWindow>().Single();
             app.BtnTPOnline2(null, null);
         }
@@ -1368,5 +1756,433 @@ namespace TeknoParrotUi.Views
             ListUpdate();
         }
 
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var newSearchText = SearchBox.Text;
+
+            if (string.IsNullOrWhiteSpace(_searchText) && !string.IsNullOrWhiteSpace(newSearchText))
+            {
+                if (gameList.SelectedIndex >= 0 && gameList.SelectedIndex < _gameNames.Count)
+                {
+                    _savedSelection = _gameNames[gameList.SelectedIndex].GameNameInternal;
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(_searchText) && string.IsNullOrWhiteSpace(newSearchText))
+            {
+                _searchDebounceTimer.Stop();
+                _searchText = string.Empty;
+                _isSearchUpdate = true;
+                ListUpdate(_savedSelection);
+                _isSearchUpdate = false;
+                _savedSelection = null;
+                return;
+            }
+
+            _searchText = newSearchText;
+            _searchDebounceTimer.Stop();
+            _searchDebounceTimer.Start();
+        }
+
+        private System.Windows.Controls.Button CreateTimePeriodButton(string text)
+        {
+            return new System.Windows.Controls.Button
+            {
+                Content = text,
+                Height = 30,
+                Margin = new Thickness(0, 0, 0, 5),
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+        }
+
+        // Add this method to validate URLs (place it near other helper methods like CloseHighScoreWindow)
+        private static bool IsValidHighScoreUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return false;
+
+            try
+            {
+                var uri = new Uri(url);
+
+                // List of allowed domains for high scores
+                var allowedDomains = new List<string>
+                {
+                    "teknoparrot.com",
+                    "www.teknoparrot.com"
+                };
+
+                // Must be HTTPS for security
+                if (uri.Scheme != Uri.UriSchemeHttps)
+                {
+                    Debug.WriteLine($"Invalid URL scheme: {uri.Scheme}. Only HTTPS is allowed.");
+                    return false;
+                }
+
+                // Check if the host matches any allowed domain
+                var host = uri.Host.ToLowerInvariant();
+                if (!allowedDomains.Any(domain => host.Equals(domain, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Debug.WriteLine($"Invalid URL domain: {host}. Only {string.Join(", ", allowedDomains)} are allowed.");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (UriFormatException ex)
+            {
+                Debug.WriteLine($"Invalid URL format: {url}. Error: {ex.Message}");
+                return false;
+            }
+        }
+
+        private void BtnHighScores(object sender, RoutedEventArgs e)
+        {
+            if (gameList.Items.Count == 0)
+                return;
+
+            var selectedGame = _gameNames[gameList.SelectedIndex];
+
+            // Generate URL from ProfileName
+            string highScoreUrl = GetHighScoreUrlForProfile(selectedGame.ProfileName);
+
+            if (string.IsNullOrEmpty(highScoreUrl))
+                return;
+
+            // Replace the language code in the URL based on user's language setting
+            var localizedUrl = GetLocalizedHighScoreUrl(highScoreUrl);
+
+            // Validate URL before opening
+            if (!IsValidHighScoreUrl(localizedUrl))
+            {
+                MessageBoxHelper.ErrorOK("Invalid high score URL. Only official TeknoParrot URLs are allowed.");
+                Debug.WriteLine($"Blocked attempt to open invalid URL: {localizedUrl}");
+                return;
+            }
+
+            OpenHighScoreWindow(localizedUrl);
+        }
+
+        private static string GetHighScoreUrlForProfile(string profileName)
+        {
+            if (string.IsNullOrEmpty(profileName))
+                return null;
+
+            // Map profile names to their high score page identifiers
+            // Using the profile name (xml filename without .xml) as the identifier
+            var highScoreGames = new Dictionary<string, string>
+            {
+                { "BattleGear4Tuned", "BattleGear4Tuned" },
+                { "Daytona3", "Daytona3" },
+                { "Daytona3NSE", "Daytona3NSE" },
+                { "DeadHeat", "DeadHeat" },
+                { "DirtyDrivin", "DirtyDrivin" },
+                { "FarCryParadiseLost", "FarCryParadiseLost" },
+                { "GaelcoChampionshipTuningRace", "GaelcoChampionshipTuningRace" },
+                { "H2Overdrive", "H2Overdrive" },
+                { "HOTD4", "HOTD4" },
+                { "HOTDSD", "HOTDSD" },
+                { "GoldenTeeLive2006", "gt06" },
+                { "GoldenTeeLive2007", "gt07" },
+                { "GoldenTeeLive2008", "gt08" },
+                { "GoldenTeeLive2009", "gt09" },
+                { "GoldenTeeLive2010", "gt10" },
+                { "GoldenTeeLive2011", "gt11" },
+                { "GoldenTeeLive2012", "gt12" },
+                { "GoldenTeeLive2013", "gt13" },
+                { "GoldenTeeLive2014", "gt14" },
+                { "GoldenTeeLive2015", "gt15" },
+                { "GoldenTeeLive2016", "gt16" },
+                { "GoldenTeeLive2017", "gt17" },
+                { "ID6", "ID6" },
+                { "ID7", "ID7" },
+                { "ID8", "ID8" },
+                { "or2spdlx", "or2spdlx" },
+                { "PowerPuttLive2012", "ppl12" },
+                { "PowerPuttLive2013", "ppl13" },
+                { "RastanSaga", "RastanSaga" },
+                { "SilverStrikeBowlingLive", "silverstrikelive" },
+                { "SR3", "SR3" },
+                { "SRC", "SRC" },
+                { "Taiko", "Taiko" },
+                { "TC5", "TC5" },
+                { "TargetTerrorGold", "TTG" },
+                { "WMMT3", "WMMT3" },
+                { "WMMT3DXP", "WMMT3DXPlus" },
+                { "WMMT5", "WMMT5" },
+                { "WMMT5DX", "WMMT5DX" },
+                { "WMMT5DXPlus", "WMMT5DXPlus" },
+                { "WMMT6", "WMMT6" },
+                { "WMMT6R", "WMMT6R" },
+            };
+
+            // Check if this game has high scores
+            if (highScoreGames.ContainsKey(profileName))
+            {
+                var gameIdentifier = highScoreGames[profileName];
+                // Return base URL with placeholder for language (will be replaced later)
+                return $"https://teknoparrot.com/en/Highscore/GameSpecific/{gameIdentifier}";
+            }
+
+            return null; // No high scores available for this game
+        }
+
+        private static string GetLocalizedHighScoreUrl(string originalUrl)
+        {
+            if (string.IsNullOrEmpty(originalUrl))
+                return null;
+
+            try
+            {
+                // Get the user's language setting
+                string userLanguage = Lazydata.ParrotData.Language ?? "en-US";
+                
+                // Map app language codes to website language codes
+                var languageMap = new Dictionary<string, string>
+                {
+                    { "en-US", "en" },    // US English
+                    { "en", "en" },       // English (generic)
+                    { "fi-FI", "fi" },    // Finnish / Suomi
+                    { "ar-SA", "sa" },    // Saudi Arabia Arabic
+                    { "de-DE", "de" },    // German / Deutsch
+                    { "es-ES", "es" },    // Spanish / Español
+                    { "fr-FR", "fr" },    // French / Français
+                    { "he-IL", "il" },    // Hebrew (Israel)
+                    { "it-IT", "it" },    // Italian / Italiano
+                    { "ja-JP", "jp" },    // Japanese
+                    { "ko-KR", "kr" },    // Korean
+                    { "nl-NL", "nl" },    // Dutch / Nederlands
+                    { "pl-PL", "pl" },    // Polish / Polski
+                    { "pt-BR", "pt" },    // Portuguese / Português
+                    { "pt-PT", "pt" },    // Portuguese (Portugal)
+                    { "ru-RU", "ru" },    // Russian / Русский
+                    { "zh-CN", "cn" },    // Chinese (Simplified)
+                    { "zh-TW", "cn" }     // Chinese (Traditional) - using same as simplified
+                };
+
+                // Get the website language code, default to "en" if not found
+                string websiteLanguageCode = "en";
+                if (languageMap.ContainsKey(userLanguage))
+                {
+                    websiteLanguageCode = languageMap[userLanguage];
+                }
+                else
+                {
+                    // Try to match just the language part (e.g., "en" from "en-US")
+                    var languagePart = userLanguage.Split('-')[0].ToLower();
+                    var matchingKey = languageMap.Keys.FirstOrDefault(k => k.StartsWith(languagePart + "-"));
+                    if (matchingKey != null)
+                    {
+                        websiteLanguageCode = languageMap[matchingKey];
+                    }
+                }
+
+                // Parse the URL and replace the language code
+                var uri = new Uri(originalUrl);
+                var pathSegments = uri.AbsolutePath.Split('/').Where(s => !string.IsNullOrEmpty(s)).ToList();
+                
+                // The language code is typically the first segment after the domain
+                // e.g., https://teknoparrot.com/en/Highscore/GameSpecific/gt17
+                //                                  ^^
+                if (pathSegments.Count > 0)
+                {
+                    // Replace the first segment (language code) with the user's language
+                    pathSegments[0] = websiteLanguageCode;
+                    
+                    var newPath = "/" + string.Join("/", pathSegments);
+                    var uriBuilder = new UriBuilder(uri)
+                    {
+                        Path = newPath
+                    };
+                    
+                    var localizedUrl = uriBuilder.Uri.ToString();
+                    Debug.WriteLine($"Localized high score URL: {originalUrl} -> {localizedUrl}");
+                    
+                    return localizedUrl;
+                }
+                
+                // If we can't parse it properly, return the original URL
+                Debug.WriteLine($"Could not localize URL, using original: {originalUrl}");
+                return originalUrl;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error localizing high score URL: {ex.Message}");
+                return originalUrl; // Return original URL if there's any error
+            }
+        }
+
+        private void OpenHighScoreWindow(string url)
+        {
+            // Validate URL one more time before opening (defense in depth)
+            if (!IsValidHighScoreUrl(url))
+            {
+                Debug.WriteLine($"Security: Blocked invalid URL in OpenHighScoreWindow: {url}");
+                return;
+            }
+
+            // Close existing window if one is already open
+            if (_highScoreWindow != null && _highScoreWindow.IsLoaded)
+            {
+                _highScoreWindow.Close();
+            }
+
+            // Get the main window
+            var mainWindow = Application.Current.Windows.OfType<MainWindow>().Single();
+
+            _highScoreWindow = new Window
+            {
+                Title = "High Scores",
+                Width = 800,
+                Height = mainWindow.ActualHeight,
+                Owner = mainWindow,
+                WindowStartupLocation = WindowStartupLocation.Manual,
+                ShowInTaskbar = false,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                Background = System.Windows.Media.Brushes.Transparent,
+                Topmost = false
+            };
+
+            // Position flush to the right with no gap
+            _highScoreWindow.Left = mainWindow.Left + mainWindow.ActualWidth;
+            _highScoreWindow.Top = mainWindow.Top;
+
+            // Store event handlers so we can unsubscribe later
+            EventHandler locationChangedHandler = null;
+            SizeChangedEventHandler sizeChangedHandler = null;
+
+            locationChangedHandler = (s, e) =>
+            {
+                if (_highScoreWindow != null && _highScoreWindow.IsLoaded)
+                {
+                    _highScoreWindow.Left = mainWindow.Left + mainWindow.ActualWidth;
+                    _highScoreWindow.Top = mainWindow.Top;
+                }
+            };
+
+            sizeChangedHandler = (s, e) =>
+            {
+                if (_highScoreWindow != null && _highScoreWindow.IsLoaded)
+                {
+                    _highScoreWindow.Height = mainWindow.ActualHeight;
+                    _highScoreWindow.Left = mainWindow.Left + mainWindow.ActualWidth;
+                    _highScoreWindow.Top = mainWindow.Top;
+                }
+            };
+
+            // Attach event handlers
+            mainWindow.LocationChanged += locationChangedHandler;
+            mainWindow.SizeChanged += sizeChangedHandler;
+
+            // Clear reference and cleanup event handlers when window is closed
+            _highScoreWindow.Closed += (s, e) =>
+            {
+                // Unsubscribe event handlers to prevent memory leaks
+                mainWindow.LocationChanged -= locationChangedHandler;
+                mainWindow.SizeChanged -= sizeChangedHandler;
+                _highScoreWindow = null;
+            };
+
+            // Create the browser
+            var chromiumBrowser = new CefSharp.Wpf.ChromiumWebBrowser
+            {
+                Address = url
+            };
+
+            // Disable right-click context menu for security
+            chromiumBrowser.MenuHandler = new CustomMenuHandler();
+            
+            // Block popups from opening in new windows - navigate in same window instead
+            chromiumBrowser.LifeSpanHandler = new PopupBlockingLifeSpanHandler(chromiumBrowser);
+
+            // Create outer border with rounded corners
+            var outerBorder = new Border
+            {
+                CornerRadius = new CornerRadius(10),
+                ClipToBounds = true,
+                Background = System.Windows.Media.Brushes.White
+            };
+
+            outerBorder.Child = chromiumBrowser;
+            _highScoreWindow.Content = outerBorder;
+            _highScoreWindow.Show();
+        }
+
+        // Add this class to handle context menu (disables right-click)
+        public class CustomMenuHandler : CefSharp.IContextMenuHandler
+        {
+            public void OnBeforeContextMenu(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.IMenuModel model)
+            {
+                model.Clear();
+            }
+
+            public bool OnContextMenuCommand(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.CefMenuCommand commandId, CefSharp.CefEventFlags eventFlags)
+            {
+                return false;
+            }
+
+            public void OnContextMenuDismissed(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame)
+            {
+            }
+
+            public bool RunContextMenu(CefSharp.IWebBrowser browserControl, CefSharp.IBrowser browser, CefSharp.IFrame frame, CefSharp.IContextMenuParams parameters, CefSharp.IMenuModel model, CefSharp.IRunContextMenuCallback callback)
+            {
+                return false;
+            }
+        }
+
+        // Add this class to block popups and handle them in the same window
+        public class PopupBlockingLifeSpanHandler : CefSharp.ILifeSpanHandler
+        {
+            private readonly CefSharp.Wpf.ChromiumWebBrowser _browser;
+
+            public PopupBlockingLifeSpanHandler(CefSharp.Wpf.ChromiumWebBrowser browser)
+            {
+                _browser = browser;
+            }
+
+            public bool OnBeforePopup(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser, CefSharp.IFrame frame, 
+                string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture, 
+                CefSharp.IPopupFeatures popupFeatures, CefSharp.IWindowInfo windowInfo, CefSharp.IBrowserSettings browserSettings, 
+                ref bool noJavascriptAccess, out CefSharp.IWebBrowser newBrowser)
+            {
+                newBrowser = null;
+
+                // Validate the URL before allowing navigation
+                if (!IsValidHighScoreUrl(targetUrl))
+                {
+                    Debug.WriteLine($"Blocked popup to invalid URL: {targetUrl}");
+                    return true; // true = cancel the popup
+                }
+
+                // Instead of opening a new window, navigate in the same browser
+                _browser.Load(targetUrl);
+                
+                return true; // true = cancel the popup (we're handling it ourselves)
+            }
+
+            public void OnAfterCreated(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser)
+            {
+            }
+
+            public bool DoClose(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser)
+            {
+                return false;
+            }
+
+            public void OnBeforeClose(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser)
+            {
+            }
+        }
+
+        private void CloseHighScoreWindow()
+        {
+            if (_highScoreWindow != null && _highScoreWindow.IsLoaded)
+            {
+                _highScoreWindow.Close();
+                _highScoreWindow = null;
+            }
+        }
     }
 }

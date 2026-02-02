@@ -327,6 +327,28 @@ namespace TeknoParrotUi.Common.InputProfiles.Helpers
 
             if (button.IsRightTrigger)
                 return state.Gamepad.RightTrigger != 0;
+
+            // Handle analog stick as button press
+            if (button.IsLeftThumbX || button.IsLeftThumbY || button.IsRightThumbX || button.IsRightThumbY)
+            {
+                var calcVal = 0;
+                if (button.IsLeftThumbY) calcVal = state.Gamepad.LeftThumbY;
+                if (button.IsLeftThumbX) calcVal = state.Gamepad.LeftThumbX;
+                if (button.IsRightThumbX) calcVal = state.Gamepad.RightThumbX;
+                if (button.IsRightThumbY) calcVal = state.Gamepad.RightThumbY;
+
+                if (button.IsAxisMinus)
+                {
+                    // Negative direction (down/left)
+                    return calcVal <= -15000;
+                }
+                else
+                {
+                    // Positive direction (up/right)
+                    return calcVal >= 15000;
+                }
+            }
+
             var buttonButtonCode = (short)state.Gamepad.Buttons;
             return (buttonButtonCode & button.ButtonCode) != 0;
         }
@@ -358,14 +380,29 @@ namespace TeknoParrotUi.Common.InputProfiles.Helpers
             if ((JoystickOffset)button.Button != state.Offset)
                 return null;
 
+            //// Axis as button (WHY DID WE HAVE THIS?)
+            //if (button.IsAxis)
+            //{
+            //    if (state.Value < 55535)
+            //    {
+            //        return true;
+            //    }
+            //    return false;
+            //}
+
             // Axis as button
             if (button.IsAxis)
             {
-                if (state.Value < 55535)
+                if (button.IsAxisMinus)
                 {
-                    return true;
+                    // Negative direction (axis pushed below center minus threshold)
+                    return state.Value <= 32064 - 15000;
                 }
-                return false;
+                else
+                {
+                    // Positive direction (axis pushed above center plus threshold)
+                    return state.Value >= 32064 + 15000;
+                }
             }
 
             // POV
