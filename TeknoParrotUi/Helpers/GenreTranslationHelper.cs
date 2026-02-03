@@ -40,7 +40,7 @@ namespace TeknoParrotUi.Helpers
                 "All", "Installed", "Subscription", "System 246/256", "System 357/359/369", "Triforce",
                 "Action", "Card", "Compilation", "Fighting", "Flying",
                 "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up",
-                "Shooter", "Sports"
+                "Shooter", "Sports", "Others"
             };
 
             if (includeNotInstalled)
