@@ -66,7 +66,7 @@ namespace TeknoParrotUi.Views
             {
                 _searchDebounceTimer.Stop();
                 _isSearchUpdate = true;
-                ListUpdate();
+                ListUpdate(null, true);
                 _isSearchUpdate = false;
             };
         }
@@ -330,7 +330,7 @@ namespace TeknoParrotUi.Views
         /// <summary>
         /// This updates the listbox when called
         /// </summary>
-        public void ListUpdate(string selectGame = null)
+        public void ListUpdate(string selectGame = null, bool skipAutoLaunch = false)
         {
             if (!firstBoot)
             {
@@ -468,7 +468,7 @@ namespace TeknoParrotUi.Views
             }
             
             //wei134102
-            if (gameList.SelectedItem != null && LastGameAutoLaunch && Lazydata.ParrotData.SaveLastPlayed)
+            if (gameList.SelectedItem != null && LastGameAutoLaunch && Lazydata.ParrotData.SaveLastPlayed && !skipAutoLaunch)
             {
                 // 将 AutoLaunch 重置为 false，防止无限循环
                 LastGameAutoLaunch = false;
@@ -491,7 +491,7 @@ namespace TeknoParrotUi.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (gameList.Items.Count == 0 || listRefreshNeeded)
-                ListUpdate();
+                ListUpdate(null, true);
 
             if (Application.Current.Windows.OfType<MainWindow>().Single()._updaterComplete)
             {
@@ -1897,7 +1897,7 @@ namespace TeknoParrotUi.Views
                     MessageBox.Show($"成功删除 {deletedCount} 个游戏！", "删除完成", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
-                ListUpdate();
+                ListUpdate(null, true);
                 
                 // 重置删除按钮文本为默认状态
                 delGame.Content = Properties.Resources.LibraryDeleteGame;
@@ -1940,7 +1940,7 @@ namespace TeknoParrotUi.Views
                 MessageBox.Show($"删除游戏时发生错误：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            ListUpdate();
+            ListUpdate(null, true);
             
             // 重置删除按钮文本为默认状态
             delGame.Content = Properties.Resources.LibraryDeleteGame;
