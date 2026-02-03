@@ -9,7 +9,6 @@ using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using TeknoParrotUi.Common;
@@ -45,7 +44,6 @@ namespace TeknoParrotUi.Views
         private Window _highScoreWindow;
 
         public static bool LastGameAutoLaunch = false;//wei134102
-        public static bool firstBoot = true;
         public static BitmapImage defaultIcon = new BitmapImage(new Uri("../Resources/teknoparrot_by_pooterman-db9erxd.png", UriKind.Relative));
 
         public Library(ContentControl contentControl)
@@ -390,8 +388,8 @@ namespace TeknoParrotUi.Views
 
                         _gameNames.Add(gameProfile);
                         gameList.Items.Add(item);
-                    }
                 }
+            }
 
                 // Rest of the method remains the same...
                 if (selectGame != null)
@@ -455,7 +453,6 @@ namespace TeknoParrotUi.Views
                     if (MessageBoxHelper.InfoYesNo(Properties.Resources.LibraryNoGames))
                         Application.Current.Windows.OfType<MainWindow>().Single().contentControl.Content = new SetupWizard(_contentControl, this);
                 }
-            }
 
             if (gameList != null && listRefreshNeeded && gameList.Items.Count == 0)
             {

@@ -53,13 +53,8 @@
             <RowDefinition Height="55*" />
             <RowDefinition Height="55*" />
             <RowDefinition Height="10*" />
-            <RowDefinition Height="55*" />
-            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.8*" />
-            <ColumnDefinition Width="0.8*" MinWidth="140" />
-            <ColumnDefinition Width="0.8*" MinWidth="140" />
             <ColumnDefinition Width="2.8*" />
             <ColumnDefinition Width="0.8*" MinWidth="140" />
             <ColumnDefinition Width="0.8*" MinWidth="140" />
@@ -104,6 +99,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <materialDesign:PackIcon Grid.Column="0"
                                      Height="25"
@@ -116,6 +112,12 @@
                      Height="30"
                      VerticalAlignment="Center"
                      TextChanged="SearchBox_TextChanged" />
+            <TextBlock x:Name="gameCountText"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       Margin="10,0,0,0"
+                       FontSize="14"
+                       Foreground="Gray" />
         </Grid>
         <Image Grid.Row="1"
                Grid.Column="1"
@@ -132,6 +134,9 @@
                Grid.Column="1"
                Grid.ColumnSpan="2"
                Margin="10,10,10,12"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Stretch="Uniform"
                RenderOptions.BitmapScalingMode="Fant"
                Source="/TeknoParrotUi;component/Resources/teknoparrot_by_pooterman-db9erxd.png">
             <Image.Style>
@@ -151,6 +156,8 @@
                  Grid.RowSpan="10"
                  Margin="4"
                  BorderThickness="1"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
                  SelectionMode="Extended"
                  SelectionChanged="ListBox_SelectionChanged">
             <ListBox.ItemContainerStyle>
@@ -162,7 +169,8 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
         <StackPanel Grid.Column="1"
-                    Grid.ColumnSpan="2">
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch">
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Setter Property="Grid.Row"
@@ -171,6 +179,8 @@
                             Value="1" />
                     <Setter Property="Margin"
                             Value="10,0,10,0" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Stretch" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=ActualHeight, ElementName=MainLibraryGrid, Converter={StaticResource IsLessThan}, ConverterParameter=500}"
                                      Value="True">
@@ -277,7 +287,7 @@
             </StackPanel>
         </Button>
         <Button x:Name="openGameLocationButton"
-                Grid.Row="6"
+                Grid.Row="7"
                 Grid.Column="2"
                 Width="Auto"
                 Height="Auto"
@@ -299,12 +309,11 @@
             </StackPanel>
         </Button>
         <Button x:Name="testMenuButton"
-                Grid.Row="7"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
+                Grid.Row="6"
+                Grid.Column="2"
                 Width="Auto"
                 Height="Auto"
-                Margin="10,4,10,2"
+                Margin="0,4,10,2"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Left"
                 Click="BtnLaunchTestMenu"
@@ -322,11 +331,10 @@
                            Text="{x:Static p:Resources.LibraryTestMode}" />
             </StackPanel>
         </Button>
-        <Button Grid.Row="8"
+        <Button Grid.Row="7"
                 Grid.Column="1"
-                Grid.ColumnSpan="2"
                 Height="Auto"
-                Margin="10,4,10,2"
+                Margin="10,4,6,2"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Left"
                 Click="BtnGameSettings">
@@ -343,7 +351,7 @@
                            Text="{x:Static p:Resources.LibraryGameSettings}" />
             </StackPanel>
         </Button>
-        <Button Grid.Row="9"
+        <Button Grid.Row="8"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Height="Auto"
