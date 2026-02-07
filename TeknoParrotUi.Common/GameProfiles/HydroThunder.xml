@@ -5,15 +5,7 @@
 	<TestMenuIsExecutable>false</TestMenuIsExecutable>
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
-<<<<<<< HEAD
-<<<<<<< HEAD
 	<GameProfileRevision>9</GameProfileRevision>
-=======
-	<GameProfileRevision>8</GameProfileRevision>
->>>>>>> ad76329e (-Added: HYDRO THUNDER (v1.01b))
-=======
-	<GameProfileRevision>8</GameProfileRevision>
->>>>>>> 1d60939a (Merge pull request #1422 from 00C0FFEE/master)
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>TeknoParrot</EmulatorType>
 	<Patreon>true</Patreon>
@@ -21,25 +13,11 @@
 	<Is64Bit>false</Is64Bit>
 	<InvertedMouseAxis>true</InvertedMouseAxis>
 	<ExecutableName></ExecutableName>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	<HasTpoSupport>true</HasTpoSupport>
->>>>>>> ad76329e (-Added: HYDRO THUNDER (v1.01b))
-=======
-	<HasTpoSupport>true</HasTpoSupport>
->>>>>>> 1d60939a (Merge pull request #1422 from 00C0FFEE/master)
 	<xAxisMin>0</xAxisMin>
 	<xAxisMax>255</xAxisMax>
 	<yAxisMin>0</yAxisMin>
 	<yAxisMax>255</yAxisMax>
-<<<<<<< HEAD
-<<<<<<< HEAD
   <UseRemoteThread>true</UseRemoteThread>
-=======
->>>>>>> ad76329e (-Added: HYDRO THUNDER (v1.01b))
-=======
->>>>>>> 1d60939a (Merge pull request #1422 from 00C0FFEE/master)
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
