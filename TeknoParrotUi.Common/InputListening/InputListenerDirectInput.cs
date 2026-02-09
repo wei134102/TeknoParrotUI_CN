@@ -489,7 +489,7 @@ namespace TeknoParrotUi.Common.InputListening
             if (_gameProfile.EmulationProfile == EmulationProfile.Daytona3 || _gameProfile.EmulationProfile == EmulationProfile.EuropaRFordRacing || _gameProfile.EmulationProfile == EmulationProfile.EuropaRSegaRally3 || _gameProfile.EmulationProfile == EmulationProfile.FNFDrift || _gameProfile.EmulationProfile == EmulationProfile.GRID || _gameProfile.EmulationProfile == EmulationProfile.DeadHeat || _gameProfile.EmulationProfile == EmulationProfile.Nirin ||
                 _gameProfile.EmulationProfile == EmulationProfile.GtiClub3 || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdx || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdxUsa || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt5 || _gameProfile.EmulationProfile == EmulationProfile.DeadHeatRiders || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPX || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNF || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNFH2O ||
                 _gameProfile.EmulationProfile == EmulationProfile.SegaInitialD || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialDLindbergh || _gameProfile.EmulationProfile == EmulationProfile.SegaRTuned || _gameProfile.EmulationProfile == EmulationProfile.SegaRacingClassic || _gameProfile.EmulationProfile == EmulationProfile.SegaRtv || _gameProfile.EmulationProfile == EmulationProfile.SegaSonicAllStarsRacing || _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ ||
-                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput)
+                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPXElf2)
             {
                 InputCode.AnalogBytes[0] = 0x80;
                 WheelAnalogByteValue = 0;
@@ -1941,6 +1941,8 @@ namespace TeknoParrotUi.Common.InputListening
                             InputCode.PlayerDigitalButtons[1].ExtensionButton1_8 = true;
                         else
                             InputCode.PlayerDigitalButtons[1].ExtensionButton1_8 = false;
+
+                        InputCode.PlayerDigitalButtons[1].Button1 = DigitalHelper.GetButtonPressDirectInput(button, state);
                     }
                     else
                     {
@@ -3471,7 +3473,9 @@ namespace TeknoParrotUi.Common.InputListening
                                         ["P3"] = (() => { if (!KeyboardGasActivate3P) KeyboardGasActivate3P = true; }, val => P3KeyboardGasDown = val, () => P3KeyboardGasDown),
                                         ["P4"] = (() => { if (!KeyboardGasActivate4P) KeyboardGasActivate4P = true; }, val => P4KeyboardGasDown = val, () => P4KeyboardGasDown),
                                         ["P5"] = (() => { if (!KeyboardGasActivate5P) KeyboardGasActivate5P = true; }, val => P5KeyboardGasDown = val, () => P5KeyboardGasDown),
-                                        ["P6"] = (() => { if (!KeyboardGasActivate6P) KeyboardGasActivate6P = true; }, val => P6KeyboardGasDown = val, () => P6KeyboardGasDown)
+                                        ["P6"] = (() => { if (!KeyboardGasActivate6P) KeyboardGasActivate6P = true; }, val => P6KeyboardGasDown = val, () => P6KeyboardGasDown),
+                                        ["Player 1"] = (() => { if (!KeyboardGasActivate) KeyboardGasActivate = true; }, val => KeyboardGasDown = val, () => KeyboardGasDown),
+                                        ["Player 2"] = (() => { if (!KeyboardGasActivate2P) KeyboardGasActivate2P = true; }, val => P2KeyboardGasDown = val, () => P2KeyboardGasDown),
                                     };
 
                                     foreach (var player in playerGasStates.Keys)
@@ -3633,7 +3637,10 @@ namespace TeknoParrotUi.Common.InputListening
                                         ["P3"] = () => { if (!KeyboardWheelActivate3P) KeyboardWheelActivate3P = true; },
                                         ["P4"] = () => { if (!KeyboardWheelActivate4P) KeyboardWheelActivate4P = true; },
                                         ["P5"] = () => { if (!KeyboardWheelActivate5P) KeyboardWheelActivate5P = true; },
-                                        ["P6"] = () => { if (!KeyboardWheelActivate6P) KeyboardWheelActivate6P = true; }
+                                        ["P6"] = () => { if (!KeyboardWheelActivate6P) KeyboardWheelActivate6P = true; },
+                                        //["P1"] = () => { if (!KeyboardWheelActivate) KeyboardWheelActivate = true; },
+                                        ["Player 1"] = () => { if (!KeyboardWheelActivate) KeyboardWheelActivate = true; },
+                                        ["Player 2"] = () => { if (!KeyboardWheelActivate2P) KeyboardWheelActivate2P = true; }
                                     };
 
                                     foreach (var player in playerActivations.Keys)
@@ -3657,7 +3664,11 @@ namespace TeknoParrotUi.Common.InputListening
                                     ["P5 Wheel Axis Right"] = () => { if (!KeyboardWheelActivate5P) KeyboardWheelActivate5P = true; },
                                     ["P5 Wheel Axis Left"] = () => { if (!KeyboardWheelActivate5P) KeyboardWheelActivate5P = true; },
                                     ["P6 Wheel Axis Right"] = () => { if (!KeyboardWheelActivate6P) KeyboardWheelActivate6P = true; },
-                                    ["P6 Wheel Axis Left"] = () => { if (!KeyboardWheelActivate6P) KeyboardWheelActivate6P = true; }
+                                    ["P6 Wheel Axis Left"] = () => { if (!KeyboardWheelActivate6P) KeyboardWheelActivate6P = true; },
+                                    ["Player 1 Wheel Axis Left"] = () => { if (!KeyboardWheelActivate) KeyboardWheelActivate = true; },
+                                    ["Player 1 Wheel Axis Right"] = () => { if (!KeyboardWheelActivate) KeyboardWheelActivate = true; },
+                                    ["Player 2 Wheel Axis Left"] = () => { if (!KeyboardWheelActivate2P) KeyboardWheelActivate2P = true; },
+                                    ["Player 2 Wheel Axis Right"] = () => { if (!KeyboardWheelActivate2P) KeyboardWheelActivate2P = true; }
                                 };
 
                                 if (allPlayerActivations.ContainsKey(buttonName))
@@ -3682,6 +3693,11 @@ namespace TeknoParrotUi.Common.InputListening
                                     ["P5 Wheel Axis Left"] = (() => P5KeyboardWheelLeft, val => P5KeyboardWheelLeft = val),
                                     ["P6 Wheel Axis Right"] = (() => P6KeyboardWheelRight, val => P6KeyboardWheelRight = val),
                                     ["P6 Wheel Axis Left"] = (() => P6KeyboardWheelLeft, val => P6KeyboardWheelLeft = val),
+
+                                    ["Player 1 Wheel Axis Right"] = (() => KeyboardWheelRight, val => KeyboardWheelRight = val),
+                                    ["Player 1 Wheel Axis Left"] = (() => KeyboardWheelLeft, val => KeyboardWheelLeft = val),
+                                    ["Player 2 Wheel Axis Right"] = (() => P2KeyboardWheelRight, val => P2KeyboardWheelRight = val),
+                                    ["Player 2 Wheel Axis Left"] = (() => P2KeyboardWheelLeft, val => P2KeyboardWheelLeft = val),
 
                                     ["Handlebar Axis Right"] = (() => KeyboardHandlebarRight, val => KeyboardHandlebarRight = val),
                                     ["Handlebar Axis Left"] = (() => KeyboardHandlebarLeft, val => KeyboardHandlebarLeft = val)

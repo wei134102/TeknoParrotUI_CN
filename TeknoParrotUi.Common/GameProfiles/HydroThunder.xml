@@ -5,7 +5,7 @@
 	<TestMenuIsExecutable>false</TestMenuIsExecutable>
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
-	<GameProfileRevision>10</GameProfileRevision>
+	<GameProfileRevision>9</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>TeknoParrot</EmulatorType>
 	<Patreon>true</Patreon>
@@ -17,7 +17,7 @@
 	<xAxisMax>255</xAxisMax>
 	<yAxisMin>0</yAxisMin>
 	<yAxisMax>255</yAxisMax>
-	<UseRemoteThread>true</UseRemoteThread>
+  <UseRemoteThread>true</UseRemoteThread>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
@@ -85,23 +85,9 @@
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
-			<FieldName>Disable Attract Movies</FieldName>
-			<FieldValue>0</FieldValue>
-			<FieldType>Bool</FieldType>
-			<Hint>Disabling Attract Movies fixes attract loop crashes.</Hint>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
 			<FieldName>Enable Outputs</FieldName>
 			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>General</CategoryName>
-			<FieldName>Enable Sequential Shifter</FieldName>
-			<FieldValue>0</FieldValue>
-			<FieldType>Bool</FieldType>
-			<Hint>Sequential Shifter: uses gear shift up-down instead of original H-shifter.</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>FFB Blaster</CategoryName>
@@ -138,48 +124,24 @@
 			<InputMapping>Test</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Service</ButtonName>
-			<InputMapping>Service1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
 			<ButtonName>Coin</ButtonName>
 			<InputMapping>Coin1</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Start</ButtonName>
-			<InputMapping>P1ButtonStart</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Nitro</ButtonName>
+			<ButtonName>Boost</ButtonName>
 			<InputMapping>P1Button1</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>View Change (SLAM)</ButtonName>
+			<ButtonName>View Change (PILOT)</ButtonName>
 			<InputMapping>P1Button2</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>View Change (CHASE)</ButtonName>
+			<ButtonName>View Change (LOW)</ButtonName>
 			<InputMapping>P1Button3</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>View Change (CHOPPER)</ButtonName>
+			<ButtonName>View Change (HIGH)</ButtonName>
 			<InputMapping>P1Button4</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Shift 1</ButtonName>
-			<InputMapping>P1Button5</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Shift 2</ButtonName>
-			<InputMapping>P1Button6</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Shift 3 (Shift Up)</ButtonName>
-			<InputMapping>P2ButtonUp</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Shift Neutral (Shift Down)</ButtonName>
-			<InputMapping>P2ButtonDown</InputMapping>
 		</JoystickButtons>
 		<JoystickButtons>
 			<ButtonName>Volume Up</ButtonName>
@@ -210,14 +172,9 @@
 			<AnalogType>Wheel</AnalogType>
 		</JoystickButtons>
 		<JoystickButtons>
-			<ButtonName>Gas</ButtonName>
+			<ButtonName>Throttle</ButtonName>
 			<InputMapping>Analog2</InputMapping>
 			<AnalogType>Gas</AnalogType>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Brake</ButtonName>
-			<InputMapping>Analog4</InputMapping>
-			<AnalogType>Brake</AnalogType>
 		</JoystickButtons>
 	</JoystickButtons>
 </GameProfile>
