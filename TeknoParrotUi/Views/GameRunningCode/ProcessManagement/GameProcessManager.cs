@@ -105,6 +105,31 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
             }
             var gameThread = new Thread(() =>
             {
+                // 提前运行：RunBeforeGame（exe 路径，多个用分号分隔）、可选 RunBeforeGameArgs（参数）
+                var runBefore = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RunBeforeGame");
+                if (runBefore != null && !string.IsNullOrWhiteSpace(runBefore.FieldValue))
+                {
+                    var argsField = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RunBeforeGameArgs");
+                    var args = argsField?.FieldValue ?? "";
+                    var paths = runBefore.FieldValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var path in paths)
+                    {
+                        var trimmed = path.Trim();
+                        if (string.IsNullOrEmpty(trimmed) || !File.Exists(trimmed))
+                            continue;
+                        try
+                        {
+                            var psi = new ProcessStartInfo(trimmed);
+                            if (!string.IsNullOrWhiteSpace(args))
+                                psi.Arguments = args.Trim();
+                            psi.UseShellExecute = true;
+                            Process.Start(psi);
+                            Thread.Sleep(1500);
+                        }
+                        catch (Exception) { /* ignore */ }
+                    }
+                }
+
                 var windowed = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "1") || _gameProfile.ConfigValues.Any(x => x.FieldName == "DisplayMode" && x.FieldValue == "Windowed");
                 var fullscreen = _gameProfile.ConfigValues.Any(x => x.FieldName == "Windowed" && x.FieldValue == "0") || _gameProfile.ConfigValues.Any(x => x.FieldName == "DisplayMode" && x.FieldValue == "Fullscreen");
                 var width = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "ResolutionWidth");

@@ -13,6 +13,8 @@ namespace TeknoParrotUi.Helpers
             { "Installed", nameof(Resources.AddGameInstalledFilter) },
             { "Not Installed", nameof(Resources.AddGameNotInstalledFilter) },
             { "Subscription", nameof(Resources.LibraryGenreSubscription) },
+            // 新增：非订阅游戏分类（显示文本直接写中文，避免改资源文件）
+            { "NonSubscription", "非订阅游戏" },
             { "System 246/256", nameof(Resources.LibraryGenreSystem246) },
             { "System 357/359/369", nameof(Resources.LibraryGenreSystem357) },
             { "Triforce", nameof(Resources.LibraryGenreTriforce) },
@@ -37,7 +39,8 @@ namespace TeknoParrotUi.Helpers
 
             var orderedKeys = new List<string>
             {
-                "All", "Installed", "Subscription", "System 246/256", "System 357/359/369", "Triforce",
+                "All", "Installed", "Subscription", "NonSubscription",
+                "System 246/256", "System 357/359/369", "Triforce",
                 "Action", "Card", "Compilation", "Fighting", "Flying",
                 "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up",
                 "Shooter", "Sports", "Others"
@@ -81,6 +84,9 @@ namespace TeknoParrotUi.Helpers
 
             if (internalGenreName == "Subscription")
                 return gameProfile.Patreon;
+
+            if (internalGenreName == "NonSubscription")
+                return !gameProfile.Patreon;
 
             if (internalGenreName == "Installed")
             {

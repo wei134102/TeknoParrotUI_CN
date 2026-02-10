@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +17,41 @@ namespace TeknoParrotUi.Common
         private static NamedPipeServerStream _npServer;
         private static string _pipe;
         private static bool KillMe { get; set; }
+        private static readonly object _pipeCreateLock = new object();
+
+        /// <summary>
+        /// 创建命名管道服务端，带锁与重试，避免“所有的管道范例都在使用中”（上次未释放或竞态）。
+        /// </summary>
+        private static NamedPipeServerStream CreatePipeServer(string pipeName)
+        {
+            const int retries = 5;
+            const int delayMs = 150;
+            lock (_pipeCreateLock)
+            {
+                try
+                {
+                    _npServer?.Close();
+                    _npServer?.Dispose();
+                    _npServer = null;
+                }
+                catch { /* ignore */ }
+                Thread.Sleep(delayMs);
+
+                for (int i = 0; i < retries; i++)
+                {
+                    try
+                    {
+                        return new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+                    }
+                    catch (IOException)
+                    {
+                        if (i == retries - 1) throw;
+                        Thread.Sleep(delayMs);
+                    }
+                }
+            }
+            return null;
+        }
         private const int _targetElapsedMilliseconds = 10;
         private Stopwatch _stopwatchDeque = new Stopwatch();
         private SpinWait _spinWaitDeque = new SpinWait();
@@ -124,8 +159,8 @@ namespace TeknoParrotUi.Common
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             KillMe = false;
             _pipe = pipe;
-            _npServer?.Close();
-            _npServer = new NamedPipeServerStream(pipe, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+            _npServer = CreatePipeServer(pipe);
+            if (_npServer == null) return;
 
             while (true)
             {
@@ -146,9 +181,11 @@ namespace TeknoParrotUi.Common
 
                         if (r == 0)
                         {
-                            _npServer.Close();
-                            _npServer = new NamedPipeServerStream(pipe, PipeDirection.InOut, 1,
-                                PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+                            try { _npServer.Close(); _npServer.Dispose(); } catch { }
+                            _npServer = null;
+                            Thread.Sleep(100);
+                            _npServer = CreatePipeServer(pipe);
+                            if (_npServer == null) return;
                         }
                         else
                         {
@@ -180,8 +217,11 @@ namespace TeknoParrotUi.Common
                 }
                 catch (Exception)
                 {
-                    _npServer.Close();
-                    _npServer = new NamedPipeServerStream(pipe, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+                    try { _npServer?.Close(); _npServer?.Dispose(); } catch { }
+                    _npServer = null;
+                    Thread.Sleep(100);
+                    _npServer = CreatePipeServer(pipe);
+                    if (_npServer == null) return;
                 }
             }
         }
