@@ -251,6 +251,26 @@
                             HorizontalAlignment="Left"
                             IsChecked="{Binding IsLeftDrawerOpen, ElementName=DrawerHost}"
                             Style="{StaticResource MaterialDesignHamburgerToggleButton}" />
+                        <!-- 启动 BigBox 按钮（位于最小化和退出左侧） -->
+                        <Button
+                            x:Name="bigBoxButton"
+                            Grid.Column="3"
+                            Width="35"
+                            Height="Auto"
+                            Margin="0,4,88,4"
+                            Padding="5"
+                            HorizontalAlignment="Right"
+                            Background="#FF4CAF50"
+                            BorderBrush="#FF4CAF50"
+                            Click="BtnLaunchBigBox">
+                            <DockPanel>
+                                <TextBlock Text="BB"
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </DockPanel>
+                        </Button>
                         <Button
                             x:Name="exitButton"
                             Grid.Column="3"

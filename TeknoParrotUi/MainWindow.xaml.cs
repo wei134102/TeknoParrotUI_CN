@@ -958,6 +958,40 @@ namespace TeknoParrotUi
             WindowState = WindowState.Minimized;
         }
 
+        private void BtnLaunchBigBox(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                var bigBoxPath = System.IO.Path.Combine(baseDir, "TeknoParrotBigBox.exe");
+
+                if (!System.IO.File.Exists(bigBoxPath))
+                {
+                    MessageBox.Show("未找到 TeknoParrotBigBox.exe。\n\n请确认它与 TeknoParrotUi.exe 位于同一目录。", "无法启动 BigBox",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = bigBoxPath,
+                    WorkingDirectory = baseDir,
+                    UseShellExecute = false
+                };
+
+                Process.Start(startInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("启动 TeknoParrotBigBox 失败：\n" + ex.Message, "错误",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // 成功启动 BigBox 后退出当前 UI
+            SafeExit();
+        }
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             contentControl.Content = _updater;
