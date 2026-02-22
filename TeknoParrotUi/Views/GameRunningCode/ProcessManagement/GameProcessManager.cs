@@ -106,8 +106,13 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
             var gameThread = new Thread(() =>
             {
                 // 提前运行：RunBeforeGame（exe 路径，多个用分号分隔）、可选 RunBeforeGameArgs（参数）
+                // 开关：RunBeforeGameEnabled（Bool）仅当值为 1 或 true 时执行，未勾选/0/false/空/缺省 均不执行
+                var runBeforeEnabled = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RunBeforeGameEnabled");
                 var runBefore = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RunBeforeGame");
-                if (runBefore != null && !string.IsNullOrWhiteSpace(runBefore.FieldValue))
+                var runBeforeEnabledValue = (runBeforeEnabled?.FieldValue ?? "").Trim().ToLowerInvariant();
+                var runBeforeSwitchOn = runBeforeEnabled != null
+                    && (runBeforeEnabledValue == "1" || runBeforeEnabledValue == "true");
+                if (runBeforeSwitchOn && runBefore != null && !string.IsNullOrWhiteSpace(runBefore.FieldValue))
                 {
                     var argsField = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "RunBeforeGameArgs");
                     var args = argsField?.FieldValue ?? "";
