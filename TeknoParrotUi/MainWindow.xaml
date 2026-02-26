@@ -9,7 +9,7 @@
     xmlns:p="clr-namespace:TeknoParrotUi.Properties"
     xmlns:userControls="clr-namespace:TeknoParrotUi.UserControls"
     Title="MainWindow"
-    Width="1000"
+    Width="1050"
     Height="800"
     MinWidth="640"
     MinHeight="440"
