@@ -1615,7 +1615,7 @@ namespace TeknoParrotUi.Views
         /// <param name="e"></param>
         private void BtnGameSettings(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             CloseHighScoreWindow();
@@ -1637,7 +1637,7 @@ namespace TeknoParrotUi.Views
         /// <param name="e"></param>
         private void BtnControllerSettings(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             CloseHighScoreWindow();
@@ -1653,7 +1653,7 @@ namespace TeknoParrotUi.Views
         /// </summary>
         private void BtnLaunchTestMenu(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             CloseHighScoreWindow();
@@ -1678,7 +1678,7 @@ namespace TeknoParrotUi.Views
         /// <param name="e"></param>
         private void BtnLaunchGame(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             CloseHighScoreWindow();
@@ -1716,7 +1716,7 @@ namespace TeknoParrotUi.Views
         /// <param name="e"></param>
         private void BtnVerifyGame(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             CloseHighScoreWindow();
@@ -2139,7 +2139,7 @@ namespace TeknoParrotUi.Views
 
         private void BtnHighScores(object sender, RoutedEventArgs e)
         {
-            if (gameList.Items.Count == 0)
+            if (gameList.Items.Count == 0 || gameList.SelectedItem == null)
                 return;
 
             var selectedGame = _gameNames[gameList.SelectedIndex];
