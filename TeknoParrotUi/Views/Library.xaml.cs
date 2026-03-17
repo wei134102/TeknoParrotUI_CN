@@ -538,6 +538,9 @@ namespace TeknoParrotUi.Views
                 case EmulatorType.ElfLdr2:
                     loaderExe = ".\\ElfLdr2\\BudgieLoader.exe";
                     break;
+                case EmulatorType.TeknoMacaw:
+                    loaderExe = (is64Bit ? ".\\TeknoParrot\\TeknoMacaw64.exe" : ".\\TeknoParrot\\TeknoMacaw.exe");
+                    break;
                 case EmulatorType.OpenParrot:
                     loaderDll = (is64Bit ? ".\\OpenParrotx64\\OpenParrot64" : ".\\OpenParrotWin32\\OpenParrot");
                     break;
@@ -1224,9 +1227,9 @@ namespace TeknoParrotUi.Views
 
             var psqlExePath = Path.Combine(postgresPath, "psql.exe");
             var pgRestoreExePath = Path.Combine(postgresPath, "pg_restore.exe");
-            
+
             Trace.WriteLine($"[PostgreSQL Check] Looking for PostgreSQL tools at: {postgresPath}");
-            
+
             if (!File.Exists(psqlExePath))
             {
                 Trace.WriteLine("[PostgreSQL Check] psql.exe not found");
@@ -1260,7 +1263,9 @@ namespace TeknoParrotUi.Views
                 {
                     processInfo.EnvironmentVariables["PGPASSWORD"] = postgresPass;
                     Trace.WriteLine("[PostgreSQL Check] Password environment variable set");
-                } else {
+                }
+                else
+                {
                     processInfo.EnvironmentVariables["PGPASSWORD"] = "";
                     Trace.WriteLine("[PostgreSQL Check] Password environment variable set with empty value as no pw specified");
                 }
@@ -1279,7 +1284,7 @@ namespace TeknoParrotUi.Views
                     }
 
                     Trace.WriteLine("[PostgreSQL Check] Process started, waiting for exit...");
-                    
+
                     if (!process.WaitForExit(5000))
                     {
                         Trace.WriteLine("[PostgreSQL Check] Process timed out after 5 seconds");
@@ -1293,7 +1298,7 @@ namespace TeknoParrotUi.Views
                         {
                             Trace.WriteLine($"[PostgreSQL Check] Error killing process: {killEx.Message}");
                         }
-                        
+
                         var timeoutMsg = "PostgreSQL connection timed out.\n\n" +
                                        "Possible causes:\n" +
                                        "• PostgreSQL server is not running\n" +
@@ -1309,7 +1314,7 @@ namespace TeknoParrotUi.Views
 
                     var output = process.StandardOutput.ReadToEnd();
                     var error = process.StandardError.ReadToEnd();
-                    
+
                     Trace.WriteLine($"[PostgreSQL Check] Output: '{output}'");
                     if (!string.IsNullOrWhiteSpace(error))
                         Trace.WriteLine($"[PostgreSQL Check] Error: '{error}'");
@@ -1325,7 +1330,7 @@ namespace TeknoParrotUi.Views
                     if (string.IsNullOrWhiteSpace(output) || output.Trim() != "1")
                     {
                         Trace.WriteLine("[PostgreSQL Check] Database does not exist");
-                        
+
                         if (!MessageBoxHelper.WarningYesNo($"PostgreSQL database '{postgresDbName}' does not exist.\n\nWould you like to create it now?"))
                         {
                             return false;
@@ -2238,7 +2243,7 @@ namespace TeknoParrotUi.Views
             {
                 // Get the user's language setting
                 string userLanguage = Lazydata.ParrotData.Language ?? "en-US";
-                
+
                 // Map app language codes to website language codes
                 var languageMap = new Dictionary<string, string>
                 {
@@ -2282,7 +2287,7 @@ namespace TeknoParrotUi.Views
                 // Parse the URL and replace the language code
                 var uri = new Uri(originalUrl);
                 var pathSegments = uri.AbsolutePath.Split('/').Where(s => !string.IsNullOrEmpty(s)).ToList();
-                
+
                 // The language code is typically the first segment after the domain
                 // e.g., https://teknoparrot.com/en/Highscore/GameSpecific/gt17
                 //                                  ^^
@@ -2290,19 +2295,19 @@ namespace TeknoParrotUi.Views
                 {
                     // Replace the first segment (language code) with the user's language
                     pathSegments[0] = websiteLanguageCode;
-                    
+
                     var newPath = "/" + string.Join("/", pathSegments);
                     var uriBuilder = new UriBuilder(uri)
                     {
                         Path = newPath
                     };
-                    
+
                     var localizedUrl = uriBuilder.Uri.ToString();
                     Debug.WriteLine($"Localized high score URL: {originalUrl} -> {localizedUrl}");
-                    
+
                     return localizedUrl;
                 }
-                
+
                 // If we can't parse it properly, return the original URL
                 Debug.WriteLine($"Could not localize URL, using original: {originalUrl}");
                 return originalUrl;
@@ -2395,7 +2400,7 @@ namespace TeknoParrotUi.Views
 
             // Disable right-click context menu for security
             chromiumBrowser.MenuHandler = new CustomMenuHandler();
-            
+
             // Block popups from opening in new windows - navigate in same window instead
             chromiumBrowser.LifeSpanHandler = new PopupBlockingLifeSpanHandler(chromiumBrowser);
 
@@ -2445,9 +2450,9 @@ namespace TeknoParrotUi.Views
                 _browser = browser;
             }
 
-            public bool OnBeforePopup(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser, CefSharp.IFrame frame, 
-                string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture, 
-                CefSharp.IPopupFeatures popupFeatures, CefSharp.IWindowInfo windowInfo, CefSharp.IBrowserSettings browserSettings, 
+            public bool OnBeforePopup(CefSharp.IWebBrowser chromiumWebBrowser, CefSharp.IBrowser browser, CefSharp.IFrame frame,
+                string targetUrl, string targetFrameName, CefSharp.WindowOpenDisposition targetDisposition, bool userGesture,
+                CefSharp.IPopupFeatures popupFeatures, CefSharp.IWindowInfo windowInfo, CefSharp.IBrowserSettings browserSettings,
                 ref bool noJavascriptAccess, out CefSharp.IWebBrowser newBrowser)
             {
                 newBrowser = null;
@@ -2461,7 +2466,7 @@ namespace TeknoParrotUi.Views
 
                 // Instead of opening a new window, navigate in the same browser
                 _browser.Load(targetUrl);
-                
+
                 return true; // true = cancel the popup (we're handling it ourselves)
             }
 
