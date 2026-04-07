@@ -489,7 +489,7 @@ namespace TeknoParrotUi.Common.InputListening
             if (_gameProfile.EmulationProfile == EmulationProfile.Daytona3 || _gameProfile.EmulationProfile == EmulationProfile.EuropaRFordRacing || _gameProfile.EmulationProfile == EmulationProfile.EuropaRSegaRally3 || _gameProfile.EmulationProfile == EmulationProfile.FNFDrift || _gameProfile.EmulationProfile == EmulationProfile.GRID || _gameProfile.EmulationProfile == EmulationProfile.DeadHeat || _gameProfile.EmulationProfile == EmulationProfile.Nirin ||
                 _gameProfile.EmulationProfile == EmulationProfile.GtiClub3 || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdx || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdxUsa || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt5 || _gameProfile.EmulationProfile == EmulationProfile.DeadHeatRiders || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPX || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNF || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNFH2O ||
                 _gameProfile.EmulationProfile == EmulationProfile.SegaInitialD || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialDLindbergh || _gameProfile.EmulationProfile == EmulationProfile.SegaRTuned || _gameProfile.EmulationProfile == EmulationProfile.SegaRacingClassic || _gameProfile.EmulationProfile == EmulationProfile.SegaRtv || _gameProfile.EmulationProfile == EmulationProfile.SegaSonicAllStarsRacing || _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ ||
-                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPXElf2)
+                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPXElf2 || _gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
             {
                 InputCode.AnalogBytes[0] = 0x80;
                 WheelAnalogByteValue = 0;
@@ -2983,6 +2983,21 @@ namespace TeknoParrotUi.Common.InputListening
                             WMMT3Cards.InsertCard();
                         }
                     }
+                    break;
+                case InputMapping.Card1:
+                    InputCode.PlayerDigitalButtons[0].Card = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.Card2:
+                    InputCode.PlayerDigitalButtons[1].Card = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem1:
+                    InputCode.TPSystem1 = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem2:
+                    InputCode.TPSystem2 = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem3:
+                    InputCode.TPSystem3 = DigitalHelper.GetButtonPressDirectInput(button, state);
                     break;
                 default:
                     break;
