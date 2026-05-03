@@ -322,3 +322,4 @@ TeknoParrotUi/Helpers/Secrets.cs
 bat/
 UserProfiles/
 create_bat_from_xml.py
+/ResXManager.config.xml

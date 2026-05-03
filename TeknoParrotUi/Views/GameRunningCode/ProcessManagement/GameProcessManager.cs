@@ -431,6 +431,27 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     info.UseShellExecute = false;
                     info.WorkingDirectory = workDir ?? throw new InvalidOperationException();
                 }
+                else if (_gameProfile.EmulatorType == EmulatorType.cxbxr)
+                {
+                    ConfigureCxbxr();
+
+                    var parameters = new List<string>();
+                    if (!windowed)
+                    {
+                        parameters.Add("/fs");
+                    }
+                    else
+                    {
+                        parameters.Add("/win");
+                    }
+                    var workDir = Path.Combine(Directory.GetCurrentDirectory(), "cxbxr"); //, _gameProfile.ProfileName);
+                    //parameters.Add($"--config \"{workDir}\"");
+                    parameters.Add($"/load \"{_gameProfile.GamePath}\" /chihiro");
+                    var cxbxrParameters = string.Join(" ", parameters);
+                    info = new ProcessStartInfo(Path.Combine(workDir, "cxbxr-ldr.exe"), cxbxrParameters);
+                    info.UseShellExecute = false;
+                    info.WorkingDirectory = workDir ?? throw new InvalidOperationException();
+                }
                 else
                 {
                     info = new ProcessStartInfo(loaderExe, $"{loaderDll} {gameArguments}");
@@ -933,6 +954,53 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     Thread.Sleep(500);
                 }
 
+                // cxbxr re-launches itself - monitor the child process until it's truly gone
+                if (_gameProfile.EmulatorType == EmulatorType.cxbxr)
+                {
+                    int notFoundCount = 0;
+                    while (notFoundCount < 3)
+                    {
+                        Thread.Sleep(500);
+                        bool found = false;
+                        try
+                        {
+                            foreach (var p in Process.GetProcessesByName("cxbxr-ldr"))
+                            {
+                                found = true;
+                                p.Dispose();
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            // ignore access errors
+                        }
+
+                        if (found)
+                        {
+                            notFoundCount = 0;
+
+                            if (_forceQuit)
+                            {
+                                try
+                                {
+                                    foreach (var p in Process.GetProcessesByName("cxbxr-ldr"))
+                                    {
+                                        p.Kill();
+                                        p.Dispose();
+                                    }
+                                }
+                                catch { }
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            notFoundCount++;
+                        }
+                    }
+                }
+
 #if DEBUG
                 if (_gameRunning.jvsDebug != null)
                 {
@@ -941,7 +1009,8 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
 #endif
 
                 Analytics.DisableSending();
-                GameErrorMessage.ShowGameError(cmdProcess.ExitCode);
+                if (_gameProfile.EmulatorType != EmulatorType.cxbxr)
+                    GameErrorMessage.ShowGameError(cmdProcess.ExitCode);
 
                 _gameRunning.TerminateThreads();
 
@@ -1434,6 +1503,114 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
             }
 
             return resolutionScale;
+        }
+
+        private void ConfigureCxbxr()
+        {
+            try
+            {
+                string cxbxrDir = Path.Combine(Directory.GetCurrentDirectory(), "cxbxr");
+
+                // Ensure required directories exist
+                string emuMediaBoardDir = Path.Combine(cxbxrDir, "TeknoParrot", "EmuMediaBoard");
+                string chihiroDir = Path.Combine(emuMediaBoardDir, "Chihiro");
+                string emuMuDir = Path.Combine(cxbxrDir, "TeknoParrot", "EmuMu");
+
+                Directory.CreateDirectory(emuMediaBoardDir);
+                Directory.CreateDirectory(chihiroDir);
+                Directory.CreateDirectory(emuMuDir);
+
+                // Create empty settings.ini if it doesn't exist
+                string settingsPath = Path.Combine(cxbxrDir, "TeknoParrot", "settings.ini");
+                if (!File.Exists(settingsPath))
+                {
+                    File.Create(settingsPath).Dispose();
+                }
+
+                // Create empty MU files if they don't exist
+                string[] muFiles = { "F.BIN", "G.BIN", "H.BIN", "I.BIN", "J.BIN", "K.BIN", "L.BIN", "M.BIN" };
+                foreach (var muFile in muFiles)
+                {
+                    string muFilePath = Path.Combine(emuMuDir, muFile);
+                    if (!File.Exists(muFilePath))
+                    {
+                        File.Create(muFilePath).Dispose();
+                    }
+                }
+
+                // Check for required Chihiro EEPROM files
+                string[] chihiroFiles =
+                {
+                    "ic10_g24lc64.bin",
+                    "pc20_g24lc64.bin",
+                    "ic11_24lc024.bin"
+                };
+
+                // Check for required EmuMediaBoard flash file
+                string[] mediaBoardFiles =
+                {
+                    "fpr21042_m29w160et.bin"
+                };
+
+                var missingFiles = new List<string>();
+                foreach (var file in chihiroFiles)
+                {
+                    if (!File.Exists(Path.Combine(chihiroDir, file)))
+                    {
+                        missingFiles.Add(Path.Combine(chihiroDir, file));
+                    }
+                }
+                foreach (var file in mediaBoardFiles)
+                {
+                    if (!File.Exists(Path.Combine(emuMediaBoardDir, file)))
+                    {
+                        missingFiles.Add(Path.Combine(emuMediaBoardDir, file));
+                    }
+                }
+
+                if (missingFiles.Count > 0)
+                {
+                    string missingList = string.Join("\n", missingFiles);
+                    MessageBoxHelper.WarningOK(
+                        $"The following bios files are missing:\n\n{missingList}\n\nPlease acquire these files yourself and place them in the correct directories.");
+                        return;
+                }
+
+                // Patch region byte in ic10_g24lc64.bin at offset 0x1F00
+                var regionConfig = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Region");
+                if (regionConfig != null)
+                {
+                    byte regionByte = 0x01; // default to Japan
+                    switch (regionConfig.FieldValue)
+                    {
+                        case "JAPAN":
+                            regionByte = 0x01;
+                            break;
+                        case "USA":
+                            regionByte = 0x02;
+                            break;
+                        case "EXPORT":
+                            regionByte = 0x03;
+                            break;
+                    }
+
+                    string biosPath = Path.Combine(chihiroDir, "ic10_g24lc64.bin");
+                    if (File.Exists(biosPath))
+                    {
+                        using (var fs = new FileStream(biosPath, FileMode.Open, FileAccess.Write))
+                        {
+                            fs.Seek(0x1F00, SeekOrigin.Begin);
+                            fs.WriteByte(regionByte);
+                        }
+                    }
+                }
+
+                Debug.WriteLine("cxbxr directories configured successfully");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error configuring cxbxr: {ex.Message}");
+            }
         }
     }
 }

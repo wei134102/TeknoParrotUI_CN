@@ -253,6 +253,11 @@ namespace TeknoParrotUi.Common
         Rotary3Right,
         Rotary4Left,
         Rotary4Right,
+        Card1,
+        Card2,
+        TPSystem1,
+        TPSystem2,
+        TPSystem3
     }
 
     public enum RotaryInputMode
@@ -309,6 +314,7 @@ namespace TeknoParrotUi.Common
         public bool HideWithDirectInput { get; set; }
         public bool HideWithXInput { get; set; }
         public bool HideWithRawInput { get; set; }
+        public bool HideWithRawInputTrackball { get; set; }
         public bool HideWithKeyboardForAxis { get; set; }
         public bool HideWithoutKeyboardForAxis { get; set; }
         public bool HideWithRelativeAxis { get; set; }

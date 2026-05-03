@@ -393,6 +393,18 @@ namespace TeknoParrotUi.Common.InputListening
                 AnalogYAnalogByteValue = 2;
             }
 
+            if (_gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
+            {
+                InputCode.AnalogBytes[0] = 0x80;
+                InputCode.AnalogBytes[2] = 0x80;
+                InputCode.AnalogBytes[4] = 0x80;
+                InputCode.AnalogBytes[6] = 0x80;
+                AnalogXAnalogByteValue = 0;
+                AnalogYAnalogByteValue = 2;
+                P2AnalogXAnalogByteValue = 4;
+                P2AnalogYAnalogByteValue = 6;
+            }
+
             if (_gameProfile.EmulationProfile == EmulationProfile.TMNT)
             {
                 InputCode.AnalogBytes[0] = 0x80;
@@ -489,7 +501,7 @@ namespace TeknoParrotUi.Common.InputListening
             if (_gameProfile.EmulationProfile == EmulationProfile.Daytona3 || _gameProfile.EmulationProfile == EmulationProfile.EuropaRFordRacing || _gameProfile.EmulationProfile == EmulationProfile.EuropaRSegaRally3 || _gameProfile.EmulationProfile == EmulationProfile.FNFDrift || _gameProfile.EmulationProfile == EmulationProfile.GRID || _gameProfile.EmulationProfile == EmulationProfile.DeadHeat || _gameProfile.EmulationProfile == EmulationProfile.Nirin ||
                 _gameProfile.EmulationProfile == EmulationProfile.GtiClub3 || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdx || _gameProfile.EmulationProfile == EmulationProfile.NamcoMkdxUsa || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt5 || _gameProfile.EmulationProfile == EmulationProfile.DeadHeatRiders || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPX || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNF || _gameProfile.EmulationProfile == EmulationProfile.RawThrillsFNFH2O ||
                 _gameProfile.EmulationProfile == EmulationProfile.SegaInitialD || _gameProfile.EmulationProfile == EmulationProfile.SegaInitialDLindbergh || _gameProfile.EmulationProfile == EmulationProfile.SegaRTuned || _gameProfile.EmulationProfile == EmulationProfile.SegaRacingClassic || _gameProfile.EmulationProfile == EmulationProfile.SegaRtv || _gameProfile.EmulationProfile == EmulationProfile.SegaSonicAllStarsRacing || _gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ ||
-                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPXElf2)
+                _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt3 || _gameProfile.EmulationProfile == EmulationProfile.IDZ || _gameProfile.EmulationProfile == EmulationProfile.NamcoWmmt6RR || _gameProfile.EmulationProfile == EmulationProfile.PlayInput || _gameProfile.EmulationProfile == EmulationProfile.Outrun2SPXElf2 || _gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
             {
                 InputCode.AnalogBytes[0] = 0x80;
                 WheelAnalogByteValue = 0;
@@ -659,7 +671,7 @@ namespace TeknoParrotUi.Common.InputListening
 
             if (KeyboardorButtonAxis)
             {
-                if (_gameProfile.EmulationProfile == EmulationProfile.AfterBurnerClimax || _gameProfile.EmulationProfile == EmulationProfile.NamcoMachStorm || _gameProfile.EmulationProfile == EmulationProfile.BlazingAngels || _gameProfile.EmulationProfile == EmulationProfile.WonderlandWars || _gameProfile.EmulationProfile == EmulationProfile.ALLSFGO || _gameProfile.EmulationProfile == EmulationProfile.BorderBreak || _gameProfile.EmulationProfile == EmulationProfile.SavageQuest || _gameProfile.EmulationProfile == EmulationProfile.SAO || _gameProfile.EmulationProfile == EmulationProfile.TMNT)
+                if (_gameProfile.EmulationProfile == EmulationProfile.AfterBurnerClimax || _gameProfile.EmulationProfile == EmulationProfile.NamcoMachStorm || _gameProfile.EmulationProfile == EmulationProfile.BlazingAngels || _gameProfile.EmulationProfile == EmulationProfile.WonderlandWars || _gameProfile.EmulationProfile == EmulationProfile.ALLSFGO || _gameProfile.EmulationProfile == EmulationProfile.BorderBreak || _gameProfile.EmulationProfile == EmulationProfile.SavageQuest || _gameProfile.EmulationProfile == EmulationProfile.SAO || _gameProfile.EmulationProfile == EmulationProfile.TMNT || _gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
                 {
                     var KeyboardAnalogAxisSensitivityA = gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Keyboard/Button Axis X/Y Sensitivity");
                     if (KeyboardAnalogAxisSensitivityA != null)
@@ -2984,6 +2996,21 @@ namespace TeknoParrotUi.Common.InputListening
                         }
                     }
                     break;
+                case InputMapping.Card1:
+                    InputCode.PlayerDigitalButtons[0].Card = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.Card2:
+                    InputCode.PlayerDigitalButtons[1].Card = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem1:
+                    InputCode.TPSystem1 = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem2:
+                    InputCode.TPSystem2 = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
+                case InputMapping.TPSystem3:
+                    InputCode.TPSystem3 = DigitalHelper.GetButtonPressDirectInput(button, state);
+                    break;
                 default:
                     break;
                     //throw new ArgumentOutOfRangeException();
@@ -3032,7 +3059,60 @@ namespace TeknoParrotUi.Common.InputListening
 
                             bool isKeyboardOrButton = joystickButtons.BindNameDi.Contains("Keyboard") || joystickButtons.BindNameDi.Contains("Buttons");
 
-                            if (_gameProfile.EmulationProfile == EmulationProfile.TMNT)
+                            if (_gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
+                            {
+                                if (isKeyboardOrButton)
+                                {
+                                    bool isLeftStick = joystickButtons.ButtonName.Contains("Left Joystick");
+                                    if (isLeftStick)
+                                    {
+                                        if (!KeyboardAnalogXActivate) KeyboardAnalogXActivate = true;
+                                        if (!KeyboardAnalogYActivate) KeyboardAnalogYActivate = true;
+                                        var directions = new Dictionary<string, (Func<bool> getter, Action<bool> setter)>
+                                        {
+                                            ["Right"] = (() => KeyboardAnalogRight, val => KeyboardAnalogRight = val),
+                                            ["Left"] = (() => KeyboardAnalogLeft, val => KeyboardAnalogLeft = val),
+                                        };
+                                        foreach (var direction in directions.Keys)
+                                        {
+                                            if (joystickButtons.ButtonName.EndsWith(" " + direction))
+                                            {
+                                                var (getter, setter) = directions[direction];
+                                                setter(!getter());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!KeyboardAnalogXActivate2P) KeyboardAnalogXActivate2P = true;
+                                        if (!KeyboardAnalogYActivate2P) KeyboardAnalogYActivate2P = true;
+                                        var directions = new Dictionary<string, (Func<bool> getter, Action<bool> setter)>
+                                        {
+                                            ["Right"] = (() => P2KeyboardAnalogRight, val => P2KeyboardAnalogRight = val),
+                                            ["Left"] = (() => P2KeyboardAnalogLeft, val => P2KeyboardAnalogLeft = val),
+                                        };
+                                        foreach (var direction in directions.Keys)
+                                        {
+                                            if (joystickButtons.ButtonName.EndsWith(" " + direction))
+                                            {
+                                                var (getter, setter) = directions[direction];
+                                                setter(!getter());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    if (KeyboardAnalogXActivate) KeyboardAnalogXActivate = false;
+                                    if (KeyboardAnalogYActivate) KeyboardAnalogYActivate = false;
+                                    if (KeyboardAnalogXActivate2P) KeyboardAnalogXActivate2P = false;
+                                    if (KeyboardAnalogYActivate2P) KeyboardAnalogYActivate2P = false;
+                                }
+                            }
+                            else if (_gameProfile.EmulationProfile == EmulationProfile.TMNT)
                             {
                                 if (joystickButtons.ButtonName.Contains("Player 1") && isKeyboardOrButton)
                                 {
@@ -3317,7 +3397,60 @@ namespace TeknoParrotUi.Common.InputListening
 
                             bool isKeyboardOrButton = joystickButtons.BindNameDi.Contains("Keyboard") || joystickButtons.BindNameDi.Contains("Buttons");
 
-                            if (_gameProfile.EmulationProfile == EmulationProfile.TMNT)
+                            if (_gameProfile.EmulationProfile == EmulationProfile.KonamiAcio)
+                            {
+                                if (isKeyboardOrButton)
+                                {
+                                    bool isLeftStick = joystickButtons.ButtonName.Contains("Left Joystick");
+                                    if (isLeftStick)
+                                    {
+                                        if (!KeyboardAnalogXActivate) KeyboardAnalogXActivate = true;
+                                        if (!KeyboardAnalogYActivate) KeyboardAnalogYActivate = true;
+                                        var directions = new Dictionary<string, (Func<bool> getter, Action<bool> setter)>
+                                        {
+                                            ["Down"] = (() => KeyboardAnalogReverseDown, val => KeyboardAnalogReverseDown = val),
+                                            ["Up"] = (() => KeyboardAnalogReverseUp, val => KeyboardAnalogReverseUp = val),
+                                        };
+                                        foreach (var direction in directions.Keys)
+                                        {
+                                            if (joystickButtons.ButtonName.EndsWith(" " + direction))
+                                            {
+                                                var (getter, setter) = directions[direction];
+                                                setter(!getter());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!KeyboardAnalogXActivate2P) KeyboardAnalogXActivate2P = true;
+                                        if (!KeyboardAnalogYActivate2P) KeyboardAnalogYActivate2P = true;
+                                        var directions = new Dictionary<string, (Func<bool> getter, Action<bool> setter)>
+                                        {
+                                            ["Down"] = (() => P2KeyboardAnalogReverseDown, val => P2KeyboardAnalogReverseDown = val),
+                                            ["Up"] = (() => P2KeyboardAnalogReverseUp, val => P2KeyboardAnalogReverseUp = val),
+                                        };
+                                        foreach (var direction in directions.Keys)
+                                        {
+                                            if (joystickButtons.ButtonName.EndsWith(" " + direction))
+                                            {
+                                                var (getter, setter) = directions[direction];
+                                                setter(!getter());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    if (KeyboardAnalogXActivate) KeyboardAnalogXActivate = false;
+                                    if (KeyboardAnalogYActivate) KeyboardAnalogYActivate = false;
+                                    if (KeyboardAnalogXActivate2P) KeyboardAnalogXActivate2P = false;
+                                    if (KeyboardAnalogYActivate2P) KeyboardAnalogYActivate2P = false;
+                                }
+                            }
+                            else if (_gameProfile.EmulationProfile == EmulationProfile.TMNT)
                             {
                                 var playerMapping = new Dictionary<string, (Action activateX, Action activateY, Dictionary<string, (Func<bool> getter, Action<bool> setter)> directions)>
                                 {

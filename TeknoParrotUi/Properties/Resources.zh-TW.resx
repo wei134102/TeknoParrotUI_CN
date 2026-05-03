@@ -600,9 +600,6 @@
   <data name="ErrorNoOnlineId" xml:space="preserve">
     <value>您的OnlineID缺失或錯誤。請輸入從網站獲取的OnlineID，否則您的遊戲將在啓動時卡在Aime檢查上。點擊在線配置文件按鈕打開網站。</value>
   </data>
-  <data name="ErrorNoOnlineId" xml:space="preserve">
-    <value>您的OnlineID缺失或錯誤。請輸入從網站獲取的OnlineID，否則您的遊戲將在啓動時卡在Aime檢查上。點擊在線配置文件按鈕打開網站。</value>
-  </data>
   <data name="ErrorOldTeknoParrotDirectory" xml:space="preserve">
     <value>看起來您已將我解壓到舊的TeknoParrot目錄中。請將我解壓到一個新目錄中！</value>
   </data>

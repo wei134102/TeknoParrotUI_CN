@@ -28,5 +28,9 @@ namespace TeknoParrotUi.Common
         Play,
         // RPCS 3 Fork (System 357 / 369)
         RPCS3,
+        // Konami DLL based games
+        TeknoMacaw,
+        // Cxbx-Reloaded (Xbox)
+        cxbxr,
     }
 }
