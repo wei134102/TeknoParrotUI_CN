@@ -1,9 +1,9 @@
 {
-  "game_name": "Metal Gear Arcade",
+  "game_name": "Steel Chronicle Victroopers",
   "game_genre": "Shooter",
-  "icon_name": "MetalGearArcade.png",
+  "icon_name": "SteelChronicle.png",
   "platform": "Konami PC-Based",
-  "release_year": "2010",
+  "release_year": "2013",
   "nvidia": "OK",
   "nvidia_issues": null,
   "amd": "OK",
@@ -12,6 +12,6 @@
   "intel_issues": null,
   "general_issues": null,
   "supported_versions": [
-    "I36-2011092900"
+    "KGG-2016062901"
   ]
 }
