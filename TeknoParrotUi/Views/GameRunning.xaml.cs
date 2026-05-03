@@ -684,12 +684,6 @@ namespace TeknoParrotUi.Views
                 case EmulationProfile.cxbxr:
                     _controlSender ??= new CxbxPipe();
                     break;
-                case EmulationProfile.LadyLuck:
-                    if (_controlSender == null)
-                    {
-                        _controlSender = new LadyLuckPipe();
-                    }
-                    break;
             }
 
             _controlSender?.Start();

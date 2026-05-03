@@ -2026,7 +2026,7 @@ namespace TeknoParrotUi.Views
                 openGameLocationButton.IsEnabled = false;
                 openGameLocationButton.ToolTip = "游戏可执行文件路径未设置或无效";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 openGameLocationButton.IsEnabled = false;
                 openGameLocationButton.ToolTip = "无法检查游戏路径";
