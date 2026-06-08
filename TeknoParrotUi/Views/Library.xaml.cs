@@ -2182,6 +2182,7 @@ namespace TeknoParrotUi.Views
             var highScoreGames = new Dictionary<string, string>
             {
                 { "BattleGear4Tuned", "BattleGear4Tuned" },
+                { "CruisnBlast", "CruisnBlast" },
                 { "Daytona3", "Daytona3" },
                 { "Daytona3NSE", "Daytona3NSE" },
                 { "DeadHeat", "DeadHeat" },
