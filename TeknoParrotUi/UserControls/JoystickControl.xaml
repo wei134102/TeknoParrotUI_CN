@@ -50,7 +50,7 @@
                                     Margin="5"
                                     FontSize="18"
                                     FontStretch="UltraExpanded"
-                                    Foreground="#FF000000"
+                                    Foreground="{DynamicResource TeknoParrotHintForegroundBrush}"
                                     Text="{Binding Hint}"
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
@@ -100,7 +100,7 @@
                                 <TextBlock
                                     FontSize="11"
                                     FontWeight="Light"
-                                    Opacity="0.6"
+                                    Foreground="{DynamicResource TeknoParrotHintForegroundBrush}"
                                     Text="{Binding Hint}"
                                     TextWrapping="Wrap">
                                     <TextBlock.Style>
