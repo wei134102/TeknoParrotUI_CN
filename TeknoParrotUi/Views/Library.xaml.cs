@@ -429,7 +429,7 @@ namespace TeknoParrotUi.Views
                     loaderExe = ".\\N2\\BudgieLoader.exe";
                     break;
                 case EmulatorType.ElfLdr2:
-                    loaderExe = ".\\ElfLdr2\\BudgieLoader.exe";
+                    loaderExe = (is64Bit ? ".\\ElfLdr2\\x64\\BudgieLoader_x64.exe" : ".\\ElfLdr2\\BudgieLoader.exe");
                     break;
                 case EmulatorType.TeknoMacaw:
                     loaderExe = (is64Bit ? ".\\TeknoParrot\\TeknoMacaw64.exe" : ".\\TeknoParrot\\TeknoMacaw.exe");
@@ -1880,6 +1880,7 @@ namespace TeknoParrotUi.Views
             var highScoreGames = new Dictionary<string, string>
             {
                 { "BattleGear4Tuned", "BattleGear4Tuned" },
+                { "CruisnBlast", "CruisnBlast" },
                 { "Daytona3", "Daytona3" },
                 { "Daytona3NSE", "Daytona3NSE" },
                 { "DeadHeat", "DeadHeat" },
@@ -1902,6 +1903,7 @@ namespace TeknoParrotUi.Views
                 { "GoldenTeeLive2016", "gt16" },
                 { "GoldenTeeLive2017", "gt17" },
                 { "GoldenTeeLive2018", "gt18" },
+                { "GoldenTeeLive2019", "gt19" },
                 { "ID6", "ID6" },
                 { "ID7", "ID7" },
                 { "ID8", "ID8" },

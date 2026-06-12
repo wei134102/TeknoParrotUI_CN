@@ -117,7 +117,7 @@ namespace TeknoParrotUi.Views
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(".\\TeknoParrot\\BudgieLoader.exe"))
+            if (!File.Exists(".\\Teknoparrot\\BudgieLoader.exe"))
             {
                 MessageBoxHelper.WarningOK(TeknoParrotUi.Properties.Resources.PatreonMissingBudgie);
                 return;

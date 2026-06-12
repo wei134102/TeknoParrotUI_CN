@@ -41,6 +41,13 @@ namespace TeknoParrotUi.UserControls
             _contentControl = contentControl;
             _library = library;
 
+            // Ensure MergedInput is available in the Input API dropdown
+            var inputApiField = gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API");
+            if (inputApiField?.FieldOptions != null && !inputApiField.FieldOptions.Contains("MergedInput"))
+            {
+                inputApiField.FieldOptions.Add("MergedInput");
+            }
+
             string exeName = "";
 
             if (!string.IsNullOrEmpty(_gameProfile.ExecutableName))
@@ -132,6 +139,17 @@ namespace TeknoParrotUi.UserControls
                     t.BindName = t.BindNameXi;
                 else if (_inputApi == InputApi.RawInput)
                     t.BindName = t.BindNameRi;
+                else if (_inputApi == InputApi.MergedInput)
+                {
+                    var inputApiField = _gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API");
+                    bool hasRi = inputApiField?.FieldOptions?.Contains("RawInput") == true;
+
+                    var parts = new List<string>();
+                    if (!string.IsNullOrEmpty(t.BindNameXi)) parts.Add($"XI: {t.BindNameXi}");
+                    if (!string.IsNullOrEmpty(t.BindNameDi)) parts.Add($"DI: {t.BindNameDi}");
+                    if (hasRi && !string.IsNullOrEmpty(t.BindNameRi)) parts.Add($"RI: {t.BindNameRi}");
+                    t.BindName = string.Join(" | ", parts);
+                }
             }
 
             JoystickHelper.SerializeGameProfile(_gameProfile);
