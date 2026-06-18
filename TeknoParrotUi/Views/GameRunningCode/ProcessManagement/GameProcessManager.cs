@@ -310,6 +310,10 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 }
                 GameRunningCode.Utilities.GameRunningUtils.SetDPIAwareRegistryValue(Path.GetFullPath(loaderExe));
 
+                bool isElfldr2x64 = _gameProfile.EmulatorType == EmulatorType.ElfLdr2 &&
+                    (loaderExe.IndexOf("x64", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                     loaderExe.IndexOf("_64", StringComparison.OrdinalIgnoreCase) >= 0);
+
                 ProcessStartInfo info;
 
                 if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
@@ -411,6 +415,55 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     info.UseShellExecute = false;
                     info.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Play") ?? throw new InvalidOperationException();
                 }
+                else if (_gameProfile.EmulatorType == EmulatorType.pcsx2x6)
+                {
+                    // Get the game directory path
+                    string gamePath = Path.GetDirectoryName(_gameLocation);
+                    string configPath = Path.Combine(Directory.GetCurrentDirectory(), "pcsx2x6", "TeknoParrot", "inis", "PCSX2.ini");
+
+                    try
+                    {
+                        var hideCursor = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "HideCursor")?.FieldValue == "1";
+                        var configValues = new Dictionary<string, string>
+                        {
+                            ["Renderer"] = GetGraphicsBackendValuepcsx2x6(),
+                            ["upscale_multiplier"] = GetResolutionFactorValuepcsx2x6(),
+                            ["HideMouseCursor"] = hideCursor ? "true" : "false",
+                            ["StartFullscreen"] = windowed ? "false" : "true",
+                        };
+
+                        CreateOrUpdatePcsx2x6Config(configPath, configValues);
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine($"Error updating pcsx2x6 config: {ex.Message}\n");
+                        textBoxConsole.Dispatcher.Invoke(() => textBoxConsole.AppendText($"Error updating pcsx2x6 config: {ex.Message}\n"),
+                            DispatcherPriority.Background);
+                    }
+                    var parameters = new List<string>();
+
+                    parameters.Add($"{_gameProfile.GamePath}");
+
+                    if (!windowed)
+                    {
+                        parameters.Add("-fullscreen");
+                    }
+
+                    parameters.Add("-batch");
+                    parameters.Add("-nogui");
+
+                    var pcsx2x6Parameters = string.Join(" ", parameters);
+                    if (_gameProfile.ConfigValues.Any(x => x.FieldName == "UseAVX2" && x.FieldValue == "1"))
+                    {
+                        info = new ProcessStartInfo(@".\pcsx2x6\pcsx2-qtx64-avx2.exe", pcsx2x6Parameters);
+                    }
+                    else
+                    {
+                        info = new ProcessStartInfo(@".\pcsx2x6\pcsx2-qtx64.exe", pcsx2x6Parameters);
+                    }
+                    info.UseShellExecute = false;
+                    info.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "pcsx2x6") ?? throw new InvalidOperationException();
+                }
                 else if (_gameProfile.EmulatorType == EmulatorType.RPCS3)
                 {
                     // Configure RPCS3 before launching
@@ -454,55 +507,66 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 }
                 else
                 {
-                    info = new ProcessStartInfo(loaderExe, $"{loaderDll} {gameArguments}");
+                    var exePath = isElfldr2x64 ? Path.GetFullPath(loaderExe) : loaderExe;
+                    info = new ProcessStartInfo(exePath, $"{loaderDll} {gameArguments}");
                 }
 
                 if (_gameProfile.EmulationProfile == EmulationProfile.APM3Direct && _isTest)
                 {
-                    info.EnvironmentVariables.Add("TP_DIRECTHOOK", "1");
+                    if (isElfldr2x64) Environment.SetEnvironmentVariable("TP_DIRECTHOOK", "1");
+                    else info.EnvironmentVariables.Add("TP_DIRECTHOOK", "1");
                 }
 
                 if (_gameProfile.UseRemoteThread)
                 {
-                    info.EnvironmentVariables.Add("TP_REMOTETHREAD", "1");
+                    if (isElfldr2x64) Environment.SetEnvironmentVariable("TP_REMOTETHREAD", "1");
+                    else info.EnvironmentVariables.Add("TP_REMOTETHREAD", "1");
                 }
 
                 if (_gameProfile.msysType > 0)
                 {
-                    info.EnvironmentVariables.Add("tp_msysType", _gameProfile.msysType.ToString());
+                    if (isElfldr2x64) Environment.SetEnvironmentVariable("tp_msysType", _gameProfile.msysType.ToString());
+                    else info.EnvironmentVariables.Add("tp_msysType", _gameProfile.msysType.ToString());
                 }
 
                 if (_gameProfile.EmulatorType == EmulatorType.N2 || _gameProfile.EmulatorType == EmulatorType.ElfLdr2)
                 {
                     info.WorkingDirectory =
                         Path.GetDirectoryName(_gameLocation) ?? throw new InvalidOperationException();
-                    info.UseShellExecute = false;
-                    info.EnvironmentVariables.Add("tp_windowed", windowed ? "1" : "0");
-                    info.EnvironmentVariables.Add("TP_LOGTOFILE", Lazydata.ParrotData.Elfldr2LogToFile ? "1" : "0");
-                    if (Lazydata.ParrotData.Elfldr2NetworkAdapterName != "")
-                    {
-                        info.EnvironmentVariables.Add("TP_ETH", Lazydata.ParrotData.Elfldr2NetworkAdapterName);
-                    }
 
-                    if (msaaLevel != null)
+                    if (isElfldr2x64)
                     {
-                        info.EnvironmentVariables.Add("TP_MSAA", msaaLevel.FieldValue);
+                        // Launch x64 ElfLdr2 via ShellExecute to avoid WoW64 CreateProcess issues.
+                        // Environment variables are set on the current process and inherited by the child.
+                        info.UseShellExecute = false;
+                        Environment.SetEnvironmentVariable("tp_windowed", windowed ? "1" : "0");
+                        Environment.SetEnvironmentVariable("TP_LOGTOFILE", Lazydata.ParrotData.Elfldr2LogToFile ? "1" : "0");
+                        if (Lazydata.ParrotData.Elfldr2NetworkAdapterName != "")
+                            Environment.SetEnvironmentVariable("TP_ETH", Lazydata.ParrotData.Elfldr2NetworkAdapterName);
+                        if (msaaLevel != null)
+                            Environment.SetEnvironmentVariable("TP_MSAA", msaaLevel.FieldValue);
+                        if (_gameProfile.ProfileName == "TankTankTank")
+                            Environment.SetEnvironmentVariable("TP_NUSOUND", "1");
+                        if (_gameProfile.EmulationProfile == EmulationProfile.Vt3Lindbergh)
+                            Environment.SetEnvironmentVariable("TEA_DIR", Directory.GetParent(Path.GetDirectoryName(_gameLocation)) + "\\");
+                        if (_gameProfile.EmulationProfile == EmulationProfile.SegaJvsLetsGoJungle)
+                            Environment.SetEnvironmentVariable("TEA_DIR", Path.GetDirectoryName(_gameLocation) + "\\");
                     }
-
-                    if (_gameProfile.ProfileName == "TankTankTank")
+                    else
                     {
-                        info.EnvironmentVariables.Add("TP_NUSOUND", "1");
-                    }
-
-                    if (_gameProfile.EmulationProfile == EmulationProfile.Vt3Lindbergh)
-                    {
-                        info.EnvironmentVariables.Add("TEA_DIR",
-                            Directory.GetParent(Path.GetDirectoryName(_gameLocation)) + "\\");
-                    }
-
-                    if (_gameProfile.EmulationProfile == EmulationProfile.SegaJvsLetsGoJungle)
-                    {
-                        info.EnvironmentVariables.Add("TEA_DIR", Path.GetDirectoryName(_gameLocation) + "\\");
+                        info.UseShellExecute = false;
+                        info.EnvironmentVariables.Add("tp_windowed", windowed ? "1" : "0");
+                        info.EnvironmentVariables.Add("TP_LOGTOFILE", Lazydata.ParrotData.Elfldr2LogToFile ? "1" : "0");
+                        if (Lazydata.ParrotData.Elfldr2NetworkAdapterName != "")
+                            info.EnvironmentVariables.Add("TP_ETH", Lazydata.ParrotData.Elfldr2NetworkAdapterName);
+                        if (msaaLevel != null)
+                            info.EnvironmentVariables.Add("TP_MSAA", msaaLevel.FieldValue);
+                        if (_gameProfile.ProfileName == "TankTankTank")
+                            info.EnvironmentVariables.Add("TP_NUSOUND", "1");
+                        if (_gameProfile.EmulationProfile == EmulationProfile.Vt3Lindbergh)
+                            info.EnvironmentVariables.Add("TEA_DIR", Directory.GetParent(Path.GetDirectoryName(_gameLocation)) + "\\");
+                        if (_gameProfile.EmulationProfile == EmulationProfile.SegaJvsLetsGoJungle)
+                            info.EnvironmentVariables.Add("TEA_DIR", Path.GetDirectoryName(_gameLocation) + "\\");
                     }
                 }
 
@@ -548,7 +612,8 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 }
                 else
                 {
-                    info.UseShellExecute = false;
+                    if (!isElfldr2x64)
+                        info.UseShellExecute = false;
                 }
 
                 if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
@@ -917,6 +982,8 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 {
                     cmdProcess.BeginOutputReadLine();
                 }
+                Console.WriteLine(info.FileName);
+                Console.WriteLine(info.Arguments);
 
                 if (_twoExes && !_secondExeFirst)
                     RunAndWait(loaderExe, $"{loaderDll} \"{_gameLocation2}\" {_secondExeArguments}");
@@ -1236,12 +1303,135 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
             xmlDoc.Save(configPath);
         }
 
+        private void CreateOrUpdatePcsx2x6Config(string configPath, Dictionary<string, string> configValues)
+        {
+            if (!File.Exists(configPath))
+            {
+                Debug.WriteLine($"PCSX2.ini not found at {configPath}, skipping config update");
+                return;
+            }
+
+            var lines = File.ReadAllLines(configPath).ToList();
+            string currentSection = null;
+            var updated = new HashSet<string>();
+            var sectionIndices = new Dictionary<string, int>();
+            int bigPictureLine = -1;
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string trimmed = lines[i].Trim();
+
+                if (trimmed.StartsWith("[") && trimmed.EndsWith("]"))
+                {
+                    currentSection = trimmed.Substring(1, trimmed.Length - 2);
+                    sectionIndices[currentSection] = i;
+                    continue;
+                }
+
+                if (currentSection == null) continue;
+
+                int eq = trimmed.IndexOf('=');
+                if (eq < 0) continue;
+
+                string key = trimmed.Substring(0, eq).Trim();
+                if (key == "StartBigPictureMode")
+                {
+                    bigPictureLine = i; // remove and re-insert at end of [UI]
+                }
+                else if (configValues.ContainsKey(key))
+                {
+                    lines[i] = $"{key} = {configValues[key]}";
+                    updated.Add(key);
+                }
+            }
+
+            // Remove existing StartBigPictureMode so we can re-insert at end of [UI]
+            if (bigPictureLine >= 0)
+            {
+                lines.RemoveAt(bigPictureLine);
+                // Rebuild section indices after removal
+                sectionIndices.Clear();
+                string sec = null;
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    string t = lines[i].Trim();
+                    if (t.StartsWith("[") && t.EndsWith("]"))
+                    {
+                        sec = t.Substring(1, t.Length - 2);
+                        sectionIndices[sec] = i;
+                    }
+                }
+            }
+
+            // Find the last line index of a section (index of next section header, or end of list)
+            int FindSectionEnd(int headerIdx)
+            {
+                for (int i = headerIdx + 1; i < lines.Count; i++)
+                {
+                    string t = lines[i].Trim();
+                    if (t.StartsWith("[") && t.EndsWith("]"))
+                        return i;
+                }
+                return lines.Count;
+            }
+
+            // Always insert StartBigPictureMode = true at the very end of [UI]
+            if (sectionIndices.TryGetValue("UI", out int uiIdx))
+            {
+                lines.Insert(FindSectionEnd(uiIdx), "StartBigPictureMode = true");
+            }
+            else
+            {
+                lines.Add("[UI]");
+                lines.Add("StartBigPictureMode = true");
+            }
+            updated.Add("StartBigPictureMode");
+
+            File.WriteAllLines(configPath, lines);
+            Debug.WriteLine($"PCSX2.ini updated: {string.Join(", ", updated.Select(k => k == "StartBigPictureMode" ? "StartBigPictureMode=true" : $"{k}={configValues[k]}"))}");
+        }
+
         private string GetGraphicsBackendValue()
         {
             if (_gameProfile.ConfigValues.Any(x => x.FieldName == "Graphics Backend" && x.FieldValue == "Vulkan"))
                 return "1";
 
             return "0";
+        }
+
+        private string GetGraphicsBackendValuepcsx2x6()
+        {
+            var backend = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Graphics Backend")?.FieldValue;
+            switch (backend)
+            {
+                case "Direct3D 11 (Legacy)": return "3";
+                case "OpenGL":               return "12";
+                case "Software Renderer":    return "13";
+                case "Vulkan":               return "14";
+                case "Direct3D 12":          return "15";
+                default:                     return "-1"; // Automatic
+            }
+        }
+
+        private string GetResolutionFactorValuepcsx2x6()
+        {
+            var resolutionConfig = _gameProfile.ConfigValues.FirstOrDefault(x => x.FieldName == "Resolution");
+            switch (resolutionConfig?.FieldValue)
+            {
+                case "Native":  return "1";
+                case "720p":    return "2";
+                case "1080p":   return "3";
+                case "1440p":   return "4";
+                case "1800p":   return "5";
+                case "2160p":   return "6";
+                case "2520p":   return "7";
+                case "2880p":   return "8";
+                case "3240p":   return "9";
+                case "3600p":   return "10";
+                case "3960p":   return "11";
+                case "4320p":   return "12";
+                default:        return "1";
+            }
         }
 
         private string GetResolutionFactorValue()
@@ -1514,28 +1704,15 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 // Ensure required directories exist
                 string emuMediaBoardDir = Path.Combine(cxbxrDir, "TeknoParrot", "EmuMediaBoard");
                 string chihiroDir = Path.Combine(emuMediaBoardDir, "Chihiro");
-                string emuMuDir = Path.Combine(cxbxrDir, "TeknoParrot", "EmuMu");
 
                 Directory.CreateDirectory(emuMediaBoardDir);
                 Directory.CreateDirectory(chihiroDir);
-                Directory.CreateDirectory(emuMuDir);
 
                 // Create empty settings.ini if it doesn't exist
                 string settingsPath = Path.Combine(cxbxrDir, "TeknoParrot", "settings.ini");
                 if (!File.Exists(settingsPath))
                 {
                     File.Create(settingsPath).Dispose();
-                }
-
-                // Create empty MU files if they don't exist
-                string[] muFiles = { "F.BIN", "G.BIN", "H.BIN", "I.BIN", "J.BIN", "K.BIN", "L.BIN", "M.BIN" };
-                foreach (var muFile in muFiles)
-                {
-                    string muFilePath = Path.Combine(emuMuDir, muFile);
-                    if (!File.Exists(muFilePath))
-                    {
-                        File.Create(muFilePath).Dispose();
-                    }
                 }
 
                 // Check for required Chihiro EEPROM files

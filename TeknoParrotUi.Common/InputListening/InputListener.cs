@@ -26,6 +26,8 @@ namespace TeknoParrotUi.Common
         private readonly InputListenerRawInputTrackball _inputListenerRawInputTrackball = new InputListenerRawInputTrackball();
         private static GameProfile _gameprofile;
         private InputApi _inputApi;
+        private bool _mergedIncludesRawInput;
+        private bool _mergedIncludesRawInputTrackball;
 
         public void ThreadRespawnerXInput(bool useSto0Z, int stoozPercent, List<JoystickButtons> joystickButtons)
         {
@@ -98,6 +100,50 @@ namespace TeknoParrotUi.Common
                     var thread = new Thread(() => _inputListenerRawInputTrackball.ListenRawInputTrackball(joystickButtons, gameProfile));
                     thread.Start();
                 }
+                else if (_inputApi == InputApi.MergedInput)
+                {
+                    // Check if the game profile supports RawInput
+                    var inputApiField = gameProfile.ConfigValues?.Find(cv => cv.FieldName == "Input API");
+                    _mergedIncludesRawInput = inputApiField?.FieldOptions?.Contains("RawInput") == true;
+                    _mergedIncludesRawInputTrackball = inputApiField?.FieldOptions?.Contains("RawInputTrackball") == true;
+
+                    // Detect XInput device GUIDs so DirectInput skips them
+                    var xinputGuids = XInputDeviceHelper.GetXInputDeviceGuids();
+
+                    // Run both XInput and DirectInput listeners simultaneously
+                    _xi1 = new Thread(() => _inputListenerXInput.ListenXInput(useSto0Z, stoozPercent, joystickButtons, UserIndex.One, gameProfile));
+                    _xi1.Start();
+
+                    _xi2 = new Thread(() => _inputListenerXInput.ListenXInput(useSto0Z, stoozPercent, joystickButtons, UserIndex.Two, gameProfile));
+                    _xi2.Start();
+
+                    _xi3 = new Thread(() => _inputListenerXInput.ListenXInput(useSto0Z, stoozPercent, joystickButtons, UserIndex.Three, gameProfile));
+                    _xi3.Start();
+
+                    _xi4 = new Thread(() => _inputListenerXInput.ListenXInput(useSto0Z, stoozPercent, joystickButtons, UserIndex.Four, gameProfile));
+                    _xi4.Start();
+
+                    var respawnerThread = new Thread(() => ThreadRespawnerXInput(useSto0Z, stoozPercent, joystickButtons));
+                    respawnerThread.Start();
+
+                    // DirectInput excludes XInput controllers to avoid double-polling
+                    var diThread = new Thread(() => _inputListenerDirectInput.ListenDirectInput(joystickButtons, gameProfile, xinputGuids));
+                    diThread.Start();
+
+                    // RawInput for mouse/keyboard (only if the game profile supports it)
+                    if (_mergedIncludesRawInput)
+                    {
+                        var riThread = new Thread(() => _inputListenerRawInput.ListenRawInput(joystickButtons, gameProfile));
+                        riThread.Start();
+                    }
+
+                    // RawInputTrackball for trackball devices (only if the game profile supports it)
+                    if (_mergedIncludesRawInputTrackball)
+                    {
+                        var ritThread = new Thread(() => _inputListenerRawInputTrackball.ListenRawInputTrackball(joystickButtons, gameProfile));
+                        ritThread.Start();
+                    }
+                }
             }
             catch (Exception)
             {
@@ -109,10 +155,10 @@ namespace TeknoParrotUi.Common
 
         public void WndProcReceived(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (_inputApi == InputApi.RawInput)
+            if (_inputApi == InputApi.RawInput || (_inputApi == InputApi.MergedInput && _mergedIncludesRawInput))
                 _inputListenerRawInput.WndProcReceived(hwnd, msg, wParam, lParam, ref handled);
 
-            if (_inputApi == InputApi.RawInputTrackball)
+            if (_inputApi == InputApi.RawInputTrackball || (_inputApi == InputApi.MergedInput && _mergedIncludesRawInputTrackball))
                 _inputListenerRawInputTrackball.WndProcReceived(hwnd, msg, wParam, lParam, ref handled);
         }
 

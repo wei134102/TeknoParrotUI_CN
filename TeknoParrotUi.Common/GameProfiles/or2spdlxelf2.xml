@@ -6,10 +6,10 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>Outrun2SPXElf2</EmulationProfile>
-	<GameProfileRevision>6</GameProfileRevision>
+	<GameProfileRevision>8</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
 	<EmulatorType>ElfLdr2</EmulatorType>
-	<Patreon>true</Patreon>
+	<Patreon>false</Patreon>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
@@ -211,6 +211,7 @@
 				<string>Firefox</string>
 				<string>Edge</string>
 				<string>Opera</string>
+				<string>Brave</string>
 			</FieldOptions>
 		</FieldInformation>
 		<FieldInformation>

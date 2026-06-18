@@ -6,7 +6,7 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>EuropaRSegaRally3</EmulationProfile>
-	<GameProfileRevision>31</GameProfileRevision>
+	<GameProfileRevision>32</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>TeknoParrot</EmulatorType>	
 	<ExecutableName>Rally\Rally.exe</ExecutableName>
@@ -149,6 +149,7 @@
         <string>Firefox</string>
         <string>Edge</string>
         <string>Opera</string>
+		<string>Brave</string>
       </FieldOptions>
     </FieldInformation>
     <FieldInformation>

@@ -177,6 +177,7 @@
     <Compile Include="InputListening\InputListenerDirectInput.cs" />
     <Compile Include="InputListening\InputListenerRawInput.cs" />
     <Compile Include="InputListening\InputListenerXInput.cs" />
+    <Compile Include="InputListening\XInputDeviceHelper.cs" />
     <Compile Include="InputProfiles\Helpers\AnalogHelper.cs" />
     <Compile Include="InputProfiles\Helpers\DigitalHelper.cs" />
     <Compile Include="InputProfiles\Helpers\WMMT3Cards.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Pipes\LadyLuckPipe.cs" />
     <Compile Include="Pipes\System147.cs" />
     <Compile Include="Pipes\DolphinJvsPipeExtended.cs" />
+    <Compile Include="Pipes\Pcsx2x6Pipe.cs" />
     <Compile Include="Pipes\PlayPipe.cs" />
     <Compile Include="Pipes\LGSPipe.cs" />
     <Compile Include="Pipes\NesicaButton.cs" />

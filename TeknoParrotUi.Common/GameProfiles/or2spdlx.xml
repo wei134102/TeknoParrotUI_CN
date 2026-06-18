@@ -6,7 +6,7 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>Outrun2SPX</EmulationProfile>
-	<GameProfileRevision>38</GameProfileRevision>
+	<GameProfileRevision>39</GameProfileRevision>
 	<HasSeparateTestMode>true</HasSeparateTestMode>
 	<EmulatorType>Lindbergh</EmulatorType>	
 	<ExecutableName>or2g\disk0\Jennifer\Jennifer_VGA</ExecutableName>
@@ -213,6 +213,7 @@
         <string>Firefox</string>
         <string>Edge</string>
         <string>Opera</string>
+		<string>Brave</string>
       </FieldOptions>
     </FieldInformation>
     <FieldInformation>

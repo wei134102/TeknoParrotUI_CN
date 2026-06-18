@@ -41,6 +41,8 @@ namespace TeknoParrotUi.Views
         private string loaderDll;
         private HwndSource _source;
         private InputApi _inputApi = InputApi.DirectInput;
+        private bool _mergedIncludesRawInput;
+        private bool _mergedIncludesRawInputTrackball;
         private bool _twoExes;
         private bool _secondExeFirst;
         private string _secondExeArguments;
@@ -64,6 +66,13 @@ namespace TeknoParrotUi.Views
 
             if (inputApiString != null)
                 _inputApi = (InputApi)Enum.Parse(typeof(InputApi), inputApiString);
+
+            if (_inputApi == InputApi.MergedInput)
+            {
+                var inputApiField = gameProfile.ConfigValues.Find(cv => cv.FieldName == "Input API");
+                _mergedIncludesRawInput = inputApiField?.FieldOptions?.Contains("RawInput") == true;
+                _mergedIncludesRawInputTrackball = inputApiField?.FieldOptions?.Contains("RawInputTrackball") == true;
+            }
 
             textBoxConsole.Text = "";
             _runEmuOnly = runEmuOnly;
@@ -123,6 +132,17 @@ namespace TeknoParrotUi.Views
                             InputListenerDirectInput.DisableTestButton = true;
                         }
                     }
+                    else if (_inputApi == InputApi.MergedInput)
+                    {
+                        if (!InputListenerXInput.DisableTestButton)
+                            InputListenerXInput.DisableTestButton = true;
+                        if (!InputListenerDirectInput.DisableTestButton)
+                            InputListenerDirectInput.DisableTestButton = true;
+                        if (_mergedIncludesRawInput && !InputListenerRawInput.DisableTestButton)
+                            InputListenerRawInput.DisableTestButton = true;
+                        if (_mergedIncludesRawInputTrackball && !InputListenerRawInputTrackball.DisableTestButton)
+                            InputListenerRawInputTrackball.DisableTestButton = true;
+                    }
                     else if (_inputApi == InputApi.RawInput)
                     {
                         if (!InputListenerRawInput.DisableTestButton)
@@ -154,6 +174,17 @@ namespace TeknoParrotUi.Views
                     {
                         InputListenerDirectInput.DisableTestButton = false;
                     }
+                }
+                else if (_inputApi == InputApi.MergedInput)
+                {
+                    if (InputListenerXInput.DisableTestButton)
+                        InputListenerXInput.DisableTestButton = false;
+                    if (InputListenerDirectInput.DisableTestButton)
+                        InputListenerDirectInput.DisableTestButton = false;
+                    if (_mergedIncludesRawInput && InputListenerRawInput.DisableTestButton)
+                        InputListenerRawInput.DisableTestButton = false;
+                    if (_mergedIncludesRawInputTrackball && InputListenerRawInputTrackball.DisableTestButton)
+                        InputListenerRawInputTrackball.DisableTestButton = false;
                 }
                 else if (_inputApi == InputApi.RawInput)
                 {
@@ -194,7 +225,7 @@ namespace TeknoParrotUi.Views
             inputThread.Start();
 
             // Hook window proc messages
-            if (_inputApi == InputApi.RawInput || _inputApi == InputApi.RawInputTrackball)
+            if (_inputApi == InputApi.RawInput || _inputApi == InputApi.RawInputTrackball || (_inputApi == InputApi.MergedInput && (_mergedIncludesRawInput || _mergedIncludesRawInputTrackball)))
             {
                 RawInputDevice.RegisterDevice(HidUsageAndPage.Mouse, RawInputDeviceFlags.InputSink, hWnd);
                 RawInputDevice.RegisterDevice(HidUsageAndPage.Keyboard, RawInputDeviceFlags.InputSink, hWnd);
@@ -217,7 +248,7 @@ namespace TeknoParrotUi.Views
             _controlSender?.Stop();
             InputListener?.StopListening();
 
-            if (_inputApi == InputApi.RawInput || _inputApi == InputApi.RawInputTrackball)
+            if (_inputApi == InputApi.RawInput || _inputApi == InputApi.RawInputTrackball || (_inputApi == InputApi.MergedInput && (_mergedIncludesRawInput || _mergedIncludesRawInputTrackball)))
             {
                 RawInputDevice.UnregisterDevice(HidUsageAndPage.Mouse);
                 RawInputDevice.UnregisterDevice(HidUsageAndPage.Keyboard);
@@ -671,6 +702,9 @@ namespace TeknoParrotUi.Views
                     break;
                 case EmulationProfile.PlayInput:
                     _controlSender ??= new PlayPipe();
+                    break;
+                case EmulationProfile.pcsx2x6:
+                    _controlSender ??= new Pcsx2x6Pipe();
                     break;
                 case EmulationProfile.RPCS3:
                     _controlSender ??= new RPCS3Pipe();
