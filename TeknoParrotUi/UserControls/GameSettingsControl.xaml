@@ -5,7 +5,6 @@
     xmlns:converters="clr-namespace:TeknoParrotUi.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TeknoParrotUi"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:p="clr-namespace:TeknoParrotUi.Properties"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -21,75 +20,6 @@
         <viewModels:GameSettingsVisibilityConverter x:Key="gameSettingsVisibilityConverter" />
         <converters:StringToBoolConverter x:Key="stringToBoolConverter" />
          <converters:VirtualKeyToHexConverter x:Key="virtualKeyToHexConverter" />
-        <Style x:Key="hintIcon" TargetType="materialDesign:PackIcon">
-            <Setter Property="Visibility" Value="Visible" />
-            <Setter Property="Height" Value="30" />
-            <Setter Property="Margin" Value="3,0,0,0" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Background" Value="Transparent" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Hint}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Hidden" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="teknoHint" TargetType="{x:Type ToolTip}">
-            <Setter Property="Visibility" Value="Visible" />
-            <Setter Property="Width" Value="350" />
-            <Setter Property="Height" Value="auto" />
-            <Setter Property="HasDropShadow" Value="True" />
-            <Setter Property="HorizontalOffset" Value="100px" />
-            <Setter Property="VerticalOffset" Value="-20px" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToolTip}">
-                        <Border
-                            Name="Border"
-                            Width="{TemplateBinding Width}"
-                            Height="{TemplateBinding Height}"
-                            BorderBrush="WhiteSmoke"
-                            BorderThickness="1"
-                            CornerRadius="2">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Offset="0.0" Color="Snow" />
-                                    <GradientStop Offset="1.0" Color="WhiteSmoke" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <StackPanel>
-                                <TextBlock
-                                    Margin="5"
-                                    FontSize="18"
-                                    FontStyle="Normal"
-                                    FontWeight="UltraBold"
-                                    Foreground="#FF000000"
-                                    Text="TeknoHint"
-                                    TextAlignment="Center" />
-                                <TextBlock
-                                    Margin="5"
-                                    FontSize="18"
-                                    Foreground="#FF000000"
-                                    Text="{Binding Hint}"
-                                    TextAlignment="Center"
-                                    TextWrapping="Wrap" />
-                                <StackPanel.Background>
-                                    <ImageBrush
-                                        AlignmentX="Right"
-                                        ImageSource="../Resources/teknoparrot_by_pooterman-db9erxd.png"
-                                        Opacity="0.1"
-                                        Stretch="Uniform" />
-                                </StackPanel.Background>
-                            </StackPanel>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Hint}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Hidden" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -155,8 +85,12 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <UniformGrid Columns="2">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Height="{StaticResource fieldHeight}" Padding="2,4,2,2">
+                            <StackPanel Margin="0,0,0,5" VerticalAlignment="Top">
+                                <TextBlock
+                                    Padding="2,4,2,0"
+                                    FontSize="14"
+                                    FontWeight="SemiBold"
+                                    TextWrapping="Wrap">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} - {1}">
                                             <Binding Path="CategoryName" />
@@ -164,13 +98,29 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <materialDesign:PackIcon Kind="InformationOutline" Style="{StaticResource hintIcon}" />
-                                <StackPanel.ToolTip>
-                                    <ToolTip Style="{StaticResource teknoHint}" />
-                                </StackPanel.ToolTip>
+                                <TextBlock
+                                    Padding="2,0,2,2"
+                                    FontSize="11"
+                                    FontWeight="Light"
+                                    Foreground="{DynamicResource TeknoParrotHintForegroundBrush}"
+                                    Text="{Binding Hint}"
+                                    TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Hint}" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Hint}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
 
-                            <ContentControl>
+                            <ContentControl VerticalAlignment="Top">
                                 <ContentControl.Style>
                                     <Style TargetType="ContentControl">
                                         <Style.Triggers>
@@ -182,11 +132,7 @@
                                             Margin="0,0,0,5"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             Tag="SettingsTxt"
-                                            Text="{Binding FieldValue, Mode=TwoWay}">
-                                                            <TextBox.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </TextBox.ToolTip>
-                                                        </TextBox>
+                                            Text="{Binding FieldValue, Mode=TwoWay}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
@@ -198,11 +144,7 @@
                                             Height="{StaticResource fieldHeight}"
                                             Margin="0,0,0,5"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            IsChecked="{Binding FieldValue, Mode=TwoWay, Converter={StaticResource stringToBoolConverter}}">
-                                                            <CheckBox.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </CheckBox.ToolTip>
-                                                        </CheckBox>
+                                            IsChecked="{Binding FieldValue, Mode=TwoWay, Converter={StaticResource stringToBoolConverter}}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
@@ -215,11 +157,7 @@
                                             Margin="0,0,0,5"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ItemsSource="{Binding FieldOptions, Mode=TwoWay}"
-                                            SelectedValue="{Binding FieldValue, Mode=TwoWay}">
-                                                            <ComboBox.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </ComboBox.ToolTip>
-                                                        </ComboBox>
+                                            SelectedValue="{Binding FieldValue, Mode=TwoWay}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
@@ -232,11 +170,7 @@
                                             Margin="0,0,0,5"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ItemsSource="{Binding FieldOptions, Mode=TwoWay}"
-                                            SelectedValue="{Binding FieldValue, Mode=TwoWay}">
-                                                            <ComboBox.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </ComboBox.ToolTip>
-                                                        </ComboBox>
+                                            SelectedValue="{Binding FieldValue, Mode=TwoWay}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
@@ -271,9 +205,6 @@
                                                                     <Setter Property="TickPlacement" Value="BottomRight"/>
                                                                 </Style>
                                                             </Slider.Style>
-                                                            <Slider.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </Slider.ToolTip>
                                                         </Slider>
                                                     </Setter.Value>
                                                 </Setter>
@@ -286,11 +217,7 @@
                                             Margin="0,0,0,5"
                                             Style="{DynamicResource MaterialDesignTextBox}"
                                             Tag="SettingsKeyCapture"
-                                            VirtualKey="{Binding FieldValue, Mode=TwoWay, Converter={StaticResource virtualKeyToHexConverter}}">>
-                                                            <usercontrols:KeyCaptureTextBox.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </usercontrols:KeyCaptureTextBox.ToolTip>
-                                                        </usercontrols:KeyCaptureTextBox>
+                                            VirtualKey="{Binding FieldValue, Mode=TwoWay, Converter={StaticResource virtualKeyToHexConverter}}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
@@ -301,11 +228,7 @@
                                             Height="{StaticResource fieldHeight}"
                                             Margin="0,0,0,5"
                                             SelectedMonitorIndex="{Binding FieldValue, Mode=TwoWay}"
-                                            UseUnitySorting="{Binding UseUnitySorting}">
-                                                            <usercontrols:MonitorSelection.ToolTip>
-                                                                <ToolTip Style="{StaticResource teknoHint}" />
-                                                            </usercontrols:MonitorSelection.ToolTip>
-                                                        </usercontrols:MonitorSelection>
+                                            UseUnitySorting="{Binding UseUnitySorting}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </DataTrigger>
