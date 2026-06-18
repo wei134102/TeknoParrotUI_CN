@@ -87,6 +87,11 @@ namespace TeknoParrotUi.Views
             var genreItems = TeknoParrotUi.Helpers.GenreTranslationHelper.GetGenreItems(false);
             GenreBox.ItemsSource = genreItems;
             GenreBox.SelectedIndex = 0;
+
+            // Initialize emulator filter
+            var emulatorItems = TeknoParrotUi.Helpers.GenreTranslationHelper.GetEmulatorItems();
+            EmulatorFilterBox.ItemsSource = emulatorItems;
+            EmulatorFilterBox.SelectedIndex = 0;
         }
 
         static BitmapSource LoadImage(string filename)
@@ -381,6 +386,13 @@ namespace TeknoParrotUi.Views
                     selectedInternalGenre = genreItem?.InternalName ?? "All";
                 }
 
+                string selectedEmulator = "All";
+                if (EmulatorFilterBox != null && EmulatorFilterBox.SelectedItem != null)
+                {
+                    var emulatorItem = EmulatorFilterBox.SelectedItem as TeknoParrotUi.Helpers.EmulatorFilterItem;
+                    selectedEmulator = emulatorItem?.InternalName ?? "All";
+                }
+
                 string searchName = "";
                 if (GameSearchBox != null)
                 {
@@ -395,6 +407,12 @@ namespace TeknoParrotUi.Views
                     bool matchesGenre = TeknoParrotUi.Helpers.GenreTranslationHelper.DoesGameMatchGenre(selectedInternalGenre, gameProfile);
 
                     if (!matchesGenre)
+                        continue;
+
+                    // Filter by emulator type
+                    bool matchesEmulator = TeknoParrotUi.Helpers.GenreTranslationHelper.DoesGameMatchEmulator(selectedEmulator, gameProfile);
+
+                    if (!matchesEmulator)
                         continue;
 
                     // Filter by search text if present
@@ -2089,6 +2107,11 @@ namespace TeknoParrotUi.Views
         }
 
         private void GenreBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListUpdate();
+        }
+
+        private void EmulatorFilterBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListUpdate();
         }

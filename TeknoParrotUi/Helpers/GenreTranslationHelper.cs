@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using TeknoParrotUi.Properties;
+using TeknoParrotUi.Common;
 
 namespace TeknoParrotUi.Helpers
 {
@@ -67,6 +69,34 @@ namespace TeknoParrotUi.Helpers
             return items;
         }
 
+        public static List<EmulatorFilterItem> GetEmulatorItems()
+        {
+            return new List<EmulatorFilterItem>
+            {
+                new EmulatorFilterItem { InternalName = "All", DisplayName = "All Emulators" },
+                new EmulatorFilterItem { InternalName = "OpenParrot", DisplayName = "OpenParrot" },
+                new EmulatorFilterItem { InternalName = "Lindbergh", DisplayName = "Lindbergh" },
+                new EmulatorFilterItem { InternalName = "N2", DisplayName = "N2" },
+                new EmulatorFilterItem { InternalName = "OpenParrotKonami", DisplayName = "OpenParrot Konami" },
+                new EmulatorFilterItem { InternalName = "ElfLdr2", DisplayName = "ElfLdr2" },
+                new EmulatorFilterItem { InternalName = "Dolphin", DisplayName = "Dolphin (Triforce)" },
+                new EmulatorFilterItem { InternalName = "Play", DisplayName = "Play! (PS2)" },
+                new EmulatorFilterItem { InternalName = "RPCS3", DisplayName = "RPCS3 (PS3)" },
+                new EmulatorFilterItem { InternalName = "TeknoMacaw", DisplayName = "TeknoMacaw" },
+                new EmulatorFilterItem { InternalName = "cxbxr", DisplayName = "Cxbx-Reloaded (Xbox)" },
+                new EmulatorFilterItem { InternalName = "pcsx2x6", DisplayName = "PCSX2 x6 (PS2)" },
+                new EmulatorFilterItem { InternalName = "SegaTools", DisplayName = "SegaTools" }
+            };
+        }
+
+        public static bool DoesGameMatchEmulator(string internalEmulatorName, GameProfile gameProfile)
+        {
+            if (internalEmulatorName == "All")
+                return true;
+
+            return internalEmulatorName.Equals(gameProfile.EmulatorType.ToString(), StringComparison.OrdinalIgnoreCase);
+        }
+
         private static string GetLocalizedString(string resourceName)
         {
             var property = typeof(Resources).GetProperty(resourceName);
@@ -90,13 +120,15 @@ namespace TeknoParrotUi.Helpers
 
             if (internalGenreName == "Installed")
             {
-                var existing = TeknoParrotUi.Common.GameProfileLoader.UserProfiles.FirstOrDefault((profile) => profile.ProfileName == gameProfile.ProfileName) != null;
+                var existing = TeknoParrotUi.Common.GameProfileLoader.UserProfiles.FirstOrDefault((profile) =>
+                    profile.ProfileName == gameProfile.ProfileName) != null;
                 return existing;
             }
 
             if (internalGenreName == "Not Installed")
             {
-                var existing = TeknoParrotUi.Common.GameProfileLoader.UserProfiles.FirstOrDefault((profile) => profile.ProfileName == gameProfile.ProfileName) != null;
+                var existing = TeknoParrotUi.Common.GameProfileLoader.UserProfiles.FirstOrDefault((profile) =>
+                    profile.ProfileName == gameProfile.ProfileName) != null;
                 return !existing;
             }
 
@@ -118,24 +150,31 @@ namespace TeknoParrotUi.Helpers
                 return is357;
             }
 
-            bool matches = internalGenreName.Equals(gameGenre, System.StringComparison.OrdinalIgnoreCase);
+            bool matches = internalGenreName.Equals(gameGenre, StringComparison.OrdinalIgnoreCase);
             Debug.WriteLine($"  -> Matches: {matches}");
-            
-            // 如果是Others分类，则显示所有未匹配到其他分类的游戏
+
             if (internalGenreName == "Others")
             {
-                // 检查游戏是否匹配其他具体的分类
                 var specificGenres = new[] { "Action", "Card", "Compilation", "Fighting", "Flying",
                     "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up", "Shooter", "Sports" };
-                bool matchesSpecificGenre = specificGenres.Any(g => g.Equals(gameGenre, System.StringComparison.OrdinalIgnoreCase));
+                bool matchesSpecificGenre = specificGenres.Any(g =>
+                    g.Equals(gameGenre, StringComparison.OrdinalIgnoreCase));
                 return !matchesSpecificGenre;
             }
-            
+
             return matches;
         }
     }
 
     public class GenreItem
+    {
+        public string InternalName { get; set; }
+        public string DisplayName { get; set; }
+
+        public override string ToString() => DisplayName;
+    }
+
+    public class EmulatorFilterItem
     {
         public string InternalName { get; set; }
         public string DisplayName { get; set; }
