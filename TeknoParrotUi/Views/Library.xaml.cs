@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,6 +21,7 @@ using ControlzEx;
 using Linearstar.Windows.RawInput;
 using TeknoParrotUi.Properties;
 using SharpDX.XInput;
+using System.Windows.Documents;
 
 namespace TeknoParrotUi.Views
 {
@@ -43,6 +44,16 @@ namespace TeknoParrotUi.Views
         private Window _highScoreWindow;
 
         public static BitmapImage defaultIcon = new BitmapImage(new Uri("../Resources/teknoparrot_by_pooterman-db9erxd.png", UriKind.Relative));
+
+        private static readonly Dictionary<EmulatorType, string> _emulatorUrls = new Dictionary<EmulatorType, string>
+        {
+            { EmulatorType.OpenParrot,       "https://github.com/teknogods/OpenParrot" },
+            { EmulatorType.Dolphin,          "https://dolphin-emu.org" },
+            { EmulatorType.Play,             "https://purei.org" },
+            { EmulatorType.RPCS3,            "https://rpcs3.net" },
+            { EmulatorType.cxbxr,            "https://cxbx-reloaded.co.uk" },
+            { EmulatorType.pcsx2x6,          "https://ps2homebrew-arcade.github.io/pcsx2x6/" },
+        };
 
         public Library(ContentControl contentControl)
         {
@@ -219,20 +230,36 @@ namespace TeknoParrotUi.Views
                 gameLaunchButton.IsEnabled = true;
             }
 
-            var basicInfo = $"{Properties.Resources.LibraryEmulator}: {selectedGame.EmulatorType} ({(selectedGame.Is64Bit ? "x64" : "x86")})\n";
+            string arch = selectedGame.Is64Bit ? "x64" : "x86";
+            string emulatorLabel = $"{selectedGame.EmulatorType} ({arch})";
+
+            gameInfoText.Inlines.Clear();
+            gameInfoText.Inlines.Add(new Run($"{Properties.Resources.LibraryEmulator}: "));
+
+            if (_emulatorUrls.TryGetValue(selectedGame.EmulatorType, out string emulatorUrl) && !string.IsNullOrEmpty(emulatorUrl))
+            {
+                var link = new Hyperlink(new Run(emulatorLabel));
+                link.NavigateUri = new Uri(emulatorUrl);
+                link.RequestNavigate += (s, e) => Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+                gameInfoText.Inlines.Add(link);
+            }
+            else
+            {
+                gameInfoText.Inlines.Add(new Run(emulatorLabel));
+            }
+
+            gameInfoText.Inlines.Add(new Run("\n"));
 
             if (selectedGame.GameInfo != null)
             {
-                basicInfo += selectedGame.GameInfo.ToString();
+                gameInfoText.Inlines.Add(new Run(selectedGame.GameInfo.ToString()));
                 gpuCompatibilityDisplay.SetGpuStatus(selectedGame.GameInfo.nvidia, selectedGame.GameInfo.amd, selectedGame.GameInfo.intel);
             }
             else
             {
-                basicInfo += Properties.Resources.LibraryNoInfo;
+                gameInfoText.Inlines.Add(new Run(Properties.Resources.LibraryNoInfo));
                 gpuCompatibilityDisplay.SetGpuStatus(GPUSTATUS.NO_INFO, GPUSTATUS.NO_INFO, GPUSTATUS.NO_INFO);
             }
-
-            gameInfoText.Text = basicInfo;
             delGame.IsEnabled = true;
 
             if (!string.IsNullOrWhiteSpace(_searchText) && !_isSearchUpdate)
@@ -460,6 +487,9 @@ namespace TeknoParrotUi.Views
                 case EmulatorType.cxbxr:
                     loaderExe = ".\\cxbxr\\cxbxr-ldr.exe";
                     break;
+                case EmulatorType.pcsx2x6:
+                    loaderExe = ".\\pcsx2x6\\pcsx2-qtx64.exe";
+                    break;
                 default:
                     loaderDll = (is64Bit ? ".\\TeknoParrot\\TeknoParrot64" : ".\\TeknoParrot\\TeknoParrot");
                     break;
@@ -597,6 +627,14 @@ namespace TeknoParrotUi.Views
             if (gameProfile.EmulatorType == EmulatorType.RPCS3)
             {
                 if (!CheckRpcs3(gameProfile.GamePath, gameProfile.ProfileName))
+                {
+                    return false;
+                }
+            }
+
+            if (gameProfile.EmulatorType == EmulatorType.pcsx2x6)
+            {
+                if (!Checkpcsx2x6(gameProfile.GamePath, gameProfile.ProfileName))
                 {
                     return false;
                 }
@@ -740,6 +778,94 @@ namespace TeknoParrotUi.Views
                 {
                     JoystickHelper.SerializeGameProfile(gameProfile);
                     library.ListUpdate(gameProfile.GameNameInternal);
+                }
+            }
+
+            return true;
+        }
+
+        private static bool Checkpcsx2x6(string gamePath, string profileName)
+        {
+            var currentDir = Path.Combine(Directory.GetCurrentDirectory(), "pcsx2x6");
+            var firmwareVersion = Path.Combine(currentDir, "TeknoParrot", "bios", "r27v1602f.7d");
+            var firmwareVersion2 = Path.Combine(currentDir, "TeknoParrot", "bios", "r27v1602f.8g");
+            if (!File.Exists(firmwareVersion) && !File.Exists(firmwareVersion2))
+            {
+                MessageBoxHelper.ErrorOK("PCSX2x6 Firmware is not installed\nPlease install the PCSX2x6 firmware and place the r27v1602f.7d and r27v1602f.8g files in the pcsx2x6\\TeknoParrot\\bios folder.");
+                return false;
+            }
+
+            var iniPath = Path.Combine(currentDir, "TeknoParrot", "inis", "PCSX2.ini");
+            if (!File.Exists(iniPath))
+            {
+                var defaultIni = Path.Combine(currentDir, "default.ini");
+                if (!File.Exists(defaultIni))
+                {
+                    MessageBoxHelper.ErrorOK("PCSX2x6 default.ini is missing from the pcsx2x6 folder.");
+                    return false;
+                }
+                try
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(iniPath));
+                    File.Copy(defaultIni, iniPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxHelper.ErrorOK($"Failed to create PCSX2.ini: {ex.Message}");
+                    return false;
+                }
+            }
+
+            // Validate .acgame file
+            if (!string.IsNullOrEmpty(gamePath))
+            {
+                if (!gamePath.EndsWith(".acgame", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBoxHelper.ErrorOK("Only .acgame files are valid for PCSX2x6 games.");
+                    return false;
+                }
+
+                if (!File.Exists(gamePath))
+                {
+                    MessageBoxHelper.ErrorOK($"Game file not found:\n{gamePath}");
+                    return false;
+                }
+
+                var acgameDir = Path.GetDirectoryName(gamePath);
+                string subdir = null;
+                string mediasrc = null;
+                string elf = null;
+
+                foreach (var line in File.ReadLines(gamePath))
+                {
+                    var trimmed = line.Trim();
+                    if (trimmed.StartsWith("subdir="))
+                        subdir = trimmed.Substring("subdir=".Length).Trim().Replace('/', Path.DirectorySeparatorChar);
+                    else if (trimmed.StartsWith("mediasrc="))
+                        mediasrc = trimmed.Substring("mediasrc=".Length).Trim();
+                    else if (trimmed.StartsWith("elf="))
+                        elf = trimmed.Substring("elf=".Length).Trim();
+                }
+
+                if (string.IsNullOrEmpty(subdir))
+                {
+                    MessageBoxHelper.ErrorOK("The .acgame file is missing the 'subdir' entry under [data].");
+                    return false;
+                }
+
+                var dataDir = Path.Combine(acgameDir, subdir);
+                var missing = new List<string>();
+
+                if (!string.IsNullOrEmpty(mediasrc) && !File.Exists(Path.Combine(dataDir, mediasrc)))
+                    missing.Add(Path.Combine(dataDir, mediasrc));
+
+                if (!string.IsNullOrEmpty(elf) && !File.Exists(Path.Combine(dataDir, elf)))
+                    missing.Add(Path.Combine(dataDir, elf));
+
+                if (missing.Count > 0)
+                {
+                    MessageBoxHelper.ErrorOK("The following game files referenced in the .acgame are missing:\n\n" + string.Join("\n", missing));
+                    return false;
                 }
             }
 
