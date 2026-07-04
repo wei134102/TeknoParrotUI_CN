@@ -69,6 +69,16 @@ namespace TeknoParrotUi
                 _tpOnline = true;
             }
 
+            // TPO lobby CLI mode: --tponline --game=X --room=Y --action=create|join (no --profile=)
+            TPOConfig.ParseCliArgs(args);
+
+            // TPO deep link: tponline://join?room=X&game=ID8
+            var tpoLink = args.FirstOrDefault(x => x.StartsWith("tponline://", StringComparison.OrdinalIgnoreCase));
+            if (tpoLink != null)
+            {
+                TPOConfig.ParseDeepLink(tpoLink);
+            }
+
             if (args.Contains("--startMinimized"))
             {
                 _startMin = true;
@@ -255,7 +265,7 @@ namespace TeknoParrotUi
             if (!createdNew)
             {
                 // Second instance, send message to existing instance
-                if (e.Args.Length > 0 && e.Args[0].StartsWith("teknoparrot://"))
+                if (e.Args.Length > 0 && (e.Args[0].StartsWith("teknoparrot://") || e.Args[0].StartsWith("tponline://")))
                 {
                     SendMessageToExistingInstance(e.Args[0]);
                 }
@@ -281,7 +291,7 @@ namespace TeknoParrotUi
                     }
                 }
 
-                if (!createdNew && e.Args.Length > 0 && e.Args[0].StartsWith("teknoparrot://"))
+                if (!createdNew && e.Args.Length > 0 && (e.Args[0].StartsWith("teknoparrot://") || e.Args[0].StartsWith("tponline://")))
                 {
                     Current.Shutdown(0);
                     return;
@@ -522,6 +532,9 @@ namespace TeknoParrotUi
             base.OnStartup(e);
 
             OAuthHelper = new OAuthHelper();
+
+            // Register tponline:// protocol so Discord join links can open the app
+            TPOConfig.RegisterProtocol();
 
             if (await OAuthHelper.EnsureAuthenticatedAsync(false))
             {
