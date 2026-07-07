@@ -82,6 +82,12 @@ namespace TeknoParrotUi
 
             // Register custom Windows message
             WM_PROTOCOLACTIVATION = Helpers.NativeMethods.RegisterWindowMessage("TeknoParrotUi_ProtocolActivation");
+
+            // Auto-open TPOnline tab when launched via CLI args or tponline:// deep link
+            if (Helpers.TPOConfig.IsConfigured)
+            {
+                BtnTPOnline2(null, null);
+            }
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -102,8 +108,22 @@ namespace TeknoParrotUi
                             string uri = System.Text.Encoding.Unicode.GetString(bytes);
 
                             // Process the protocol activation
-                            var app = (App)Application.Current;
-                            app.OAuthHelper.HandleCallback(uri);
+                            if (uri.StartsWith("tponline://", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // TPO deep link from Discord: open TPOnline tab with room context
+                                if (Helpers.TPOConfig.ParseDeepLink(uri))
+                                {
+                                    if (WindowState == WindowState.Minimized)
+                                        WindowState = WindowState.Normal;
+                                    Activate();
+                                    BtnTPOnline2(null, null);
+                                }
+                            }
+                            else
+                            {
+                                var app = (App)Application.Current;
+                                app.OAuthHelper.HandleCallback(uri);
+                            }
                         }
                     }
 
@@ -516,8 +536,69 @@ namespace TeknoParrotUi
             },
         };
 
+        // teknoparrot.com caches GitHub release info server-side and refreshes it
+        // periodically with an authenticated token, so clients don't burn through
+        // GitHub's anonymous API rate limit (60 req/hour per IP).
+        private const string UpdateServerBase = "https://teknoparrot.com/api/updates";
+        private static Dictionary<string, GithubRelease> _serverUpdateCache;
+        private static DateTime _serverUpdateCacheTime = DateTime.MinValue;
+
+        /// <summary>
+        /// Fetches release info for all components from teknoparrot.com in a single
+        /// request. The response payload per component is wire-compatible with
+        /// GitHub's releases API. Result is cached for 5 minutes.
+        /// </summary>
+        async Task<Dictionary<string, GithubRelease>> GetServerUpdates()
+        {
+            if (_serverUpdateCache != null && (DateTime.UtcNow - _serverUpdateCacheTime) < TimeSpan.FromMinutes(5))
+                return _serverUpdateCache;
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "TeknoParrot");
+                client.Timeout = TimeSpan.FromSeconds(15);
+
+                var response = await client.GetAsync($"{UpdateServerBase}/components");
+                response.EnsureSuccessStatusCode();
+
+                var body = await response.Content.ReadAsStringAsync();
+                var entries = JArray.Parse(body);
+                var updates = new Dictionary<string, GithubRelease>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (var entry in entries)
+                {
+                    var name = entry["component"]?.ToString();
+                    var release = entry["release"];
+                    if (string.IsNullOrEmpty(name) || release == null || release.Type == JTokenType.Null)
+                        continue;
+
+                    updates[name] = release.ToObject<GithubRelease>();
+                }
+
+                _serverUpdateCache = updates;
+                _serverUpdateCacheTime = DateTime.UtcNow;
+                return updates;
+            }
+        }
+
         async Task<GithubRelease> GetGithubRelease(UpdaterComponent component)
         {
+            // Try the teknoparrot.com update cache first - single request covers all
+            // components and download links are direct GitHub asset URLs.
+            try
+            {
+                var serverUpdates = await GetServerUpdates();
+                if (serverUpdates.TryGetValue(component.name, out var cachedRelease) && cachedRelease != null)
+                    return cachedRelease;
+
+                Debug.WriteLine($"Component {component.name} not found on update server, falling back to GitHub");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"TeknoParrot update server unavailable ({ex.Message}), falling back to GitHub API");
+            }
+
+            // Fallback: query GitHub directly (anonymous, rate-limited).
             using (var client = new HttpClient())
             {
 #if DEBUG
@@ -657,6 +738,9 @@ namespace TeknoParrotUi
 
             if (secondTime)
             {
+                // Re-fetch from the update server on post-update verification
+                _serverUpdateCache = null;
+
                 foreach (UpdaterComponent com in components)
                 {
                     com._localVersion = null;
