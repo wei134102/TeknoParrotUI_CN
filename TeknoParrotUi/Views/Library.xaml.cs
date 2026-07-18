@@ -2348,6 +2348,7 @@ namespace TeknoParrotUi.Views
                 { "Daytona3", "Daytona3" },
                 { "Daytona3NSE", "Daytona3NSE" },
                 { "DeadHeat", "DeadHeat" },
+                { "DeadHeatRiders", "DeadHeatRiders" },
                 { "DirtyDrivin", "DirtyDrivin" },
                 { "FarCryParadiseLost", "FarCryParadiseLost" },
                 { "GaelcoChampionshipTuningRace", "GaelcoChampionshipTuningRace" },
