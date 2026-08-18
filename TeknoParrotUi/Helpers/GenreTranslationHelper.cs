@@ -15,6 +15,7 @@ namespace TeknoParrotUi.Helpers
             { "Installed", nameof(Resources.AddGameInstalledFilter) },
             { "Not Installed", nameof(Resources.AddGameNotInstalledFilter) },
             { "Subscription", nameof(Resources.LibraryGenreSubscription) },
+            { "Konami Viper", nameof(Resources.LibraryGenreKonamiViper) },
             { "System 246/256", nameof(Resources.LibraryGenreSystem246) },
             { "System 357/359/369", nameof(Resources.LibraryGenreSystem357) },
             { "Triforce", nameof(Resources.LibraryGenreTriforce) },
@@ -39,7 +40,7 @@ namespace TeknoParrotUi.Helpers
 
             var orderedKeys = new List<string>
             {
-                "All", "Installed", "Subscription", "System 246/256", "System 357/359/369", "Triforce",
+                "All", "Installed", "Subscription", "Konami Viper", "System 246/256", "System 357/359/369", "Triforce",
                 "Action", "Card", "Compilation", "Fighting", "Flying",
                 "Platform", "Puzzle", "Racing", "Rhythm", "Shoot 'Em Up",
                 "Shooter", "Sports"
@@ -142,6 +143,12 @@ namespace TeknoParrotUi.Helpers
             {
                 bool is357 = emulatorType == Common.EmulatorType.RPCS3;
                 return is357;
+            }
+
+            if (internalGenreName == "Konami Viper")
+            {
+                bool isViper = emulatorType == Common.EmulatorType.TeknoViper;
+                return isViper;
             }
 
             bool matches = internalGenreName.Equals(gameGenre, StringComparison.OrdinalIgnoreCase);
