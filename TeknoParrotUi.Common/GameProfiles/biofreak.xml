@@ -7,19 +7,14 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>TeknoVegas</EmulationProfile>
-<<<<<<< HEAD
-	<GameProfileRevision>11</GameProfileRevision>
-=======
-	<GameProfileRevision>15</GameProfileRevision>
->>>>>>> 71d4aa63 (add crt shader option for vegas games)
+	<GameProfileRevision>9</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>TeknoVegas</EmulatorType>
 	<Is64Bit>true</Is64Bit>
-	<ExecutableName>gauntleg.zip</ExecutableName>
+	<ExecutableName>biofreak.zip</ExecutableName>
 	<ExecutableName2>*.chd</ExecutableName2>
 	<HasTwoExecutables>true</HasTwoExecutables>
 	<Patreon>true</Patreon>
-	<DevOnly>false</DevOnly>
 	<ConfigValues>
 		<FieldInformation>
 			<CategoryName>General</CategoryName>
@@ -143,8 +138,12 @@
 			</FieldOptions>
 		</FieldInformation>
 		<FieldInformation>
-<<<<<<< HEAD
-=======
+			<CategoryName>Audio</CategoryName>
+			<FieldName>Mute Audio</FieldName>
+			<FieldValue>0</FieldValue>
+			<FieldType>Bool</FieldType>
+		</FieldInformation>
+		<FieldInformation>
 			<CategoryName>Video</CategoryName>
 			<FieldName>CRT Shader</FieldName>
 			<FieldValue>None</FieldValue>
@@ -153,27 +152,13 @@
 				<string>None</string>
 				<string>Lottes</string>
 			</FieldOptions>
-		</FieldInformation>
+		</FieldInformation>s
 		<FieldInformation>
 			<CategoryName>Video</CategoryName>
 			<FieldName>Use Bezel</FieldName>
 			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
-			<Hint>Put either gauntleg.png or default.png into the bezels folder in the TeknoVegas folder. Only enabled in fullscreen mode.</Hint>
-		</FieldInformation>
-		<FieldInformation>
-			<CategoryName>Video</CategoryName>
-			<FieldName>Show Performance Overlay</FieldName>
-			<FieldValue>0</FieldValue>
-			<FieldType>Bool</FieldType>
-			<Hint>Display performance info for reporting slowdowns.</Hint>
-		</FieldInformation>
-		<FieldInformation>
->>>>>>> 71d4aa63 (add crt shader option for vegas games)
-			<CategoryName>Audio</CategoryName>
-			<FieldName>Mute Audio</FieldName>
-			<FieldValue>0</FieldValue>
-			<FieldType>Bool</FieldType>
+			<Hint>Put either biofreak.png or default.png into the bezels folder in the TeknoViper folder. Only enabled in fullscreen mode.</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>Storage</CategoryName>
@@ -184,9 +169,8 @@
 		<FieldInformation>
 			<CategoryName>Textures</CategoryName>
 			<FieldName>Load Texture Packs</FieldName>
-			<FieldValue>0</FieldValue>
+			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
-			<Hint>Will replace textures during runtime with custom ones you supplied. Can be expensive to enable CPU wise.</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>Textures</CategoryName>
@@ -228,7 +212,6 @@
 			<FieldName>Dump Textures</FieldName>
 			<FieldValue>0</FieldValue>
 			<FieldType>Bool</FieldType>
-			<Hint>Save every texture the game loads into the texture dump root folder, for editing and reapplying via texture-packs</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>Textures</CategoryName>
@@ -256,7 +239,7 @@
 		<FieldInformation>
 			<CategoryName>Network</CategoryName>
 			<FieldName>Network Port</FieldName>
-			<FieldValue>29971</FieldValue>
+			<FieldValue>0</FieldValue>
 			<FieldType>Numeric</FieldType>
 			<FieldMin>0</FieldMin>
 			<FieldMax>65535</FieldMax>
@@ -272,7 +255,7 @@
 		<FieldInformation>
 			<CategoryName>Network</CategoryName>
 			<FieldName>Network Diagnostics</FieldName>
-			<FieldValue>0</FieldValue>
+			<FieldValue>1</FieldValue>
 			<FieldType>Bool</FieldType>
 			<Hint>Print live peer counts and a final per-peer wire report to the run log.</Hint>
 		</FieldInformation>
@@ -357,78 +340,6 @@
 		<JoystickButtons>
 			<ButtonName>Player 2 Button 3</ButtonName>
 			<InputMapping>P2Button3</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Coin</ButtonName>
-			<InputMapping>JvsTwoCoin1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Start</ButtonName>
-			<InputMapping>JvsTwoP1ButtonStart</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Up</ButtonName>
-			<InputMapping>JvsTwoP1ButtonUp</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Down</ButtonName>
-			<InputMapping>JvsTwoP1ButtonDown</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Left</ButtonName>
-			<InputMapping>JvsTwoP1ButtonLeft</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Right</ButtonName>
-			<InputMapping>JvsTwoP1ButtonRight</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Button 1</ButtonName>
-			<InputMapping>JvsTwoP1Button1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Button 2</ButtonName>
-			<InputMapping>JvsTwoP1Button2</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 3 Button 3</ButtonName>
-			<InputMapping>JvsTwoP1Button3</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Coin</ButtonName>
-			<InputMapping>JvsTwoCoin2</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Start</ButtonName>
-			<InputMapping>JvsTwoP2ButtonStart</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Up</ButtonName>
-			<InputMapping>JvsTwoP2ButtonUp</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Down</ButtonName>
-			<InputMapping>JvsTwoP2ButtonDown</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Left</ButtonName>
-			<InputMapping>JvsTwoP2ButtonLeft</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Right</ButtonName>
-			<InputMapping>JvsTwoP2ButtonRight</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Button 1</ButtonName>
-			<InputMapping>JvsTwoP2Button1</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Button 2</ButtonName>
-			<InputMapping>JvsTwoP2Button2</InputMapping>
-		</JoystickButtons>
-		<JoystickButtons>
-			<ButtonName>Player 4 Button 3</ButtonName>
-			<InputMapping>JvsTwoP2Button3</InputMapping>
 		</JoystickButtons>
 	</JoystickButtons>
 </GameProfile>
