@@ -934,6 +934,141 @@ namespace TeknoParrotUi.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string AnnouncementClose {
+            get {
+                return ResourceManager.GetString("AnnouncementClose", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Close this bulletin to keep using TeknoParrot..
+        /// </summary>
+        public static string AnnouncementCloseHint {
+            get {
+                return ResourceManager.GetString("AnnouncementCloseHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to This page could not be loaded here. Open it in your browser, or close this bulletin to keep using TeknoParrot..
+        /// </summary>
+        public static string AnnouncementLoadError {
+            get {
+                return ResourceManager.GetString("AnnouncementLoadError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Let&apos;s open this story in your browser..
+        /// </summary>
+        public static string AnnouncementLoadErrorTitle {
+            get {
+                return ResourceManager.GetString("AnnouncementLoadErrorTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Loading the latest bulletin.
+        /// </summary>
+        public static string AnnouncementLoading {
+            get {
+                return ResourceManager.GetString("AnnouncementLoading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting to the news feed....
+        /// </summary>
+        public static string AnnouncementLoadingHint {
+            get {
+                return ResourceManager.GetString("AnnouncementLoadingHint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Maximize / restore.
+        /// </summary>
+        public static string AnnouncementMaximize {
+            get {
+                return ResourceManager.GetString("AnnouncementMaximize", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to TEKNOPARROT / NEWSROOM.
+        /// </summary>
+        public static string AnnouncementNetwork {
+            get {
+                return ResourceManager.GetString("AnnouncementNetwork", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Open in browser.
+        /// </summary>
+        public static string AnnouncementOpenBrowser {
+            get {
+                return ResourceManager.GetString("AnnouncementOpenBrowser", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Could not open your browser: {0}.
+        /// </summary>
+        public static string AnnouncementOpenError {
+            get {
+                return ResourceManager.GetString("AnnouncementOpenError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Try again.
+        /// </summary>
+        public static string AnnouncementRetry {
+            get {
+                return ResourceManager.GetString("AnnouncementRetry", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Subscribe.
+        /// </summary>
+        public static string AnnouncementSubscribe {
+            get {
+                return ResourceManager.GetString("AnnouncementSubscribe", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Your subscription helps bring more games to TeknoParrot..
+        /// </summary>
+        public static string AnnouncementSupportDescription {
+            get {
+                return ResourceManager.GetString("AnnouncementSupportDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to KEEP THE ARCADE ALIVE..
+        /// </summary>
+        public static string AnnouncementSupportTitle {
+            get {
+                return ResourceManager.GetString("AnnouncementSupportTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to TeknoParrot News.
+        /// </summary>
+        public static string AnnouncementTitle {
+            get {
+                return ResourceManager.GetString("AnnouncementTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Error loading theme 的本地化字符串。
         /// </summary>
         public static string AppErrorLoadingTheme {
@@ -1358,7 +1493,71 @@ namespace TeknoParrotUi.Properties {
         }
         
         /// <summary>
+        /// <summary>
         ///   查找类似 JVS Status 的本地化字符串。
+        /// </summary>
+        public static string DeactivationBadReply {
+            get {
+                return ResourceManager.GetString("DeactivationBadReply", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The activation server rejected deactivation. This serial may still be in its 30-day cooldown..
+        /// </summary>
+        public static string DeactivationCooldown {
+            get {
+                return ResourceManager.GetString("DeactivationCooldown", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The activation server could not be reached. The local activation was retained..
+        /// </summary>
+        public static string DeactivationNoConnection {
+            get {
+                return ResourceManager.GetString("DeactivationNoConnection", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to BudgieLoader did not return a valid deactivation result. The local activation was retained..
+        /// </summary>
+        public static string DeactivationNoResult {
+            get {
+                return ResourceManager.GetString("DeactivationNoResult", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to BudgieLoader failed with exit code {0}. The local activation was retained..
+        /// </summary>
+        public static string DeactivationProcessFailed {
+            get {
+                return ResourceManager.GetString("DeactivationProcessFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The activation server rejected deactivation with code {0}. The local activation was retained..
+        /// </summary>
+        public static string DeactivationRejected {
+            get {
+                return ResourceManager.GetString("DeactivationRejected", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The activation server did not recognize this activation. The local activation was retained..
+        /// </summary>
+        public static string DeactivationUnknownSerial {
+            get {
+                return ResourceManager.GetString("DeactivationUnknownSerial", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to JVS Status.
         /// </summary>
         public static string DebugJVSStatus {
             get {
@@ -3927,6 +4126,55 @@ namespace TeknoParrotUi.Properties {
         
         /// <summary>
         ///   查找类似 About 的本地化字符串。
+        /// </summary>
+        public static string LocalActivationChanged {
+            get {
+                return ResourceManager.GetString("LocalActivationChanged", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The local subscription key could not be removed. Check your permissions and try again..
+        /// </summary>
+        public static string LocalActivationRemovalFailed {
+            get {
+                return ResourceManager.GetString("LocalActivationRemovalFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0}
+        ///
+        ///If this is not your key or it has expired, do you want to delete it from this machine?
+        ///
+        ///Only the key saved on this PC will be removed. This will not release an activation on the server or reset the 30-day cooldown..
+        /// </summary>
+        public static string LocalActivationRemovalPrompt {
+            get {
+                return ResourceManager.GetString("LocalActivationRemovalPrompt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove local subscription key?.
+        /// </summary>
+        public static string LocalActivationRemovalTitle {
+            get {
+                return ResourceManager.GetString("LocalActivationRemovalTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The local subscription key was removed. Select or enter your own valid key and try registering again..
+        /// </summary>
+        public static string LocalActivationRemoved {
+            get {
+                return ResourceManager.GetString("LocalActivationRemoved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to About.
         /// </summary>
         public static string MainAbout {
             get {
@@ -7451,114 +7699,6 @@ namespace TeknoParrotUi.Properties {
             }
         }
         
-        public static string AnnouncementTitle {
-            get { return ResourceManager.GetString("AnnouncementTitle", resourceCulture); }
-        }
-
-        public static string AnnouncementSubscribe {
-            get { return ResourceManager.GetString("AnnouncementSubscribe", resourceCulture); }
-        }
-
-        public static string AnnouncementClose {
-            get { return ResourceManager.GetString("AnnouncementClose", resourceCulture); }
-        }
-
-        public static string AnnouncementLoadError {
-            get { return ResourceManager.GetString("AnnouncementLoadError", resourceCulture); }
-        }
-
-        public static string AnnouncementOpenError {
-            get { return ResourceManager.GetString("AnnouncementOpenError", resourceCulture); }
-        }
-
-        public static string AnnouncementNetwork {
-            get { return ResourceManager.GetString("AnnouncementNetwork", resourceCulture); }
-        }
-
-        public static string AnnouncementOpenBrowser {
-            get { return ResourceManager.GetString("AnnouncementOpenBrowser", resourceCulture); }
-        }
-
-        public static string AnnouncementLoading {
-            get { return ResourceManager.GetString("AnnouncementLoading", resourceCulture); }
-        }
-
-        public static string AnnouncementLoadingHint {
-            get { return ResourceManager.GetString("AnnouncementLoadingHint", resourceCulture); }
-        }
-
-        public static string AnnouncementLoadErrorTitle {
-            get { return ResourceManager.GetString("AnnouncementLoadErrorTitle", resourceCulture); }
-        }
-
-        public static string AnnouncementRetry {
-            get { return ResourceManager.GetString("AnnouncementRetry", resourceCulture); }
-        }
-
-        public static string AnnouncementSupportTitle {
-            get { return ResourceManager.GetString("AnnouncementSupportTitle", resourceCulture); }
-        }
-
-        public static string AnnouncementSupportDescription {
-            get { return ResourceManager.GetString("AnnouncementSupportDescription", resourceCulture); }
-        }
-
-        public static string AnnouncementCloseHint {
-            get { return ResourceManager.GetString("AnnouncementCloseHint", resourceCulture); }
-        }
-
-        public static string AnnouncementMaximize {
-            get { return ResourceManager.GetString("AnnouncementMaximize", resourceCulture); }
-        }
-
-        public static string LocalActivationRemovalTitle {
-            get { return ResourceManager.GetString("LocalActivationRemovalTitle", resourceCulture); }
-        }
-
-        public static string LocalActivationRemovalPrompt {
-            get { return ResourceManager.GetString("LocalActivationRemovalPrompt", resourceCulture); }
-        }
-
-        public static string LocalActivationRemoved {
-            get { return ResourceManager.GetString("LocalActivationRemoved", resourceCulture); }
-        }
-
-        public static string LocalActivationChanged {
-            get { return ResourceManager.GetString("LocalActivationChanged", resourceCulture); }
-        }
-
-        public static string LocalActivationRemovalFailed {
-            get { return ResourceManager.GetString("LocalActivationRemovalFailed", resourceCulture); }
-        }
-
-        public static string DeactivationProcessFailed {
-            get { return ResourceManager.GetString("DeactivationProcessFailed", resourceCulture); }
-        }
-
-        public static string DeactivationNoResult {
-            get { return ResourceManager.GetString("DeactivationNoResult", resourceCulture); }
-        }
-
-        public static string DeactivationNoConnection {
-            get { return ResourceManager.GetString("DeactivationNoConnection", resourceCulture); }
-        }
-
-        public static string DeactivationBadReply {
-            get { return ResourceManager.GetString("DeactivationBadReply", resourceCulture); }
-        }
-
-        public static string DeactivationUnknownSerial {
-            get { return ResourceManager.GetString("DeactivationUnknownSerial", resourceCulture); }
-        }
-
-        public static string DeactivationCooldown {
-            get { return ResourceManager.GetString("DeactivationCooldown", resourceCulture); }
-        }
-
-        public static string DeactivationRejected {
-            get { return ResourceManager.GetString("DeactivationRejected", resourceCulture); }
-        }
-
         /// <summary>
         ///   查找类似 Yes 的本地化字符串。
         /// </summary>
