@@ -169,7 +169,7 @@ namespace TeknoParrotUi.Views
                 {
                     var firstItem = (ListBoxItem)stockGameList.SelectedItems[0];
                     _selected = (GameProfile)firstItem.Tag;
-                    Library.UpdateIcon(_selected.IconName.Split('/')[1], ref gameIcon);
+                    Library.UpdateIcon(_selected.IconName.Split('/')[1], _selected.EmulatorType, ref gameIcon);
                 }
 
                 return;
