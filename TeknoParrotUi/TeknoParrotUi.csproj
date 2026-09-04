@@ -307,9 +307,15 @@
     <Compile Include="Converters\UIConverters.cs" />
     <Compile Include="Converters\VirtualKeyToHex.cs" />
     <Compile Include="GameProfileLoader.cs" />
+    <Compile Include="Helpers\AnnouncementService.cs" />
+    <Compile Include="Helpers\ParrotDataSerializer.cs" />
     <Compile Include="Helpers\DatXmlParser.cs" />
+    <Compile Include="Helpers\BudgieDeactivation.cs" />
+    <Compile Include="Helpers\LocalActivationRecovery.cs" />
     <Compile Include="Helpers\DllArchitectureChecker.cs" />
     <Compile Include="Helpers\GameErrorMessage.cs" />
+    <Compile Include="Helpers\Model1FfbDeviceProbe.cs" />
+    <Compile Include="Helpers\ViperFfbDeviceProbe.cs" />
     <Compile Include="Helpers\GenreTranslationHelper.cs" />
     <Compile Include="Helpers\IniFile.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
@@ -473,6 +479,9 @@
     <Compile Include="Views\GitHubUpdates.xaml.cs">
       <DependentUpon>GitHubUpdates.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AnnouncementWindow.xaml.cs">
+      <DependentUpon>AnnouncementWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChangelogView.xaml.cs">
       <DependentUpon>ChangelogView.xaml</DependentUpon>
     </Compile>
@@ -599,6 +608,10 @@
     <Page Include="Views\GitHubUpdates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AnnouncementWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ChangelogView.xaml">
       <SubType>Designer</SubType>

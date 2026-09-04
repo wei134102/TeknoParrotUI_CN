@@ -21,6 +21,8 @@ namespace TeknoParrotUi.Views
 {
     public partial class SetupWizard : UserControl
     {
+        private const string BudgieLoaderPath = @".\TeknoParrot\BudgieLoader.exe";
+
         private ContentControl _contentControl;
         private Library _library;
         private int _currentStep = 0;
@@ -603,6 +605,7 @@ namespace TeknoParrotUi.Views
             {
                 SerialOutputList.Items.Add(string.Format(TeknoParrotUi.Properties.Resources.SetupWizardError, ex.Message));
                 SerialStatusField.Text = string.Format(TeknoParrotUi.Properties.Resources.SetupWizardError, ex.Message);
+                OfferLocalActivationRecovery(ex);
             }
             finally
             {
@@ -650,6 +653,7 @@ namespace TeknoParrotUi.Views
             {
                 SerialOutputList.Items.Add(string.Format(TeknoParrotUi.Properties.Resources.SetupWizardError, ex.Message));
                 SerialStatusField.Text = string.Format(TeknoParrotUi.Properties.Resources.SetupWizardError, ex.Message);
+                OfferLocalActivationRecovery(ex);
             }
             finally
             {
@@ -657,48 +661,23 @@ namespace TeknoParrotUi.Views
             }
         }
 
+        private void OfferLocalActivationRecovery(Exception error)
+        {
+            if (LocalActivationRecovery.TryHandle(Window.GetWindow(this), error, out var removed) && removed)
+            {
+                SerialStatusField.Text = TeknoParrotUi.Properties.Resources.LocalActivationRemoved;
+                SerialOutputList.Items.Add(SerialStatusField.Text);
+            }
+        }
+
         private Task DeregisterCurrentKey()
         {
             return Task.Run(() =>
             {
-                var process = new Process();
-                var startInfo = new ProcessStartInfo
+                BudgieDeactivation.Deactivate(BudgieLoaderPath, line =>
                 {
-                    FileName = ".\\ElfLdr2\\BudgieLoader.exe",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    Arguments = "-deactivate"
-                };
-
-                process.StartInfo = startInfo;
-                process.OutputDataReceived += (s, e) =>
-                {
-                    if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        Dispatcher.Invoke(() => SerialOutputList.Items.Add(e.Data));
-                    }
-                };
-                process.ErrorDataReceived += (s, e) =>
-                {
-                    if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        Dispatcher.Invoke(() => SerialOutputList.Items.Add(string.Format(TeknoParrotUi.Properties.Resources.SetupWizardError, e.Data)));
-                    }
-                };
-
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-
-                var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TeknoGods\TeknoParrot", true);
-                if (key != null)
-                {
-                    key.DeleteValue("PatreonSerialKey", false);
-                    key.Close();
-                }
+                    Dispatcher.Invoke(() => SerialOutputList.Items.Add(line));
+                });
             });
         }
 
@@ -709,7 +688,7 @@ namespace TeknoParrotUi.Views
                 var process = new Process();
                 var startInfo = new ProcessStartInfo
                 {
-                    FileName = ".\\ElfLdr2\\BudgieLoader.exe",
+                    FileName = BudgieLoaderPath,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
@@ -740,7 +719,7 @@ namespace TeknoParrotUi.Views
             });
         }
 
-        private void FinishSetup()
+        private async void FinishSetup()
         {
             // Save all settings
             JoystickHelper.Serialize();
@@ -754,6 +733,7 @@ namespace TeknoParrotUi.Views
 
             // Show a welcome message
             Application.Current.Windows.OfType<MainWindow>().Single().ShowMessage(TeknoParrotUi.Properties.Resources.SetupWizardSetupCompleteMessage);
+            await Application.Current.Windows.OfType<MainWindow>().Single().CheckForAnnouncementAsync();
         }
 
         public void ReturnFromButtonConfig()

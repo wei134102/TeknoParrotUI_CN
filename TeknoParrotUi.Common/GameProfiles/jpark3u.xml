@@ -7,7 +7,7 @@
 	<ExtraParameters></ExtraParameters>
 	<TestMenuExtraParameters></TestMenuExtraParameters>
 	<EmulationProfile>TeknoViper</EmulationProfile>
-	<GameProfileRevision>8</GameProfileRevision>
+	<GameProfileRevision>14</GameProfileRevision>
 	<HasSeparateTestMode>false</HasSeparateTestMode>
 	<EmulatorType>TeknoViper</EmulatorType>
 	<Is64Bit>true</Is64Bit>
@@ -36,6 +36,45 @@
 			</FieldOptions>
 		</FieldInformation>
 		<FieldInformation>
+			<CategoryName>General</CategoryName>
+			<FieldName>Force Feedback Device</FieldName>
+			<FieldValue>off</FieldValue>
+			<FieldType>DynamicDropdown</FieldType>
+			<Hint>Select Player 1 recoil output through an SDL3 wheel or controller. Requires TeknoViper\viperhaptic.exe.</Hint>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>General</CategoryName>
+			<FieldName>Player 2 Force Feedback Device</FieldName>
+			<FieldValue>off</FieldValue>
+			<FieldType>DynamicDropdown</FieldType>
+			<Hint>Select Player 2 recoil output through an SDL3 wheel or controller. Requires TeknoViper\viperhaptic.exe.</Hint>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>VR</CategoryName>
+			<FieldName>Enable VR</FieldName>
+			<FieldValue>0</FieldValue>
+			<FieldType>Bool</FieldType>
+			<Hint>Present the game through OpenXR. The desktop window remains available as a spectator view.</Hint>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>VR</CategoryName>
+			<FieldName>Use VR Controls</FieldName>
+			<FieldValue>1</FieldValue>
+			<FieldType>Bool</FieldType>
+			<Hint>When VR is enabled, use OpenXR headset controllers. Turn this off to keep using TPUI shared-pipe or Xbox controls in VR.</Hint>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>VR</CategoryName>
+			<FieldName>VR Depth</FieldName>
+			<FieldValue>150</FieldValue>
+			<FieldType>Slider</FieldType>
+			<FieldMin>100</FieldMin>
+			<FieldMax>200</FieldMax>
+			<FieldOptions />
+			<FieldStep>5</FieldStep>
+			<Hint>Adjust OpenXR stereo depth from 100% to 200%. Only used when VR is enabled.</Hint>
+		</FieldInformation>
+		<FieldInformation>
 			<CategoryName>Video</CategoryName>
 			<FieldName>DisplayMode</FieldName>
 			<FieldValue>Fullscreen</FieldValue>
@@ -44,6 +83,13 @@
 				<string>Windowed</string>
 				<string>Fullscreen</string>
 			</FieldOptions>
+		</FieldInformation>
+		<FieldInformation>
+			<CategoryName>Video</CategoryName>
+			<FieldName>Stretch to Fullscreen</FieldName>
+			<FieldValue>0</FieldValue>
+			<FieldType>Bool</FieldType>
+			<Hint>Stretch fullscreen output to fill the display, ignoring the game's original aspect ratio.</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>Video</CategoryName>
@@ -64,6 +110,7 @@
 			<FieldType>Dropdown</FieldType>
 			<FieldOptions>
 				<string>original</string>
+				<string>nearest</string>
 				<string>trilinear</string>
 				<string>max</string>
 			</FieldOptions>
@@ -74,6 +121,7 @@
 			<FieldValue>bicubic</FieldValue>
 			<FieldType>Dropdown</FieldType>
 			<FieldOptions>
+				<string>nearest</string>
 				<string>linear</string>
 				<string>bicubic</string>
 			</FieldOptions>
@@ -86,7 +134,9 @@
 			<FieldOptions>
 				<string>None</string>
 				<string>Lottes</string>
+				<string>Lottes Downsample</string>
 			</FieldOptions>
+			<Hint>The downsample option will scale down the 2x/4x/8x image down to CRT res before applying the shader.</Hint>
 		</FieldInformation>
 		<FieldInformation>
 			<CategoryName>Video</CategoryName>

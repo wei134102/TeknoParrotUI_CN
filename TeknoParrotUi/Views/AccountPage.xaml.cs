@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using TeknoParrotUi.Common;
 using MaterialDesignThemes.Wpf;
 using System.ComponentModel;
+using TeknoParrotUi.Helpers;
 using TeknoParrotUi.Properties;
 
 namespace TeknoParrotUi.Views
@@ -293,7 +294,8 @@ namespace TeknoParrotUi.Views
 
             var titleTextBlock = new TextBlock
             {
-                Text = "Registration Progress",
+                Text = TeknoParrotUi.Properties.Resources.AccountPageRegistrationProgress,
+                TextWrapping = TextWrapping.Wrap,
                 Style = Application.Current.FindResource("MaterialDesignHeadline4TextBlock") as Style,
                 Margin = new Thickness(0, 0, 0, 16)
             };
@@ -302,6 +304,7 @@ namespace TeknoParrotUi.Views
             var statusTextBlock = new TextBlock
             {
                 Text = TeknoParrotUi.Properties.Resources.AccountPageInitializing,
+                TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 0, 16)
             };
             Grid.SetRow(statusTextBlock, 1);
@@ -381,57 +384,39 @@ namespace TeknoParrotUi.Views
             }
             catch (Exception ex)
             {
-                outputTextBox.AppendText($"Error: {ex.Message}" + Environment.NewLine);
-                MessageBox.Show(string.Format(TeknoParrotUi.Properties.Resources.AccountPageErrorDuringRegistration, ex.Message), TeknoParrotUi.Properties.Resources.AccountPageRegistrationError,
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                statusTextBlock.Text = TeknoParrotUi.Properties.Resources.AccountPageRegistrationError;
+                outputTextBox.AppendText($"{TeknoParrotUi.Properties.Resources.Error}: {ex.Message}" + Environment.NewLine);
+                if (LocalActivationRecovery.TryHandle(Window.GetWindow(this), ex, out var removed))
+                {
+                    if (removed)
+                    {
+                        // Recreate the labels from the local state without changing the chosen paid key.
+                        var serials = SerialsComboBox.Items.Cast<SerialViewModel>()
+                            .Select(s => new SerialViewModel { Serial = s.Serial }).ToList();
+                        SerialsComboBox.ItemsSource = serials;
+                        SerialsComboBox.SelectedItem = serials.FirstOrDefault(s => s.Serial == selectedSerial.Serial);
+                        RegisterSerialButton.Content = TeknoParrotUi.Properties.Resources.AccountPageRegisterButton;
+                        statusTextBlock.Text = TeknoParrotUi.Properties.Resources.LocalActivationRemoved;
+                        outputTextBox.AppendText(statusTextBlock.Text + Environment.NewLine);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(string.Format(TeknoParrotUi.Properties.Resources.AccountPageErrorDuringRegistration, ex.Message), TeknoParrotUi.Properties.Resources.AccountPageRegistrationError,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                outputTextBox.ScrollToEnd();
                 closeButton.Visibility = Visibility.Visible;
             }
             finally
             {
-                RegisterSerialButton.IsEnabled = true;
+                RegisterSerialButton.IsEnabled = SerialsComboBox.SelectedItem is SerialViewModel current && current.CanSelect;
             }
         }
 
         private void DeregisterCurrentKey(Action<string> outputCallback)
         {
-            var process = new Process();
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = ".\\TeknoParrot\\BudgieLoader.exe",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                Arguments = "-deactivate"
-            };
-
-            process.StartInfo = startInfo;
-            process.OutputDataReceived += (s, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    outputCallback(e.Data);
-                }
-            };
-            process.ErrorDataReceived += (s, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    outputCallback($"Error: {e.Data}");
-                }
-            };
-
-            process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-
-            var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\TeknoGods\TeknoParrot", true);
-            if (key != null)
-            {
-                key.DeleteValue("PatreonSerialKey", false);
-                key.Close();
-            }
+            BudgieDeactivation.Deactivate(".\\TeknoParrot\\BudgieLoader.exe", outputCallback);
         }
 
         private void RegisterNewKey(string serialKey, Action<string> outputCallback)
