@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using TeknoParrotUi.Common;
@@ -26,11 +26,35 @@ namespace TeknoParrotUi.Helpers
             EmulatorType? emulatorType,
             string diagnostics)
         {
-            if (emulatorType == EmulatorType.TeknoModel1 && errorCode != 0)
+            if (emulatorType == EmulatorType.TeknoS21)
+            {
+                if (errorCode == 0) return;
+                var summary = "TeknoS21 could not start or exited unexpectedly.";
+                summary += Environment.NewLine + string.Format("Exit code: 0x{0:X8}", errorCode);
+                if (!string.IsNullOrWhiteSpace(diagnostics))
+                {
+                    var failure = diagnostics.LastIndexOf("TeknoS21 failed while ", StringComparison.Ordinal);
+                    summary += Environment.NewLine + Environment.NewLine +
+                               (failure >= 0 ? diagnostics.Substring(failure) : diagnostics);
+                }
+                else
+                {
+                    summary += Environment.NewLine + Environment.NewLine +
+                        (unchecked((uint)errorCode) == 0xC0000005u
+                            ? "The emulator encountered a memory access violation."
+                            : "The emulator exited before it could log the cause.") +
+                        Environment.NewLine + "Send this message and any TeknoS21-startup.log from the TeknoS21 folder, " +
+                        "with the game name and GPU driver version. A crash dump may be needed.";
+                }
+                MessageBox.Show(summary, "TeknoS21 error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if ((emulatorType == EmulatorType.TeknoVUnit || emulatorType == EmulatorType.TeknoHornet || emulatorType == EmulatorType.TeknoModel1 || emulatorType == EmulatorType.TeknoModel2 || emulatorType == EmulatorType.TeknoZeus || emulatorType == EmulatorType.TeknoHNG64 || emulatorType == EmulatorType.TeknoCobra) && errorCode != 0)
             {
                 var summary = errorCode == 2
-                    ? "TeknoModel1 received an invalid launch configuration."
-                    : "TeknoModel1 could not start or exited unexpectedly.";
+                    ? $"{emulatorType} received an invalid launch configuration."
+                    : $"{emulatorType} could not start or exited unexpectedly.";
                 if (!string.IsNullOrWhiteSpace(diagnostics))
                 {
                     summary += Environment.NewLine + Environment.NewLine + diagnostics;
@@ -44,6 +68,45 @@ namespace TeknoParrotUi.Helpers
                 return;
             }
 
+            if (emulatorType == EmulatorType.TeknoGClub && errorCode != 0)
+            {
+                MessageBox.Show((errorCode == 5 ? "TeknoGClub could not authorize the stored TeknoParrot serial."
+                    : "TeknoGClub could not launch or continue. Check the selected ROM ZIP and emulator settings.")
+                    + Environment.NewLine + diagnostics);
+                return;
+            }
+            if (emulatorType == EmulatorType.TeknoS23 && errorCode != 0)
+            {
+                var summary = errorCode == 5 ? "TeknoS23 could not authorize the stored TeknoParrot serial."
+                    : errorCode == 64 ? "This game is available in TeknoS23 developer builds only."
+                    : "TeknoS23 could not launch or continue the game. Check the selected ROM ZIP and emulator settings.";
+                MessageBox.Show(summary);
+                return;
+            }
+            if (emulatorType == EmulatorType.TeknoS22 && errorCode != 0)
+            {
+                var summary = errorCode == 63 ? "TeknoS22 could not authorize the stored TeknoParrot serial."
+                    : errorCode == 64 ? "This game is available in TeknoS22 developer builds only."
+                    : "TeknoS22 could not launch or continue the game. Check the selected ROM ZIP and emulator settings.";
+                MessageBox.Show(summary);
+                return;
+            }
+            if (emulatorType == EmulatorType.TeknoAGX && errorCode != 0)
+            {
+                MessageBox.Show(errorCode == 12
+                    ? "TeknoAGX could not authorize the stored TeknoParrot serial. Activate your license through ElfLoader."
+                    : "TeknoAGX could not launch or continue. Check the selected ROM ZIP, CHD and emulator error message.");
+                return;
+            }
+            if (emulatorType == EmulatorType.TeknoM2 && errorCode != 0)
+            {
+                var summary = errorCode == 12 ? "TeknoM2 could not authorize the stored TeknoParrot serial. Activate it through ElfLoader."
+                    : errorCode == 3 ? "This game is disabled in this TeknoM2 build."
+                    : errorCode == 2 ? "TeknoM2 received an invalid launch configuration."
+                    : "TeknoM2 could not launch or continue. Check the selected ROM ZIP, CHD and emulator settings.";
+                MessageBox.Show(summary + Environment.NewLine + diagnostics);
+                return;
+            }
             var viperVegas = emulatorType == EmulatorType.TeknoViper ||
                              emulatorType == EmulatorType.TeknoVegas;
             if (viperVegas && errorCode != 0)

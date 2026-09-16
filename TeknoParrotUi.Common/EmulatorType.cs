@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +39,19 @@ namespace TeknoParrotUi.Common
         // Konami Viper
         TeknoViper,
         // Sega Model 1
-        TeknoModel1
+        TeknoModel1,
+        TeknoZeus,
+        TeknoModel2,
+        TeknoCobra,
+        TeknoHNG64,
+        TeknoHornet,
+        TeknoS22,
+        TeknoAGX,
+        TeknoVUnit,
+        TeknoM2,
+        TeknoS23,
+        TeknoGClub,
+        TeknoAir,
+        TeknoS21
     }
 }

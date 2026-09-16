@@ -37,8 +37,15 @@ namespace TeknoParrotUi.UserControls
             GamePathBox.Text = _gameProfile.GamePath;
             GamePathBox2.Text = _gameProfile.GamePath2;
 
-            PopulateModel1FfbDevices(gameProfile);
+            PopulateModelFfbDevices(gameProfile);
+            PopulateHng64FfbDevices(gameProfile);
             PopulateViperFfbDevices(gameProfile);
+            PopulateZeusFfbDevices(gameProfile);
+            PopulateVUnitFfbDevices(gameProfile);
+            PopulateHornetFfbDevices(gameProfile);
+            PopulateCobraFfbDevices(gameProfile);
+            PopulateVegasFfbDevices(gameProfile);
+            PopulateGClubFfbDevices(gameProfile);
             GameSettingsList.ItemsSource = gameProfile.ConfigValues;
             _contentControl = contentControl;
             _library = library;
@@ -64,8 +71,11 @@ namespace TeknoParrotUi.UserControls
                 if (!string.IsNullOrEmpty(_gameProfile.ExecutableName2))
                     exeName = $" ({_gameProfile.ExecutableName2})".Replace(";", Properties.Resources.GameSettingsExecutableOr);
 
-                var secondPathLabel = _gameProfile.EmulatorType == EmulatorType.TeknoVegas ||
-                                      _gameProfile.EmulatorType == EmulatorType.TeknoViper
+                var secondPathLabel = (_gameProfile.EmulatorType == EmulatorType.TeknoAir || _gameProfile.EmulatorType == EmulatorType.TeknoVegas) ||
+                                      (_gameProfile.EmulatorType == EmulatorType.TeknoViper || _gameProfile.EmulatorType == EmulatorType.TeknoM2) ||
+                                      _gameProfile.EmulatorType == EmulatorType.TeknoAGX ||
+                                      (_gameProfile.EmulatorType == EmulatorType.TeknoHornet || _gameProfile.EmulatorType == EmulatorType.TeknoVUnit) || _gameProfile.EmulatorType == EmulatorType.TeknoCobra ||
+                                      _gameProfile.EmulatorType == EmulatorType.TeknoZeus
                     ? "Game CHD"
                     : Properties.Resources.GameSettingsSecondGameExecutableLabel;
                 GameExecutable2Text.Text = $"{secondPathLabel}{exeName}:";
@@ -80,9 +90,10 @@ namespace TeknoParrotUi.UserControls
             }
         }
 
-        private static void PopulateModel1FfbDevices(GameProfile gameProfile)
+        private static void PopulateModelFfbDevices(GameProfile gameProfile)
         {
-            if (gameProfile.EmulatorType != EmulatorType.TeknoModel1)
+            if (gameProfile.EmulatorType != EmulatorType.TeknoModel1 &&
+                gameProfile.EmulatorType != EmulatorType.TeknoModel2)
                 return;
 
             var field = gameProfile.ConfigValues?.Find(cv =>
@@ -91,7 +102,8 @@ namespace TeknoParrotUi.UserControls
             if (field == null)
                 return;
 
-            field.DynamicOptions = Model1FfbDeviceProbe.GetDevices();
+            field.DynamicOptions = gameProfile.EmulatorType == EmulatorType.TeknoModel2
+                ? Model2FfbDeviceProbe.GetDevices() : Model1FfbDeviceProbe.GetDevices();
             if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
                 !string.IsNullOrWhiteSpace(field.FieldValue))
             {
@@ -100,6 +112,35 @@ namespace TeknoParrotUi.UserControls
                     DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
                     Value = field.FieldValue
                 });
+            }
+        }
+
+        private static void PopulateHng64FfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoHNG64)
+                return;
+            var fields = gameProfile.ConfigValues?.Where(cv =>
+                (cv.FieldName == "Force Feedback Device" ||
+                 cv.FieldName == "Player 2 Force Feedback Device" ||
+                 cv.FieldName == "Player 3 Force Feedback Device") &&
+                cv.FieldType == FieldType.DynamicDropdown).ToList();
+            if (fields == null || fields.Count == 0)
+                return;
+            var devices = Hng64FfbDeviceProbe.GetDevices();
+            foreach (var field in fields)
+            {
+                field.DynamicOptions = devices.Select(option => new DynamicDropdownOption
+                {
+                    DisplayName = option.DisplayName,
+                    Value = option.Value
+                }).ToList();
+                if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                    !string.IsNullOrWhiteSpace(field.FieldValue))
+                    field.DynamicOptions.Add(new DynamicDropdownOption
+                    {
+                        DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                        Value = field.FieldValue
+                    });
             }
         }
 
@@ -132,6 +173,171 @@ namespace TeknoParrotUi.UserControls
                         Value = field.FieldValue
                     });
                 }
+            }
+        }
+
+        private static void PopulateZeusFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoZeus)
+                return;
+
+            var fields = gameProfile.ConfigValues?.Where(cv =>
+                (cv.FieldName == "Force Feedback Device" ||
+                 cv.FieldName == "Player 2 Force Feedback Device") &&
+                cv.FieldType == FieldType.DynamicDropdown).ToList();
+            if (fields == null || fields.Count == 0)
+                return;
+
+            var devices = ZeusFfbDeviceProbe.GetDevices();
+            foreach (var field in fields)
+            {
+                field.DynamicOptions = devices.Select(option => new DynamicDropdownOption
+                {
+                    DisplayName = option.DisplayName,
+                    Value = option.Value
+                }).ToList();
+                if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                    !string.IsNullOrWhiteSpace(field.FieldValue))
+                {
+                    field.DynamicOptions.Add(new DynamicDropdownOption
+                    {
+                        DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                        Value = field.FieldValue
+                    });
+                }
+            }
+        }
+
+        private static void PopulateVUnitFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoVUnit)
+                return;
+
+            var field = gameProfile.ConfigValues?.Find(cv =>
+                cv.FieldName == "Force Feedback Device" &&
+                cv.FieldType == FieldType.DynamicDropdown);
+            if (field == null)
+                return;
+
+            field.DynamicOptions = VUnitFfbDeviceProbe.GetDevices();
+            if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                !string.IsNullOrWhiteSpace(field.FieldValue))
+            {
+                field.DynamicOptions.Add(new DynamicDropdownOption
+                {
+                    DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                    Value = field.FieldValue
+                });
+            }
+        }
+
+        private static void PopulateHornetFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoHornet)
+                return;
+
+            var fields = gameProfile.ConfigValues?.Where(cv =>
+                (cv.FieldName == "Force Feedback Device" ||
+                 cv.FieldName == "Player 2 Force Feedback Device") &&
+                cv.FieldType == FieldType.DynamicDropdown).ToList();
+            if (fields == null || fields.Count == 0)
+                return;
+
+            var devices = HornetFfbDeviceProbe.GetDevices();
+            foreach (var field in fields)
+            {
+                field.DynamicOptions = devices.Select(option => new DynamicDropdownOption
+                {
+                    DisplayName = option.DisplayName,
+                    Value = option.Value
+                }).ToList();
+                if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                    !string.IsNullOrWhiteSpace(field.FieldValue))
+                {
+                    field.DynamicOptions.Add(new DynamicDropdownOption
+                    {
+                        DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                        Value = field.FieldValue
+                    });
+                }
+            }
+        }
+
+        private static void PopulateCobraFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoCobra)
+                return;
+
+            var fields = gameProfile.ConfigValues?.Where(cv =>
+                (cv.FieldName == "Force Feedback Device" ||
+                 cv.FieldName == "Player 2 Force Feedback Device") &&
+                cv.FieldType == FieldType.DynamicDropdown).ToList();
+            if (fields == null || fields.Count == 0)
+                return;
+
+            var devices = CobraFfbDeviceProbe.GetDevices();
+            foreach (var field in fields)
+            {
+                field.DynamicOptions = devices.Select(option => new DynamicDropdownOption
+                {
+                    DisplayName = option.DisplayName,
+                    Value = option.Value
+                }).ToList();
+                if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                    !string.IsNullOrWhiteSpace(field.FieldValue))
+                {
+                    field.DynamicOptions.Add(new DynamicDropdownOption
+                    {
+                        DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                        Value = field.FieldValue
+                    });
+                }
+            }
+        }
+
+        private static void PopulateVegasFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoVegas)
+                return;
+
+            var field = gameProfile.ConfigValues?.Find(cv =>
+                cv.FieldName == "Force Feedback Device" &&
+                cv.FieldType == FieldType.DynamicDropdown);
+            if (field == null)
+                return;
+
+            field.DynamicOptions = VegasFfbDeviceProbe.GetDevices();
+            if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                !string.IsNullOrWhiteSpace(field.FieldValue))
+            {
+                field.DynamicOptions.Add(new DynamicDropdownOption
+                {
+                    DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                    Value = field.FieldValue
+                });
+            }
+        }
+
+        private static void PopulateGClubFfbDevices(GameProfile gameProfile)
+        {
+            if (gameProfile.EmulatorType != EmulatorType.TeknoGClub)
+                return;
+
+            var field = gameProfile.ConfigValues?.Find(cv =>
+                cv.FieldName == "Force Feedback Device" &&
+                cv.FieldType == FieldType.DynamicDropdown);
+            if (field == null)
+                return;
+
+            field.DynamicOptions = GClubFfbDeviceProbe.GetDevices();
+            if (!field.DynamicOptions.Any(option => option.Value == field.FieldValue) &&
+                !string.IsNullOrWhiteSpace(field.FieldValue))
+            {
+                field.DynamicOptions.Add(new DynamicDropdownOption
+                {
+                    DisplayName = $"Previously selected device (unavailable) - {field.FieldValue}",
+                    Value = field.FieldValue
+                });
             }
         }
 

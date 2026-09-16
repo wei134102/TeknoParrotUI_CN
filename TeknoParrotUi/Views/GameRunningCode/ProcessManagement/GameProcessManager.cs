@@ -331,6 +331,9 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     (loaderExe.IndexOf("x64", StringComparison.OrdinalIgnoreCase) >= 0 ||
                      loaderExe.IndexOf("_64", StringComparison.OrdinalIgnoreCase) >= 0);
 
+                bool apmTest = _isTest && _gameProfile.TestMenuIsExecutable &&
+                    _gameProfile.EmulatorType == EmulatorType.TeknoParrot &&
+                    !string.IsNullOrWhiteSpace(_gameProfile.ApmTestGameId);
                 ProcessStartInfo info;
 
                 if (_gameProfile.EmulationProfile == EmulationProfile.SegaToolsIDZ)
@@ -481,9 +484,12 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                     info.UseShellExecute = false;
                     info.WorkingDirectory = Path.Combine(Directory.GetCurrentDirectory(), "pcsx2x6") ?? throw new InvalidOperationException();
                 }
-                else if (_gameProfile.EmulatorType == EmulatorType.TeknoVegas ||
-                         _gameProfile.EmulatorType == EmulatorType.TeknoViper ||
-                         _gameProfile.EmulatorType == EmulatorType.TeknoModel1)
+                else if ((_gameProfile.EmulatorType == EmulatorType.TeknoAir || _gameProfile.EmulatorType == EmulatorType.TeknoVegas) ||
+                         ((_gameProfile.EmulatorType == EmulatorType.TeknoViper || _gameProfile.EmulatorType == EmulatorType.TeknoM2) || _gameProfile.EmulatorType == EmulatorType.TeknoAGX) ||
+                         _gameProfile.EmulatorType == EmulatorType.TeknoHNG64 || (_gameProfile.EmulatorType == EmulatorType.TeknoHornet || _gameProfile.EmulatorType == EmulatorType.TeknoVUnit) || _gameProfile.EmulatorType == EmulatorType.TeknoCobra ||
+                         _gameProfile.EmulatorType == EmulatorType.TeknoModel1 ||
+                         _gameProfile.EmulatorType == EmulatorType.TeknoModel2 ||
+                         (_gameProfile.EmulatorType == EmulatorType.TeknoZeus || ((_gameProfile.EmulatorType == EmulatorType.TeknoS22 || _gameProfile.EmulatorType == EmulatorType.TeknoS21) || (_gameProfile.EmulatorType == EmulatorType.TeknoS23 || _gameProfile.EmulatorType == EmulatorType.TeknoGClub))))
                 {
                     info = TeknoViperVegasLauncher.Build(
                         _gameProfile,
@@ -540,11 +546,19 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
                 else
                 {
                     var exePath = isElfldr2x64 ? Path.GetFullPath(loaderExe) : loaderExe;
-                    info = new ProcessStartInfo(exePath, $"{loaderDll} {gameArguments}");
+                    var loaderArguments = $"{loaderDll} {gameArguments}";
+                    if (apmTest)
+                    {
+                        var gameId = _gameProfile.ApmTestGameId.Trim().ToUpperInvariant();
+                        if (!_gameProfile.TestExecIs64Bit || !Regex.IsMatch(gameId, @"\A[A-Z0-9]{4}\z"))
+                            throw new InvalidOperationException("APM test mode requires an x64 menu and a four-character game ID.");
+                        loaderArguments = $"--apm-test {gameId} {loaderArguments}";
+                    }
+                    info = new ProcessStartInfo(exePath, loaderArguments);
                 }
 
                 SetChildEnvironmentVariable(info, "TP_DIRECTHOOK",
-                    _gameProfile.EmulationProfile == EmulationProfile.APM3Direct && _isTest ? "1" : null);
+                    !apmTest && _gameProfile.EmulationProfile == EmulationProfile.APM3Direct && _isTest ? "1" : null);
                 SetChildEnvironmentVariable(info, "TP_REMOTETHREAD",
                     _gameProfile.UseRemoteThread ? "1" : null);
                 SetChildEnvironmentVariable(info, "tp_msysType",
@@ -998,9 +1012,12 @@ namespace TeknoParrotUi.Views.GameRunningCode.ProcessManagement
 
                     Trace.WriteLine(e.Data);
                     Console.Error.WriteLine(e.Data);
-                    if (_gameProfile.EmulatorType == EmulatorType.TeknoVegas ||
-                        _gameProfile.EmulatorType == EmulatorType.TeknoViper ||
-                        _gameProfile.EmulatorType == EmulatorType.TeknoModel1)
+                    if ((_gameProfile.EmulatorType == EmulatorType.TeknoAir || _gameProfile.EmulatorType == EmulatorType.TeknoVegas) ||
+                        ((_gameProfile.EmulatorType == EmulatorType.TeknoViper || _gameProfile.EmulatorType == EmulatorType.TeknoM2) || _gameProfile.EmulatorType == EmulatorType.TeknoAGX) ||
+                        _gameProfile.EmulatorType == EmulatorType.TeknoHNG64 || (_gameProfile.EmulatorType == EmulatorType.TeknoHornet || _gameProfile.EmulatorType == EmulatorType.TeknoVUnit) || _gameProfile.EmulatorType == EmulatorType.TeknoCobra ||
+                        _gameProfile.EmulatorType == EmulatorType.TeknoModel1 ||
+                         _gameProfile.EmulatorType == EmulatorType.TeknoModel2 ||
+                         (_gameProfile.EmulatorType == EmulatorType.TeknoZeus || ((_gameProfile.EmulatorType == EmulatorType.TeknoS22 || _gameProfile.EmulatorType == EmulatorType.TeknoS21) || (_gameProfile.EmulatorType == EmulatorType.TeknoS23 || _gameProfile.EmulatorType == EmulatorType.TeknoGClub))))
                     {
                         lock (emulatorDiagnosticsSync)
                         {
